@@ -1,6 +1,6 @@
 <template>
   <div class="news">
-    <v-header title="新闻资讯" :headerLeftStatus="headerLeftStatus"/>
+    <v-header title="新闻资讯" :headerLeftStatus="headerLeftStatus" />
     <div class="content">
       <li
         class="container-box"
@@ -21,28 +21,27 @@
 </template>
 
 <script>
-import { getData } from '@/api/data'
-import header from '@/components/header/index'
-import footer from '@/components/footer/index'
+import { getData } from "@/api/data";
+import header from "@/components/header/index";
+import footer from "@/components/footer/index";
 export default {
   data() {
     return {
       news: [],
+      headerLeftStatus: true
     };
   },
   methods: {
     jumpNewsDetail(list) {
+      localStorage.setItem("newsData", JSON.stringify(list));
       this.$router.push({
-        name: "newsDetail",
-        params: {
-          data: list
-        }
+        name: "newsDetail"
       });
     },
     newsData() {
       getData().then(res => {
         this.news = res.news;
-      })
+      });
     }
   },
   mounted() {
