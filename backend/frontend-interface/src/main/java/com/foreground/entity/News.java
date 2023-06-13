@@ -1,4 +1,5 @@
 package com.foreground.entity;
 
-public class View {
+public class News {
+
 }
