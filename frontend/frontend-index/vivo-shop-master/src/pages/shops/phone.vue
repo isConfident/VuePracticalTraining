@@ -13,7 +13,12 @@
         >
       </div>
       <div class="lower">
-        <div class="lower_list" v-for="(list, index) in data" :key="index">
+        <div
+          class="lower_list"
+          v-for="(list, index) in data"
+          :key="index"
+          @click="toDetail(list)"
+        >
           <img :src="list.img_url" alt="图片" />
           <h2>{{ list.name }}</h2>
           <p>{{ list.content }}</p>
@@ -34,25 +39,35 @@ export default {
       data: [],
       list: [],
       selectShopIndex: 0,
-      headerLeftStatus: true
+      headerLeftStatus: true,
+      shopDetailList: []
     };
   },
+  props: ["id", "list_id"],
   methods: {
     selectIndex(index) {
       this.selectShopIndex = index;
       getData().then(res => {
-        this.data = res.phone[index].data;
+        this.data = res.data.phone[index].data;
       });
     },
     accessories() {
       getData().then(res => {
-        this.list = res.phone;
-        this.data = res.phone[0].data;
+        this.list = res.data.phone;
+        this.data = res.data.phone[0].data;
       });
     },
     toFixed(value) {
       // 因为data.json里面的prcie是字符串类型 所以这边需要做个处理
       return JSON.parse(value).toFixed(2);
+    },
+    toDetail(list) {
+      this.$router.push({
+        name: "detail",
+        query: {
+          name: list.name
+        }
+      });
     }
   },
   mounted() {
@@ -63,7 +78,6 @@ export default {
   }
 };
 </script>
-
 
 <style lang="less" scoped>
 .active {

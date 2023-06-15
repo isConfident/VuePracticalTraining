@@ -101,7 +101,7 @@
               <mt-tab-container-item id="tab-container1">
                 <div class="goodDetailImg">
                   <p v-for="(ov, index) in list.Images" :key="index">
-                    <img v-bind:src="ov.one" alt="详情图片" />
+                    <img v-bind:src="ov.one" alt="详情图片" @touchmove.stop />
                   </p>
                 </div>
               </mt-tab-container-item>
@@ -112,10 +112,26 @@
           </div>
           <van-goods-action>
             <van-goods-action-icon icon="chat-o" text="客服" />
-            <van-goods-action-icon icon="cart-o" text="购物车" :badge="$store.state.cart.carts.length" />
-            <van-goods-action-icon icon="star-o" text="收藏" @click="addCollection(list)"  />
-            <van-goods-action-button type="warning" text="加入购物车" @click="addCart(list)"/>
-            <van-goods-action-button type="danger" text="立即购买" @click="jumpPay(list)"  />
+            <van-goods-action-icon
+              icon="cart-o"
+              text="购物车"
+              :badge="$store.state.cart.carts.length"
+            />
+            <van-goods-action-icon
+              icon="star-o"
+              text="收藏"
+              @click="addCollection(list)"
+            />
+            <van-goods-action-button
+              type="warning"
+              text="加入购物车"
+              @click="addCart(list)"
+            />
+            <van-goods-action-button
+              type="danger"
+              text="立即购买"
+              @click="jumpPay(list)"
+            />
           </van-goods-action>
         </li>
       </ul>
@@ -151,11 +167,17 @@ export default {
     },
     shopDetailsData() {
       getData().then(res => {
-        res.homeData[this.$route.query.shop_id - 1].data.forEach(list => {
-          if (list.id == this.$route.query.id) {
-            this.goodDetails.push(list);
+        res.data.homeData.forEach(list => {
+          if (list.id == 0) {
+            return;
           }
+          list.data.forEach(data => {
+            if (data.name == this.$route.query.name) {
+              this.goodDetails.push(data);
+            }
+          });
         });
+        
       });
     },
     jumpPay(list) {

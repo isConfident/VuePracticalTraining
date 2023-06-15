@@ -40,7 +40,7 @@ export default {
     },
     newsData() {
       getData().then(res => {
-        this.news = res.news;
+        this.news = res.data.news;
       });
     }
   },

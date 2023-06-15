@@ -15,7 +15,7 @@
       <ul class="icon-ul">
         <li class="icon-li" v-for="(list, index) in routers" :key="index">
           <router-link :to="{ path: list.src }">
-            <img :src="list.img" alt="vivo" />
+            <img :src="list.img" alt="vivo" @click="isTo(list.src)" />
           </router-link>
         </li>
       </ul>
@@ -24,7 +24,7 @@
       <div class="main-box" v-for="(list, index) in shopListData" :key="index">
         <h2>{{ list.title }}</h2>
         <ul>
-          <li v-for="(v, i) in list.data" :key="i" @click="jumpDetail(list, v)">
+          <li v-for="(v, i) in list.data" :key="i" @click="jumpDetail(v)">
             <div class="list">
               <div class="image">
                 <img :src="v.img_url" alt="图片" />
@@ -66,26 +66,36 @@ export default {
         }
       ],
       shopListData: [],
-      swiperData: []
+      swiperData: [],
+      noShow: false
     };
   },
   methods: {
-    jumpDetail(list, v) {
+    jumpDetail(v) {
       this.$router.push({
         path: "detail",
         query: {
-          id: v.id,
-          shop_id: list.id
+          name: v.name
         }
       });
+    },
+    isTo(src) {
+      if (src === "/") {
+        this.$message({
+          showClose: true,
+          message: "该功能暂未开放",
+          type: "error",
+          duration: 1000
+        });
+      }
     },
     toFixed(value) {
       return JSON.parse(value).toFixed(2);
     },
     homeShopListData() {
       getData().then(res => {
-        this.shopListData = res.homeData;
-        this.swiperData = res.news;
+        this.shopListData = res.data.homeData;
+        this.swiperData = res.data.news;
       });
     }
   },

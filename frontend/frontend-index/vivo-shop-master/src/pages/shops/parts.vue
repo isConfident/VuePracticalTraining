@@ -13,7 +13,12 @@
         >
       </div>
       <div class="lower">
-        <div class="lower_list" v-for="(list, index) in data" :key="index">
+        <div
+          class="lower_list"
+          v-for="(list, index) in data"
+          :key="index"
+          @click="toDetail(list)"
+        >
           <img :src="list.img_url" alt="图片" />
           <h2>{{ list.name }}</h2>
           <p>{{ list.content }}</p>
@@ -42,17 +47,24 @@ export default {
     selectIndex(index) {
       this.selectShopIndex = index;
       getData().then(res => {
-        this.data = res.accessories[index].data;
+        this.data = res.data.accessories[index].data;
       });
     },
 
     accessories() {
       getData().then(res => {
-        this.list = res.accessories;
-        this.data = res.accessories[0].data;
+        this.list = res.data.accessories;
+        this.data = res.data.accessories[0].data;
       });
     },
-
+    toDetail(list) {
+      this.$router.push({
+        name: "detail",
+        query: {
+          name: list.name
+        }
+      });
+    },
     toFixed(value) {
       // 因为data.json里面的prcie是字符串类型 所以这边需要做个处理
       return JSON.parse(value).toFixed(2);
@@ -68,7 +80,6 @@ export default {
   }
 };
 </script>
-
 
 <style lang="less" scoped>
 .active {
