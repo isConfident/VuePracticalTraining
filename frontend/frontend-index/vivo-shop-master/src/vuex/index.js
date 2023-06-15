@@ -1,14 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {
-    ADD_ADDRESS,
-    DEL_ADDRESS,
-    SET_DEFAULT
+  ADD_ADDRESS,
+  DEL_ADDRESS, EDIT_ADDRESS,
+  SET_DEFAULT
 } from './mutations-type'
 import cart from './modules/cart'
 import order from './modules/order'
 import { Toast, MessageBox } from 'mint-ui'
 import router from '../router';
+import address from "../pages/pay/address.vue";
+import {build as payload} from "vux/config";
 Vue.use(Vuex)
 
 const state = {
@@ -26,6 +28,13 @@ const mutations = {
         state.address.push(data);
         localStorage.setItem('address',JSON.stringify(state.address));
         Toast('添加成功');
+        router.back();
+    },
+    //修改地址
+    [EDIT_ADDRESS](state, data) {
+        state.address[data.index] = data.data;
+        localStorage.setItem('address',JSON.stringify(state.address));
+        Toast('修改成功');
         router.back();
     },
     // 删除地址
@@ -56,7 +65,8 @@ const mutations = {
         });
         state.address.sort(status => { return status.default ?  - 1 : 1 })
         localStorage.setItem('address',JSON.stringify(state.address));
-    }
+    },
+
 }
 
 export default new Vuex.Store({
@@ -66,5 +76,6 @@ export default new Vuex.Store({
         cart,
         order
     }
+
 })
 

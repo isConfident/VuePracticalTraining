@@ -116,6 +116,7 @@
               icon="cart-o"
               text="购物车"
               :badge="$store.state.cart.carts.length"
+              @click="jumpCart"
             />
             <van-goods-action-icon
               icon="star-o"
@@ -177,8 +178,11 @@ export default {
             }
           });
         });
-        
+
       });
+    },
+    jumpCart() {
+      this.$router.push("/cart");
     },
     jumpPay(list) {
       if (!localStorage.getItem("user")) {

@@ -1,15 +1,14 @@
 <template>
   <div class="address">
-    <v-header title="收货地址" :headerLeftStatus="headerLeftStatus"/>
+    <v-header title="收货地址信息" :headerLeftStatus="headerLeftStatus"/>
     <div class="Address-box">
       <div class="address-one">
         <p class="left">配送地址</p>
         <p class="right" @click="jumpAddress">+添加地址</p>
       </div>
-      <div
-        class="pay-address"
-        v-for="(list, index) in address"
-        :key="index"
+      <div class="pay-address"
+           v-for="(list, index) in address"
+           :key="index"
       >
         <p class="address-box">
           <span class="name">收货人：{{ list.name }}</span>
@@ -22,7 +21,10 @@
         </p>
         <div class="address-operation">
           <p class="address-operation-box">
-            <i class="iconfont icon-bianji"></i>
+            <i
+              class="iconfont icon-bianji"
+              @click.stop="editAddress(index)"
+            ></i>
             <i
               class="iconfont icon-lajitong"
               @click.stop="delAddress(index)"
@@ -46,13 +48,19 @@ export default {
   methods: {
     ...mapMutations({
       delAddress: 'DEL_ADDRESS',
-      setDetault: 'SET_DEFAULT'
+      setDetault: 'SET_DEFAULT',
     }),
     jumpAddress() {
       this.$router.push({
         path: "add_address"
       });
     },
+    editAddress(index) {
+      this.$router.push({
+        name: "edit_address",
+        params: { index }
+      });
+    }
   },
   computed: {
     ...mapState({

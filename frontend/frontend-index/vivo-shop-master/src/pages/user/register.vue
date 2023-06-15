@@ -29,6 +29,9 @@
     <div class="register-3">
       <input type="button" class="btn" @click="regusterUser" value="注册" />
     </div>
+    <div class="BackLogin">
+      <router-link to="/login">已有账号，返回登录</router-link>
+    </div>
   </div>
 </template>
 
@@ -125,6 +128,17 @@ export default {
 
   .register-3 {
     display: flex;
+  }
+  .BackLogin{
+    width: 9rem;
+    height: 1.1rem;
+    margin: 0 auto;
+    margin-bottom: 0.3rem;
+    text-align: center;
+    line-height: 1.1rem;
+    font-size: 0.25rem;
+    color: #fff;
+    border-radius: 0.6rem;
   }
 
   .btn {
