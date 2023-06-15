@@ -1,57 +1,44 @@
 <template>
   <div class="address">
-<<<<<<< Updated upstream
-    <v-header title="收货地址信息" :headerLeftStatus="headerLeftStatus"/>
-=======
-    <v-header title="收货地址" :headerLeftStatus="headerLeftStatus" />
->>>>>>> Stashed changes
+    <v-header title="收货地址信息" :headerLeftStatus="headerLeftStatus" />
     <div class="Address-box">
       <div class="address-one">
         <p class="left">配送地址</p>
         <p class="right" @click="jumpAddress">+添加地址</p>
       </div>
-<<<<<<< Updated upstream
-      <div class="pay-address"
-           v-for="(list, index) in address"
-           :key="index"
-      >
-=======
       <div class="pay-address" v-for="(list, index) in address" :key="index">
->>>>>>> Stashed changes
-        <p class="address-box">
-          <span class="name">收货人：{{ list.name }}</span>
+          <p class="address-box">
+            <span class="name">收货人：{{ list.name }}</span>
 
-          <span class="phone">{{ list.tel }}</span>
-        </p>
-        <p class="address-details">
-          收货地址：{{ list.province }}{{ list.city }}{{ list.county
-          }}{{ list.addressDetail }}
-        </p>
-        <div class="address-operation">
-          <p class="address-operation-box">
-<<<<<<< Updated upstream
-            <i
-              class="iconfont icon-bianji"
-              @click.stop="editAddress(index)"
-            ></i>
-=======
-            <el-button
-              id="elButton"
-              v-if="!list.default"
-              @click="setDetault(index)"
-              type="danger"
-              plain
-            >
-              设为默认
-            </el-button>
-            <b v-else type="primary" plain id="defaultAddress">默认地址</b>
-            <i class="iconfont icon-bianji"></i>
->>>>>>> Stashed changes
-            <i
-              class="iconfont icon-lajitong"
-              @click.stop="delAddress(index)"
-            ></i>
+            <span class="phone">{{ list.tel }}</span>
           </p>
+          <p class="address-details">
+            收货地址：{{ list.province }}{{ list.city }}{{ list.county
+            }}{{ list.addressDetail }}
+          </p>
+          <div class="address-operation">
+            <p class="address-operation-box">
+              
+              <el-button
+                id="elButton"
+                v-if="!list.default"
+                @click="setDetault(index)"
+                type="danger"
+                plain
+              >
+                设为默认
+              </el-button>
+              <b v-else type="primary" plain id="defaultAddress">默认地址</b>
+              <i
+                class="iconfont icon-bianji"
+                @click.stop="editAddress(index)"
+              ></i>
+              <i
+                class="iconfont icon-lajitong"
+                @click.stop="delAddress(index)"
+              ></i>
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -69,27 +56,19 @@ export default {
   },
   methods: {
     ...mapMutations({
-<<<<<<< Updated upstream
-      delAddress: 'DEL_ADDRESS',
-      setDetault: 'SET_DEFAULT',
-=======
       delAddress: "DEL_ADDRESS",
       setDetault: "SET_DEFAULT"
->>>>>>> Stashed changes
     }),
     jumpAddress() {
       this.$router.push({
         path: "add_address"
       });
-<<<<<<< Updated upstream
     },
     editAddress(index) {
       this.$router.push({
         name: "edit_address",
         params: { index }
       });
-=======
->>>>>>> Stashed changes
     }
   },
   computed: {

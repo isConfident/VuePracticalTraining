@@ -178,10 +178,7 @@ export default {
             }
           });
         });
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
       });
     },
     jumpCart() {
