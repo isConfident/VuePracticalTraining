@@ -7,38 +7,36 @@
         <p class="right" @click="jumpAddress">+添加地址</p>
       </div>
       <div class="pay-address" v-for="(list, index) in address" :key="index">
-          <p class="address-box">
-            <span class="name">收货人：{{ list.name }}</span>
+        <p class="address-box">
+          <span class="name">收货人：{{ list.name }}</span>
 
-            <span class="phone">{{ list.tel }}</span>
+          <span class="phone">{{ list.tel }}</span>
+        </p>
+        <p class="address-details">
+          收货地址：{{ list.province }}{{ list.city }}{{ list.county
+          }}{{ list.addressDetail }}
+        </p>
+        <div class="address-operation">
+          <p class="address-operation-box">
+            <el-button
+              id="elButton"
+              v-if="!list.default"
+              @click="setDetault(index)"
+              type="danger"
+              plain
+            >
+              设为默认
+            </el-button>
+            <b v-else type="primary" plain id="defaultAddress">默认地址</b>
+            <i
+              class="iconfont icon-bianji"
+              @click.stop="editAddress(index)"
+            ></i>
+            <i
+              class="iconfont icon-lajitong"
+              @click.stop="delAddress(index)"
+            ></i>
           </p>
-          <p class="address-details">
-            收货地址：{{ list.province }}{{ list.city }}{{ list.county
-            }}{{ list.addressDetail }}
-          </p>
-          <div class="address-operation">
-            <p class="address-operation-box">
-              
-              <el-button
-                id="elButton"
-                v-if="!list.default"
-                @click="setDetault(index)"
-                type="danger"
-                plain
-              >
-                设为默认
-              </el-button>
-              <b v-else type="primary" plain id="defaultAddress">默认地址</b>
-              <i
-                class="iconfont icon-bianji"
-                @click.stop="editAddress(index)"
-              ></i>
-              <i
-                class="iconfont icon-lajitong"
-                @click.stop="delAddress(index)"
-              ></i>
-            </p>
-          </div>
         </div>
       </div>
     </div>
