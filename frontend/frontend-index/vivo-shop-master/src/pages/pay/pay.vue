@@ -2,11 +2,7 @@
   <div class="pay">
     <v-header title="商品详情" :headerLeftStatus="headerLeftStatus" />
     <div class="pay-address">
-      <div
-        v-if="!address.name"
-        class="saveAddress"
-        @click="saveAddress($router.push('/add_address'))"
-      >
+      <div v-if="!address.name" class="saveAddress" @click="saveAddress()">
         <p>添加收货地址</p>
         <i class="iconfont icon-youjiantou"></i>
       </div>
@@ -19,6 +15,11 @@
           收货地址：{{ address.province }}{{ address.city }}{{ address.county
           }}{{ address.addressDetail }}
         </p>
+        <div class="address-else">
+          <el-button type="primary" plain @click="chooseElseAddress()"
+            >选择其他收货地址</el-button
+          >
+        </div>
       </div>
     </div>
     <div class="pay-shop" v-for="(list, index) in pay" :key="index">
@@ -168,12 +169,30 @@ export default {
     },
     orderDetail() {
       getData().then(res => {
-        res.data.homeData[this.$route.query.shop_id - 1].data.forEach(list => {
-          if (list.id == this.$route.query.id) {
-            this.pay.push(list);
+        // console.log(this.$route.query);
+        // res.data.homeData[this.$route.query.shop_id - 1].data.forEach(list => {
+        //   if (list.id == this.$route.query.id) {
+        //     this.pay.push(list);
+        //   }
+        // });
+
+        res.data.homeData.forEach(list => {
+          if (list.id === 0) {
+            return;
           }
+          list.data.forEach(data => {
+            if (data.name == this.$route.query.name) {
+              this.pay.push(data);
+            }
+          });
         });
       });
+    },
+    saveAddress() {
+      this.$router.push("/add_address");
+    },
+    chooseElseAddress() {
+      this.$router.push("address");
     }
   },
   mounted() {
@@ -223,6 +242,11 @@ export default {
     i {
       font-size: 0.4rem;
     }
+  }
+  .address-else {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 10px;
   }
   .address-box {
     width: 87%;

@@ -178,7 +178,10 @@ export default {
             }
           });
         });
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
       });
     },
     jumpCart() {
@@ -201,7 +204,7 @@ export default {
         path: "/pay",
         query: {
           id: list.id,
-          shop_id: this.$route.query.shop_id,
+          name: this.$route.query.name,
           value: list.value
         }
       });
