@@ -37,7 +37,7 @@ export default {
   width: 90%;
   height: auto;
   font-size: 0.42rem;
-  line-height: 0.8rem;
+  line-height: 0.8rem;  
   display: flex;
   justify-content: center;
   margin: auto;

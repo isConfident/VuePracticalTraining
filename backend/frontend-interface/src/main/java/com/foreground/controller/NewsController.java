@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,18 +15,16 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/news")
+@RequestMapping("/api/news")
 public class NewsController {
 
     @Autowired
     @Qualifier("newsService")
     private NewsService newsService;
 
-    @RequestMapping("/getAllNews")
-    private List<News> getAllNews(Model model) {
-        model.addAttribute("news",newsService.getAllNews());
-        return this.newsService.getAllNews();
-
+    @GetMapping( "/getAllNews")
+    private List<News> getAllNews() {
+        return newsService.getAllNews();
     }
 //    @RequestMapping("/get")
 //    public void getJson(@RequestBody String json) throws IOException {

@@ -1,10 +1,7 @@
 package com.foreground.service.serviceImpl;
 
 import com.foreground.dao.*;
-import com.foreground.entity.Commodity;
-import com.foreground.entity.Images;
-import com.foreground.entity.Phone;
-import com.foreground.entity.Swiper;
+import com.foreground.entity.*;
 import com.foreground.service.CommodityService;
 import com.foreground.service.ImagesService;
 import com.foreground.service.SwiperService;
@@ -44,5 +41,10 @@ public class CommodityServiceImpl implements CommodityService {
             }
         }
         return commodityList;
+    }
+
+    @Override
+    public List<HomeData> queryAllHomeDataAndCommodity() {
+        return null;
     }
 }

@@ -37,13 +37,14 @@ public class DaoTest {
     @Test
     public void test() {
 
-        System.out.println(newsService.getAllNews());
-        System.out.println(accessoriesService.getAllAccessories());
-        System.out.println(commodityService.getAllCommodity());
-        System.out.println(homeDataService.getAllHomeData());
-        System.out.println(imagesService.getAllImages());
-        System.out.println(phoneService.getAllPhone());
-        System.out.println(swiperService.getAllSwiper());
+//        System.out.println(newsService.getAllNews());
+//        System.out.println(accessoriesService.queryAllAccessoriesAndCommodity());
+//        System.out.println(commodityService.getAllCommodity());
+//        System.out.println(homeDataService.getAllHomeData());
+//        System.out.println(imagesService.getAllImages());
+//        System.out.println(phoneService.getAllPhone());
+//        System.out.println(swiperService.getAllSwiper());
+        System.out.println(homeDataService.queryAllHomeDataAndCommodity());
 
     }
 
