@@ -25,17 +25,18 @@
     <div class="pay-shop" v-for="(list, index) in pay" :key="index">
       <div class="pay-shop-list">
         <p class="pay-shop-1">商品清单</p>
-        <p class="pay-shop-2">
-          <img :src="list.img_url" />
-        </p>
-
-        <p class="pay-shop-2-box">
-          <span class="name"
-            >{{ list.name }}
-            <p>× {{ $route.query.value }}</p></span
-          >
-          <span class="price">¥{{ list.price }}</span>
-        </p>
+        <div v-for="(cart, index) in carts" :key="index">
+          <p class="pay-shop-2">
+            <img :src="cart.img_url" />
+          </p>
+          <p class="pay-shop-2-box">
+            <span class="name"
+              >{{ cart.name }}
+              <p>× {{ cart.value }}</p></span
+            >
+            <span class="price">¥{{ cart.price }}</span>
+          </p>
+        </div>
       </div>
       <div class="pay-shop-invoice">
         <p class="pay-invoice-1">发票信息</p>
@@ -94,15 +95,19 @@
           <p>赠送积分：{{ toFixed(list.price * 0.05) }}</p>
         </div>
       </div>
-      <van-submit-bar
+      <!-- <van-submit-bar
         :price="list.price * $route.query.value * 100"
         button-text="提交订单"
         @submit="saveOrder(list, index)"
-      />
-      <!-- <div class="pay-shop-footer">
-                <p class="price">订单总金额：<span>¥{{toFixed(list.price * $route.query.value)}}</span></p>
-                <a class="order" @click="saveOrder(list,index)">提交订单</a>
-            </div> -->
+      /> -->
+      <div class="pay-shop-footer">
+        <p class="price">
+          订单总金额：<span
+            >¥{{ toFixed(list.price * $route.query.value) }}</span
+          >
+        </p>
+        <a class="order" @click="saveOrder(list, index)">提交订单</a>
+      </div>
     </div>
   </div>
 </template>
@@ -124,6 +129,7 @@ export default {
       headerLeftStatus: true
     };
   },
+  mounted() {},
   methods: {
     saveOrder(list) {
       if (!this.address.name) {
@@ -177,7 +183,7 @@ export default {
         // });
 
         res.data.homeData.forEach(list => {
-          if (list.id === 0) {
+          if (list.id === 1) {
             return;
           }
           list.data.forEach(data => {

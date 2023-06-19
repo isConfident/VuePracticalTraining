@@ -3,42 +3,47 @@
     <v-header title="购物车" :headerLeftStatus="headerLeftStatus" />
     <div class="cartMain">
       <ul>
-        <li v-for="(list,index) in carts" class="cartList" :key="index">
+        <li v-for="(list, index) in carts" class="cartList" :key="index">
           <!-- 购物车单选 -->
           <div class="select" @click="singleCartsList(index)">
             <i class="iconfont icon-xuanzekuangmoren" v-if="!list.select"></i>
-            <i v-else
+            <i
+              v-else
               class="iconfont icon-xuanzekuangxuanzhong"
               style="color:#25b5fe"
             ></i>
           </div>
           <!-- 购物车商品信息 -->
           <div class="cartImage">
-             <img :src="list.img_url">
+            <img :src="list.img_url" />
           </div>
           <div class="cartInformation">
             <div class="cartName">
-              {{list.name}}
+              {{ list.name }}
               <a
                 href="javascript:;"
                 class="iconfont icon-huishouzhan7"
                 @click="delCartList(index)"
               ></a>
             </div>
-            <p class="cartPrice">￥{{list.price}}</p>
+            <p class="cartPrice">￥{{ list.price }}</p>
           </div>
 
           <!-- 购物车商品数量 -->
           <div class="cartNumber">
-            <a href="javascript:;" @click="reduceCartValue(index)" class="add">-</a>
-            <input type="text" v-model="list.value" readonly="readonly">
-            <a href="javascript:;" @click="addCartValue(index)" class="reduce">+</a>
+            <a href="javascript:;" @click="reduceCartValue(index)" class="add"
+              >-</a
+            >
+            <input type="text" v-model="list.value" readonly="readonly" />
+            <a href="javascript:;" @click="addCartValue(index)" class="reduce"
+              >+</a
+            >
           </div>
         </li>
       </ul>
     </div>
     <div class="cartImg" v-if="!carts.length">
-      <img src="/static/img/gouwuche.png" alt="购物车图片">
+      <img src="/static/img/gouwuche.png" alt="购物车图片" />
       <h1>购物车是空的哦，快去购物吧</h1>
       <router-link to="/index">逛一逛</router-link>
     </div>
@@ -51,7 +56,9 @@
 
       <div class="Total">
         合计：
-        <span style="font-size: 0.54rem;color:#E3211E">￥ {{TotalPrice}}</span>
+        <span style="font-size: 0.54rem;color:#E3211E"
+          >￥ {{ TotalPrice }}</span
+        >
       </div>
 
       <div class="Settlement">
@@ -61,7 +68,7 @@
   </div>
 </template>
 <script>
-import { mapState,mapMutations } from 'vuex'
+import { mapState, mapMutations } from "vuex";
 import header from "@/components/header/index";
 export default {
   name: "cart",
@@ -72,27 +79,27 @@ export default {
   },
   methods: {
     ...mapMutations({
-      addCartValue: 'cart/ADDCART_VALUE',
-      delCartList: 'cart/DEL_CARTS',
-      reduceCartValue: 'cart/REDUCECART_VAVLUE',
-      singleCartsList: 'cart/SELECT_CARTS_LIST',
-      SelectCartListAll: 'cart/SELECT_CARTS_LIST_ALL',
-      Settlement : 'cart/SETTLEMENT'
+      addCartValue: "cart/ADDCART_VALUE",
+      delCartList: "cart/DEL_CARTS",
+      reduceCartValue: "cart/REDUCECART_VAVLUE",
+      singleCartsList: "cart/SELECT_CARTS_LIST",
+      SelectCartListAll: "cart/SELECT_CARTS_LIST_ALL",
+      Settlement: "cart/SETTLEMENT"
     })
   },
   computed: {
     ...mapState({
-      'carts': state => state.cart.carts
+      carts: state => state.cart.carts
     }),
     TotalPrice() {
-      var sum = 0
+      var sum = 0;
       this.$store.state.cart.carts.forEach(list => {
-        if(list.select) {
-          sum += list.value * list.price
+        if (list.select) {
+          sum += list.value * list.price;
         }
       });
-      return sum
-    },
+      return sum;
+    }
   },
   components: {
     "v-header": header
@@ -183,7 +190,8 @@ export default {
   float: left;
   margin-top: 0.3rem;
 }
-.cartNumber .add, .cartNumber .reduce {
+.cartNumber .add,
+.cartNumber .reduce {
   display: block;
   width: 0.75rem;
   height: 0.75rem;
@@ -280,7 +288,8 @@ export default {
   background: #e3211e;
   float: right;
 }
-.Settlement a, .Settlementtwo a {
+.Settlement a,
+.Settlementtwo a {
   color: white;
   text-align: center;
   line-height: 0.98rem;
