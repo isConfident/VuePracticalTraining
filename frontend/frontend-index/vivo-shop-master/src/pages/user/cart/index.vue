@@ -55,7 +55,7 @@
       </div>
 
       <div class="Settlement">
-        <a href="javascript:void(0);" @click="">结算</a>
+        <a href="javascript:void(0);" @click="Settlement">结算</a>
       </div>
     </div>
   </div>
@@ -77,6 +77,7 @@ export default {
       reduceCartValue: 'cart/REDUCECART_VAVLUE',
       singleCartsList: 'cart/SELECT_CARTS_LIST',
       SelectCartListAll: 'cart/SELECT_CARTS_LIST_ALL',
+      Settlement : 'cart/SETTLEMENT'
     })
   },
   computed: {

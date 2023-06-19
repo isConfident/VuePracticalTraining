@@ -6,7 +6,7 @@ import {
   SELECT_CARTS_LIST,
   ADD_COLLECTION,
   DEL_COLLECTION,
-  SELECT_CARTS_LIST_ALL,
+  SELECT_CARTS_LIST_ALL, SETTLEMENT,
 } from '../mutations-type'
 
 import router from '../../router';
@@ -91,6 +91,7 @@ const mutations = {
     /*结算勾选的商品*/
 
 
+
     // 移出购物车
     [DEL_CARTS] (state,index) {
         MessageBox({
@@ -107,6 +108,28 @@ const mutations = {
                 });
             }
         });
+    },
+
+    //结算操作
+    [SETTLEMENT] (state) {
+        if(state.carts.length == 0) {
+            Toast({
+                message: '当前购物车是空的',
+                duration: 1500
+            });
+            return false;
+        }
+        var settlement = state.carts.filter(list => {
+            return list.select == true
+        });
+        if(settlement.length == 0) {
+            Toast({
+                message: '请选择要结算的商品',
+                duration: 1500
+            });
+            return false;
+        }
+        router.push('/pay')
     },
     // 商品数量操作
     [ADDCART_VALUE] (state,index) {
@@ -139,8 +162,8 @@ const mutations = {
     [SELECT_CARTS_LIST] (state,index) {
         state.carts[index].select =! state.carts[index].select
     },
-    //商品收藏
 
+    //商品收藏
     /*新增*/
     [ADD_COLLECTION] (state,data) {
         var collectionsId = state.collections.find(list => {
