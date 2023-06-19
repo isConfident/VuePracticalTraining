@@ -1,11 +1,12 @@
 import {
-    ADD_CARTS,
-    DEL_CARTS,
-    ADDCART_VALUE,
-    REDUCECART_VAVLUE,
-    SELECT_CARTS_LIST,
-    ADD_COLLECTION,
-    DEL_COLLECTION
+  ADD_CARTS,
+  DEL_CARTS,
+  ADDCART_VALUE,
+  REDUCECART_VAVLUE,
+  SELECT_CARTS_LIST,
+  ADD_COLLECTION,
+  DEL_COLLECTION,
+  SELECT_CARTS_LIST_ALL,
 } from '../mutations-type'
 
 import router from '../../router';
@@ -35,10 +36,24 @@ const mutations = {
             return false;
         }
         if (cartsId) {
-            Toast({
-                message:'购物车已经存在',
-                duration: 1500
-            });
+            MessageBox({
+                title: '提示',
+                message: '是否继续添加'+ data.name +'?',
+                showCancelButton: true
+                }).then(res => {
+                if(res == 'confirm') {
+                    state.carts.forEach(list => {
+                        if(list.id == data.id) {
+                            list.value ++
+                        }
+                    })
+                    localStorage.setItem('carts',JSON.stringify(state.carts))
+                    Toast({
+                        message: '添加成功',
+                        duration: 1500
+                    });
+                }
+            })
             } else {
             Toast({
                 message:'加入购物车成功！',
@@ -49,6 +64,33 @@ const mutations = {
             localStorage.setItem('carts',JSON.stringify(state.carts));
         }
     },
+
+    /*新增*/
+    [SELECT_CARTS_LIST_ALL] (state) {
+      /*如果为空就提示当前购物车是空的*/
+      if(state.carts.length == 0) {
+        Toast({
+          message: '当前购物车是空的',
+          duration: 1500
+        });
+        return false;
+      }
+      /*如果购物车不为空就遍历购物车列表*/
+      state.carts.forEach(list => {
+        /*如果购物车列表的select是true就改为false*/
+        if(list.select) {
+          list.select = false
+        } else {
+          /*如果购物车列表的select是false就改为true*/
+          list.select = true
+        }
+      })
+    },
+
+    /*新增*/
+    /*结算勾选的商品*/
+
+
     // 移出购物车
     [DEL_CARTS] (state,index) {
         MessageBox({
@@ -68,7 +110,7 @@ const mutations = {
     },
     // 商品数量操作
     [ADDCART_VALUE] (state,index) {
-        state.carts[index].value ++ 
+        state.carts[index].value ++
         localStorage.setItem('carts',JSON.stringify(state.carts))
     },
     // 商品数量操作
@@ -98,17 +140,43 @@ const mutations = {
         state.carts[index].select =! state.carts[index].select
     },
     //商品收藏
+
+    /*新增*/
     [ADD_COLLECTION] (state,data) {
         var collectionsId = state.collections.find(list => {
             return data.id == list.id
         });
-        if(collectionsId) {
-            Toast('已经收藏过了！')
-            return false
+        /*收藏过后再次点击取消收藏*/
+        if (collectionsId) {
+            state.collections.splice(collectionsId,1);
+            localStorage.setItem('collections',JSON.stringify(state.collections))
+            Toast({
+                message:'取消收藏成功！',
+                duration: 1500
+            });
+            return false;
         }
-        state.collections.push(data)
-        localStorage.setItem('collections',JSON.stringify(state.collections));
-        Toast('收藏成功')
+        /*未被收藏点击后收藏成功*/
+        Toast({
+            message:'收藏成功！',
+            duration: 1500
+        });
+        data['select'] = false
+        state.collections.push(data);
+      localStorage.setItem('collections',JSON.stringify(state.collections));
+      document.getElementById('collection')
+        if(!localStorage.getItem('user')) {
+            MessageBox({
+                title: '检测到你还未授权登陆',
+                message: '是否前去登陆',
+                showCancelButton: true
+                }).then(res => {
+                if(res == 'confirm') {
+                    router.push('/login')
+                }
+            });
+            return false;
+        }
     },
     // 移出收藏夹
     [DEL_COLLECTION] (state,index) {
