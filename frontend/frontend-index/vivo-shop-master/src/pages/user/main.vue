@@ -4,11 +4,10 @@
     <div class="container">
       <div class="container-bj">
         <div class="bj-left">
-          <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1040943398,1147003181&fm=26&gp=0.jpg">
+          <img src="./resources/1.jpg">
         </div>
         <div class="bj-right">
           <span>{{user.name}}</span>
-          <p>作者微信：fwk1203</p>
         </div>
       </div>
 
@@ -56,8 +55,11 @@
           </div>
         </router-link>
       </div>
+      <div class="container-out">
+        <input type="button" value="退出登录" @click="loginout">
+      </div>
     </div>
-    
+
     <v-footer></v-footer>
   </div>
 </template>
@@ -89,7 +91,12 @@ export default {
       headerLeftStatus: false
     };
   },
-
+  methods:{
+    loginout(){
+      localStorage.removeItem('user')
+      this.$router.push({name:'login'})
+    }
+  },
   components: {
     "v-header": header,
     "v-footer": footer
@@ -169,6 +176,23 @@ export default {
           flex-direction: column;
           text-align: center;
           justify-content: center;
+        }
+      }
+      .container-out {
+        width: 100%;
+        height: 1.5rem;
+        background: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        input {
+          width: 90%;
+          height: 0.8rem;
+          border-radius: 0.1rem;
+          background: #ff0000;
+          color: #ffffff;
+          border: none;
+          font-size: 0.4rem;
         }
       }
       .container-con {

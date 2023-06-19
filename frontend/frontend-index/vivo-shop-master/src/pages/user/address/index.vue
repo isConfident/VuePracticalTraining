@@ -1,33 +1,44 @@
 <template>
   <div class="address">
-    <v-header title="收货地址" :headerLeftStatus="headerLeftStatus"/>
+    <v-header title="收货地址信息" :headerLeftStatus="headerLeftStatus" />
     <div class="Address-box">
       <div class="address-one">
         <p class="left">配送地址</p>
         <p class="right" @click="jumpAddress">+添加地址</p>
       </div>
-      <div
-        class="pay-address"
-        v-for="(list, index) in address"
-        :key="index"
-      >
-        <p class="address-box">
-          <span class="name">收货人：{{ list.name }}</span>
-          <span v-if="!list.default" @click="setDetault(index)">设为默认</span>
-          <span v-else>默认</span>
-          <span class="phone">{{ list.tel }}</span>
-        </p>
-        <p class="address-details">
-          收货地址：{{ list.province }}{{ list.city }}{{ list.county }}{{ list.addressDetail }}
-        </p>
-        <div class="address-operation">
-          <p class="address-operation-box">
-            <i class="iconfont icon-bianji"></i>
-            <i
-              class="iconfont icon-lajitong"
-              @click.stop="delAddress(index)"
-            ></i>
+      <div class="pay-address" v-for="(list, index) in address" :key="index">
+          <p class="address-box">
+            <span class="name">收货人：{{ list.name }}</span>
+
+            <span class="phone">{{ list.tel }}</span>
           </p>
+          <p class="address-details">
+            收货地址：{{ list.province }}{{ list.city }}{{ list.county
+            }}{{ list.addressDetail }}
+          </p>
+          <div class="address-operation">
+            <p class="address-operation-box">
+
+              <el-button
+                id="elButton"
+                v-if="!list.default"
+                @click="setDetault(index)"
+                type="danger"
+                plain
+              >
+                设为默认
+              </el-button>
+              <b v-else type="primary" plain id="defaultAddress">默认地址</b>
+              <i
+                class="iconfont icon-bianji"
+                @click.stop="editAddress(index)"
+              ></i>
+              <i
+                class="iconfont icon-lajitong"
+                @click.stop="delAddress(index)"
+              ></i>
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -35,8 +46,8 @@
 </template>
 
 <script>
-import { mapState,mapMutations } from 'vuex'
-import header from '@/components/header/index'
+import { mapState, mapMutations } from "vuex";
+import header from "@/components/header/index";
 export default {
   data() {
     return {
@@ -45,18 +56,24 @@ export default {
   },
   methods: {
     ...mapMutations({
-      delAddress: 'DEL_ADDRESS',
-      setDetault: 'SET_DEFAULT'
+      delAddress: "DEL_ADDRESS",
+      setDetault: "SET_DEFAULT"
     }),
     jumpAddress() {
       this.$router.push({
         path: "add_address"
       });
     },
+    editAddress(index) {
+      this.$router.push({
+        name: "edit_address",
+        params: { index }
+      });
+    }
   },
   computed: {
     ...mapState({
-      'address': state => state.address
+      address: state => state.address
     })
   },
   components: {
@@ -134,6 +151,15 @@ export default {
             font-size: 0.5rem;
             margin-right: 1.2rem;
             color: #a3a3a3;
+          }
+          #elButton {
+            float: right;
+            margin-right: 10px;
+          }
+          #defaultAddress {
+            float: right;
+            margin-right: 10px;
+            font-size: 0.5rem;
           }
         }
       }

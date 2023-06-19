@@ -7,6 +7,7 @@ import newsDetail from '@/pages/news/detail'
 import cart from '@/pages/user/cart/index'
 import address from "@/pages/user/address/index"
 import add_address from "@/pages/user/address/add"
+import edit_address from "@/pages/user/address/update"
 import success from '@/pages/pay/success'
 import parts from '@/pages/shops/parts'
 import phone from '@/pages/shops/phone'
@@ -67,6 +68,11 @@ export default new Router({
       path: '/add_address',
       name: 'add_address',
       component: add_address
+    },
+    {
+      path: 'edit_address',
+      name: 'edit_address',
+      component: edit_address
     },
     {
       path: '/success',

@@ -24,6 +24,9 @@
     <div class="register-3">
       <input type="button" class="btn" @click="jumpRegister" value="注册">
     </div>
+    <div class="ethnologist">
+      <router-link to="/index">暂不登陆</router-link>
+    </div>
   </div>
 </template>
 
@@ -96,6 +99,12 @@ export default {
 </script>
 
 <style>
+.ethnologist{
+  margin-top: 0.6rem;
+  margin-bottom: 0.6rem;
+  text-align: center;
+  font-size: 0.25rem;
+}
 .register {
   width: 100%;
   height: 100%;

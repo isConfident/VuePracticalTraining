@@ -1,88 +1,116 @@
 <template>
-    <div class="pay">
-        <v-header title='商品详情' :headerLeftStatus="headerLeftStatus" />
-        <div @click="" class="pay-address">
-            <div v-if="!address.name" class="saveAddress" @click="saveAddress($router.push('/add_address'))">
-                <p>添加收货地址</p>
-                <i class="iconfont icon-youjiantou"></i>
-            </div>
-            <div v-else> 
-                <p class="address-box">
-                    <span class="name">收货人：{{address.name}}</span>
-                    <span class="phone">{{address.tel}}</span>
-                </p>
-                <p class="address-details">
-                    收货地址：{{ address.province }}{{ address.city }}{{ address.county }}{{ address.addressDetail }}
-                </p>
-            </div>
+  <div class="pay">
+    <v-header title="商品详情" :headerLeftStatus="headerLeftStatus" />
+    <div class="pay-address">
+      <div v-if="!address.name" class="saveAddress" @click="saveAddress()">
+        <p>添加收货地址</p>
+        <i class="iconfont icon-youjiantou"></i>
+      </div>
+      <div v-else>
+        <p class="address-box">
+          <span class="name">收货人：{{ address.name }}</span>
+          <span class="phone">{{ address.tel }}</span>
+        </p>
+        <p class="address-details">
+          收货地址：{{ address.province }}{{ address.city }}{{ address.county
+          }}{{ address.addressDetail }}
+        </p>
+        <div class="address-else">
+          <el-button type="primary" plain @click="chooseElseAddress()"
+            >选择其他收货地址</el-button
+          >
         </div>
-        <div class="pay-shop" v-for="(list,index) in pay" :key="index">
-            <div class="pay-shop-list">
-                <p class="pay-shop-1">商品清单</p>
-                <p class="pay-shop-2">
-                    <img :src="list.img_url" />
-                    <p class="pay-shop-2-box">
-                        <span class="name">{{list.name}}<p>× {{$route.query.value}}</p></span>
-                        <span class="price">¥{{list.price}}</span>
-                    </p>
-                </p>
+      </div>
+    </div>
+    <div class="pay-shop" v-for="(list, index) in pay" :key="index">
+      <div class="pay-shop-list">
+        <p class="pay-shop-1">商品清单</p>
+        <p class="pay-shop-2">
+          <img :src="list.img_url" />
+        </p>
+
+        <p class="pay-shop-2-box">
+          <span class="name"
+            >{{ list.name }}
+            <p>× {{ $route.query.value }}</p></span
+          >
+          <span class="price">¥{{ list.price }}</span>
+        </p>
+      </div>
+      <div class="pay-shop-invoice">
+        <p class="pay-invoice-1">发票信息</p>
+        <div class="pay-invoice-2">
+          <div class="pay-invoice-2-2">
+            <div>
+              <p>*请输入发票抬头:</p>
+              <input
+                type="text"
+                id="input"
+                v-model="invoice"
+                placeholder="请输入发票信息"
+              />
             </div>
-            <div class="pay-shop-invoice">
-                <p class="pay-invoice-1">发票信息</p>
-                <div class="pay-invoice-2">
-                    <div class="pay-invoice-2-2">
-                        <div>
-                            <p>*请输入发票抬头:</p>
-                            <input type="text" id="input" v-model="invoice"  placeholder="请输入发票信息">
-                        </div>
-                    </div>
-                </div>
+          </div>
+        </div>
+      </div>
+      <div class="pay-shop-fs">
+        <div class="pay-fs-1">支付方式</div>
+        <div class="pay-fs-2">
+          <div class="pay-fs-2-1">
+            <div
+              v-for="(list, index) in paymentType"
+              :class="paymentTypeIndex == index ? 'active' : ''"
+              @click="selectPaymentType(index)"
+              :key="index"
+            >
+              {{ list }}
             </div>
-            <div class="pay-shop-fs">
-                <div class="pay-fs-1">支付方式</div>
-                <div class="pay-fs-2">
-                    <div class="pay-fs-2-1" >
-                        <div 
-                        v-for="(list,index) in paymentType"
-                        :class="paymentTypeIndex == index ? 'active' : ''"
-                        @click="selectPaymentType(index)"
-                        :key="index"
-                        >{{list}}</div>
-                    </div>
-                    <div class="pay-fs-2-2">
-                       <div v-show="paymentTypeIndex===0" class="pay-fs-2-2-1">支持支付宝支付、微信支付、银行卡支付、财付通等</div>
-                       <div v-show="paymentTypeIndex===1" class="pay-fs-2-2-2">花呗分期是花呗联合天猫淘宝推出的，面向互联网的赊购服务，通过支付宝轻松还款，0首付</div>
-                       <div v-show="paymentTypeIndex===2" class="pay-fs-2-2-3">货到再付款，支持现金交易</div>
-                    </div>
-                </div>
+          </div>
+          <div class="pay-fs-2-2">
+            <div v-show="paymentTypeIndex === 0" class="pay-fs-2-2-1">
+              支持支付宝支付、微信支付、银行卡支付、财付通等
             </div>
-            <div class="pay-shop-liuyan">
-                <p class="pay-liuyan-1">订单留言</p>
-                <div class="pay-liuyan-2">
-                    <textarea rows="5" v-model="content" placeholder="限300字（若有特殊需求，请联系商城在线客服)" maxlength="300"></textarea>
-                    <p>商品总金额：¥{{list.price}}</p>
-                    <p>运费：0.00</p>
-                    <p>优惠：¥0.00</p>
-                    <p>赠送积分：{{toFixed(list.price * 0.05)}}</p>
-                </div>
+            <div v-show="paymentTypeIndex === 1" class="pay-fs-2-2-2">
+              花呗分期是花呗联合天猫淘宝推出的，面向互联网的赊购服务，通过支付宝轻松还款，0首付
             </div>
-            <van-submit-bar
-                :price="list.price * $route.query.value * 100"
-                button-text="提交订单"
-                @submit="saveOrder(list,index)"
-            />
-            <!-- <div class="pay-shop-footer">
+            <div v-show="paymentTypeIndex === 2" class="pay-fs-2-2-3">
+              货到再付款，支持现金交易
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pay-shop-liuyan">
+        <p class="pay-liuyan-1">订单留言</p>
+        <div class="pay-liuyan-2">
+          <textarea
+            rows="5"
+            v-model="content"
+            placeholder="限300字（若有特殊需求，请联系商城在线客服)"
+            maxlength="300"
+          ></textarea>
+          <p>商品总金额：¥{{ list.price }}</p>
+          <p>运费：0.00</p>
+          <p>优惠：¥0.00</p>
+          <p>赠送积分：{{ toFixed(list.price * 0.05) }}</p>
+        </div>
+      </div>
+      <van-submit-bar
+        :price="list.price * $route.query.value * 100"
+        button-text="提交订单"
+        @submit="saveOrder(list, index)"
+      />
+      <!-- <div class="pay-shop-footer">
                 <p class="price">订单总金额：<span>¥{{toFixed(list.price * $route.query.value)}}</span></p>
                 <a class="order" @click="saveOrder(list,index)">提交订单</a>
             </div> -->
-        </div>
     </div>
+  </div>
 </template>
 <script>
 import { getData } from "@/api/data.js";
 import { Toast } from "mint-ui";
-import { mapState } from 'vuex'
-import header from '@/components/header/index'
+import { mapState } from "vuex";
+import header from "@/components/header/index";
 export default {
   name: "pay",
   data() {
@@ -93,35 +121,45 @@ export default {
       invoice: "",
       paymentType: ["在线支付", "花呗分期", "货到付款"],
       paymentTypeIndex: 0,
-      headerLeftStatus: true,
+      headerLeftStatus: true
     };
   },
   methods: {
     saveOrder(list) {
-        if(!this.address.name) {
-            Toast("请选择收货地址");
-            return false;
-        }
-        if (!this.invoice) {
-            Toast("请输入发票抬头");
-            return false;
-        }
-        var myDate = new Date();
-        var Year = myDate.getFullYear();
-        var Month = myDate.getMonth() + 1;
-        var Day = myDate.getDate();
-        list["paymentType"] = this.paymentType[this.paymentTypeIndex];
-        list["invoice"] = this.invoice;
-        list["content"] = this.content;
-        list["consignee"] = this.address.name;
-        list["phone"] = this.address.tel;
-        list["address"] = this.address.province + this.address.city + this.address.county
-        list["homeValue"] = this.$route.params.value; //改变原来固定的数量 1
-        list["orderNumber"] = Year + "" + Month + "" +  Day + ""  + Math.random().toFixed(15).substr(2); //订单号
-        this.$store.commit("order/ADD_ORDER", list);
-        setTimeout(() => {
-            this.$router.push('/success')
-        },1000)
+      if (!this.address.name) {
+        Toast("请选择收货地址");
+        return false;
+      }
+      if (!this.invoice) {
+        Toast("请输入发票抬头");
+        return false;
+      }
+      var myDate = new Date();
+      var Year = myDate.getFullYear();
+      var Month = myDate.getMonth() + 1;
+      var Day = myDate.getDate();
+      list["paymentType"] = this.paymentType[this.paymentTypeIndex];
+      list["invoice"] = this.invoice;
+      list["content"] = this.content;
+      list["consignee"] = this.address.name;
+      list["phone"] = this.address.tel;
+      list["address"] =
+        this.address.province + this.address.city + this.address.county;
+      list["homeValue"] = this.$route.params.value; //改变原来固定的数量 1
+      list["orderNumber"] =
+        Year +
+        "" +
+        Month +
+        "" +
+        Day +
+        "" +
+        Math.random()
+          .toFixed(15)
+          .substr(2); //订单号
+      this.$store.commit("order/ADD_ORDER", list);
+      setTimeout(() => {
+        this.$router.push("/success");
+      }, 1000);
     },
     selectPaymentType(index) {
       this.paymentTypeIndex = index;
@@ -131,26 +169,44 @@ export default {
     },
     orderDetail() {
       getData().then(res => {
-        res.homeData[this.$route.query.shop_id - 1].data.forEach(list => {
-          if (list.id == this.$route.query.id) {
-            this.pay.push(list);
+        // console.log(this.$route.query);
+        // res.data.homeData[this.$route.query.shop_id - 1].data.forEach(list => {
+        //   if (list.id == this.$route.query.id) {
+        //     this.pay.push(list);
+        //   }
+        // });
+
+        res.data.homeData.forEach(list => {
+          if (list.id === 0) {
+            return;
           }
+          list.data.forEach(data => {
+            if (data.name == this.$route.query.name) {
+              this.pay.push(data);
+            }
+          });
         });
       });
+    },
+    saveAddress() {
+      this.$router.push("/add_address");
+    },
+    chooseElseAddress() {
+      this.$router.push("address");
     }
   },
   mounted() {
     this.orderDetail();
   },
   computed: {
-    address() { 
-        var address = []
-        this.$store.state.address.forEach(list=> {
-            if(list.default) {
-                address = list
-            }
-        })
-        return address
+    address() {
+      var address = [];
+      this.$store.state.address.forEach(list => {
+        if (list.default) {
+          address = list;
+        }
+      });
+      return address;
     }
   },
   components: {
@@ -186,6 +242,11 @@ export default {
     i {
       font-size: 0.4rem;
     }
+  }
+  .address-else {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 10px;
   }
   .address-box {
     width: 87%;
@@ -441,4 +502,3 @@ export default {
   }
 }
 </style>
-
