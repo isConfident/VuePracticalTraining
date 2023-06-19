@@ -14,7 +14,7 @@
     </div>
     <div id="footer">
       <el-button type="success" plain @click="toIndex()">返回首页</el-button>
-      <el-button type="primary" plain>再来一单</el-button>
+      <el-button type="primary" plain @click="agianShop()">再来一单</el-button>
     </div>
   </div>
 </template>
@@ -33,6 +33,9 @@ export default {
   methods: {
     toIndex() {
       this.$router.push("index");
+    },
+    agianShop() {
+      this.$router.back();
     }
   }
 };

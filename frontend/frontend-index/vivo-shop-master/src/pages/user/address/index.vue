@@ -13,7 +13,8 @@
             <span class="phone">{{ list.tel }}</span>
           </p>
           <p class="address-details">
-            收货地址：{{ list.province }}{{ list.city }}{{ list.county }}{{ list.addressDetail }}
+            收货地址：{{ list.province }}{{ list.city }}{{ list.county
+            }}{{ list.addressDetail }}
           </p>
           <div class="address-operation">
             <p class="address-operation-box">
@@ -41,6 +42,7 @@
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
