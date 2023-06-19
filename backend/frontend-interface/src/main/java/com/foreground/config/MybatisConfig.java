@@ -20,7 +20,7 @@ public class MybatisConfig {
     @Bean
     public MapperScannerConfigurer getMapperScannerConfigurer(){
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
-        mapperScannerConfigurer.setBasePackage("com.foreground.mapper");
+        mapperScannerConfigurer.setBasePackage("com.foreground.dao");
         return mapperScannerConfigurer;
     }
 }

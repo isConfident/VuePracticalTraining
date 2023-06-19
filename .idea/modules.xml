@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/backend/frontend-interface/Foreground.iml" filepath="$PROJECT_DIR$/backend/frontend-interface/Foreground.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/VuePracticalTraining.iml" filepath="$PROJECT_DIR$/.idea/VuePracticalTraining.iml" />
     </modules>
   </component>

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@ComponentScan({"com.foreground.dao","com.foreground.service","com.foreground.mapper"})
+@ComponentScan({"com.foreground.dao","com.foreground.service"})
 @PropertySource("classpath:jdbc.properties")
 @Import({JdbcConfig.class, MybatisConfig.class})
 public class SpringConfig {
