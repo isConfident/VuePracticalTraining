@@ -5,5 +5,5 @@ import com.foreground.entity.Accessories;
 import java.util.List;
 
 public interface AccessoriesService {
-    List<Accessories> getAllAccessories();
+    List<Accessories> queryAllAccessoriesAndCommodity();
 }

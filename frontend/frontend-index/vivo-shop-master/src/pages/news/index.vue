@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { getData } from "@/api/data";
+import { getNewsData } from "@/api/testData";
 import header from "@/components/header/index";
 import footer from "@/components/footer/index";
 export default {
@@ -39,8 +39,8 @@ export default {
       });
     },
     newsData() {
-      getData().then(res => {
-        this.news = res.data.news;
+      getNewsData().then(res => {
+        this.news = res.data;
       });
     }
   },

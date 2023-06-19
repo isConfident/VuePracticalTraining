@@ -21,16 +21,7 @@ public class AccessoriesServiceImpl implements AccessoriesService {
     private CommodityService commodityService;
 
     @Override
-    public List<Accessories> getAllAccessories() {
-        List<Accessories> accessoriesList = this.accessoriesDao.getAllAccessories();
-        List<Commodity> commodityList = this.commodityService.getAllCommodity();
-        for (int i = 0; i < accessoriesList.size(); i++) {
-            for (int j = 0; j < commodityList.size(); j++) {
-                if (accessoriesList.get(i).getId() == commodityList.get(j).getNameId()) {
-                    accessoriesList.get(i).getData().add(commodityList.get(j));
-                }
-            }
-        }
-        return accessoriesList;
+    public List<Accessories> queryAllAccessoriesAndCommodity() {
+        return accessoriesDao.queryAllAccessoriesAndCommodity();
     }
 }
