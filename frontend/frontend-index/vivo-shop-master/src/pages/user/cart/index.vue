@@ -43,7 +43,7 @@
       <router-link to="/index">逛一逛</router-link>
     </div>
     <div class="cartFooter" v-if="carts.length">
-      <div class="checkAll" @click="">
+      <div class="checkAll" @click="SelectCartListAll">
         <i class="iconfont icon-xuanzekuangmoren"></i>
         <!-- <i class="iconfont icon-xuanzekuangxuanzhong" style="color:#25b5fe"></i> -->
         <span>全选</span>
@@ -76,6 +76,7 @@ export default {
       delCartList: 'cart/DEL_CARTS',
       reduceCartValue: 'cart/REDUCECART_VAVLUE',
       singleCartsList: 'cart/SELECT_CARTS_LIST',
+      SelectCartListAll: 'cart/SELECT_CARTS_LIST_ALL',
     })
   },
   computed: {
@@ -90,7 +91,7 @@ export default {
         }
       });
       return sum
-    }
+    },
   },
   components: {
     "v-header": header

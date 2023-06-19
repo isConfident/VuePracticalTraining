@@ -106,7 +106,8 @@
                 </div>
               </mt-tab-container-item>
               <mt-tab-container-item id="tab-container2">
-                <div class="peizhi" v-html="list.homePeizhi"></div>
+                <div class="peizhi" v-html="list.homePeizhi">
+                </div>
               </mt-tab-container-item>
             </mt-tab-container>
           </div>
@@ -121,6 +122,7 @@
             <van-goods-action-icon
               icon="star-o"
               text="收藏"
+              color="red"
               @click="addCollection(list)"
             />
             <van-goods-action-button
@@ -149,10 +151,11 @@ export default {
   name: "detail",
   data() {
     return {
+      IsCollection: false,
       goodDetails: [],
       show: false,
       headerLeftStatus: true,
-      selected: "tab-container1"
+      selected: "tab-container1",
     };
   },
   methods: {
