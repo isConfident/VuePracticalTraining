@@ -26,16 +26,18 @@
       <div class="pay-shop-list">
         <p class="pay-shop-1">商品清单</p>
         <div v-for="(cart, index) in carts" :key="index">
-          <p class="pay-shop-2">
-            <img :src="cart.img_url" />
-          </p>
-          <p class="pay-shop-2-box">
-            <span class="name"
-              >{{ cart.name }}
-              <p>× {{ cart.value }}</p></span
-            >
-            <span class="price">¥{{ cart.price }}</span>
-          </p>
+          <div>
+            <p class="pay-shop-2">
+              <img :src="cart.img_url" />
+            </p>
+            <p class="pay-shop-2-box">
+              <span class="name"
+                >{{ cart.name }}
+                <p>× {{ cart.value }}</p></span
+              >
+              <span class="price">¥{{ cart.price }}</span>
+            </p>
+          </div>
         </div>
       </div>
       <div class="pay-shop-invoice">
@@ -102,9 +104,7 @@
       /> -->
       <div class="pay-shop-footer">
         <p class="price">
-          订单总金额：<span
-            >¥{{ toFixed(list.price * $route.query.value) }}</span
-          >
+          订单总金额：<span>¥{{ list.price }}</span>
         </p>
         <a class="order" @click="saveOrder(list, index)">提交订单</a>
       </div>
@@ -126,10 +126,10 @@ export default {
       invoice: "",
       paymentType: ["在线支付", "花呗分期", "货到付款"],
       paymentTypeIndex: 0,
-      headerLeftStatus: true
+      headerLeftStatus: true,
+      carts: []
     };
   },
-  mounted() {},
   methods: {
     saveOrder(list) {
       if (!this.address.name) {
@@ -181,13 +181,12 @@ export default {
         //     this.pay.push(list);
         //   }
         // });
-
         res.data.homeData.forEach(list => {
           if (list.id === 1) {
             return;
           }
           list.data.forEach(data => {
-            if (data.name == this.$route.query.name) {
+            if (data.name === this.$route.query.name) {
               this.pay.push(data);
             }
           });
@@ -201,8 +200,22 @@ export default {
       this.$router.push("address");
     }
   },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (from.path == "/cart") {
+        vm.carts = JSON.parse(to.query.carts);
+      }
+    });
+  },
   mounted() {
     this.orderDetail();
+    if (this.pay) {
+      console.log("执行了");
+      this.pay.push(this.carts);
+      if (this.pay.length > 1) {
+        this.pay.splice(0, 1);
+      }
+    }
   },
   computed: {
     address() {
@@ -213,6 +226,12 @@ export default {
         }
       });
       return address;
+    },
+    orderTotal() {
+      let total = 0;
+      this.pay.forEach(list => {
+        return;
+      });
     }
   },
   components: {

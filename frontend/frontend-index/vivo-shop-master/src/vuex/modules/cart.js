@@ -133,8 +133,12 @@ const mutations = {
       });
       return false;
     }
+
     router.push({
-      path: "/pay"
+      path: "/pay",
+      query: {
+        carts: JSON.stringify(settlement)
+      }
     });
   },
   // 商品数量操作
