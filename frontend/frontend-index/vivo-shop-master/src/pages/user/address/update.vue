@@ -5,7 +5,6 @@
       :area-list="addressDataList"
       show-search-result
       :area-columns-placeholder="['请选择', '请选择', '请选择']"
-      v-model="addressData"
       @save="saveAddress"
     />
   </div>
@@ -28,10 +27,14 @@ export default {
     ...mapMutations({
       saveAddressMutation: "EDIT_ADDRESS"
     }),
-    saveAddress() {
-      this.saveAddressMutation(this.addressData);
+    saveAddress(data) {
+      this.saveAddressMutation({
+        index: this.$route.params.index,
+        data,
+      });
       this.$router.push("/address");
     }
+
   },
   mounted() {
     let index = this.$route.params.index;
