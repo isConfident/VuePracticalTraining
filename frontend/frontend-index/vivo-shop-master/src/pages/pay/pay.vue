@@ -91,7 +91,7 @@
             placeholder="限300字（若有特殊需求，请联系商城在线客服)"
             maxlength="300"
           ></textarea>
-          <p>商品总金额：¥{{ list.price }}</p>
+          <p>商品总金额：¥{{ orderTotal }}</p>
           <p>运费：0.00</p>
           <p>优惠：¥0.00</p>
           <p>赠送积分：{{ toFixed(list.price * 0.05) }}</p>
@@ -104,7 +104,7 @@
       /> -->
       <div class="pay-shop-footer">
         <p class="price">
-          订单总金额：<span>¥{{ list.price }}</span>
+          订单总金额：<span>¥{{ orderTotal }}</span>
         </p>
         <a class="order" @click="saveOrder(list, index)">提交订单</a>
       </div>
@@ -173,26 +173,7 @@ export default {
     toFixed(value) {
       return value.toFixed(2);
     },
-    orderDetail() {
-      getData().then(res => {
-        // console.log(this.$route.query);
-        // res.data.homeData[this.$route.query.shop_id - 1].data.forEach(list => {
-        //   if (list.id == this.$route.query.id) {
-        //     this.pay.push(list);
-        //   }
-        // });
-        res.data.homeData.forEach(list => {
-          if (list.id === 1) {
-            return;
-          }
-          list.data.forEach(data => {
-            if (data.name === this.$route.query.name) {
-              this.pay.push(data);
-            }
-          });
-        });
-      });
-    },
+    orderDetail() {},
     saveAddress() {
       this.$router.push("/add_address");
     },
@@ -208,9 +189,27 @@ export default {
     });
   },
   mounted() {
-    this.orderDetail();
-    if (this.pay) {
-      console.log("执行了");
+    // this.orderDetail();
+
+    getData().then(res => {
+      // console.log(this.$route.query);
+      // res.data.homeData[this.$route.query.shop_id - 1].data.forEach(list => {
+      //   if (list.id == this.$route.query.id) {
+      //     this.pay.push(list);
+      //   }
+      // });
+      res.data.homeData.forEach(list => {
+        if (list.id === 1) {
+          return;
+        }
+        list.data.forEach(data => {
+          if (data.name === this.$route.query.name) {
+            this.pay.push(data);
+          }
+        });
+      });
+    });
+    if (Array.isArray(this.pay) && this.pay.length == 0) {
       this.pay.push(this.carts);
       if (this.pay.length > 1) {
         this.pay.splice(0, 1);
@@ -229,9 +228,10 @@ export default {
     },
     orderTotal() {
       let total = 0;
-      this.pay.forEach(list => {
-        return;
+      this.carts.forEach(item => {
+        total += parseInt(item.price) * parseInt(item.value);
       });
+      return total;
     }
   },
   components: {
