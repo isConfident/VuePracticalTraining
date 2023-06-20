@@ -25,8 +25,7 @@
     <div class="pay-shop" v-for="(list, index) in pay" :key="index">
       <div class="pay-shop-list">
         <p class="pay-shop-1">商品清单</p>
-        <div v-for="(cart, index) in carts" :key="index">
-          <div>
+        <div v-for="(cart, index) in carts" :key="index" style="height: 3.5rem;">
             <p class="pay-shop-2">
               <img :src="cart.img_url" />
             </p>
@@ -37,7 +36,6 @@
               >
               <span class="price">¥{{ cart.price }}</span>
             </p>
-          </div>
         </div>
       </div>
       <div class="pay-shop-invoice">
@@ -245,6 +243,9 @@ export default {
   border: 1px solid #444;
   color: red;
 }
+.block{
+  float: left;
+}
 .pay-address {
   width: 100%;
   height: auto;
@@ -352,7 +353,7 @@ export default {
   }
   .pay-shop-list {
     width: 100%;
-    height: 4.5rem;
+    height: 100%;
     margin-top: 0.3rem;
     background: #fff;
     .pay-shop-1 {
