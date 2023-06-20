@@ -64,7 +64,7 @@ const mutations = {
             localStorage.setItem('carts',JSON.stringify(state.carts));
         }
     },
-
+    /*全选购物车操作*/
     /*新增*/
     [SELECT_CARTS_LIST_ALL] (state) {
       /*如果为空就提示当前购物车是空的*/

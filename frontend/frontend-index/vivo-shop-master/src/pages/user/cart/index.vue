@@ -51,7 +51,7 @@
 
       <div class="Total">
         合计：
-        <span style="font-size: 0.54rem;color:#E3211E">￥ {{TotalPrice}}</span>
+        <span style="font-size: 0.34rem;color:#E3211E">￥ {{TotalPrice}}</span>
       </div>
 
       <div class="Settlement">
