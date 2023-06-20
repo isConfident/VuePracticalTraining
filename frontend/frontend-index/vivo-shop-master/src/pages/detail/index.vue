@@ -106,8 +106,7 @@
                 </div>
               </mt-tab-container-item>
               <mt-tab-container-item id="tab-container2">
-                <div class="peizhi" v-html="list.homePeizhi">
-                </div>
+                <div class="peizhi" v-html="list.homePeizhi"></div>
               </mt-tab-container-item>
             </mt-tab-container>
           </div>
@@ -155,7 +154,7 @@ export default {
       goodDetails: [],
       show: false,
       headerLeftStatus: true,
-      selected: "tab-container1",
+      selected: "tab-container1"
     };
   },
   methods: {
@@ -172,7 +171,7 @@ export default {
     shopDetailsData() {
       getData().then(res => {
         res.data.homeData.forEach(list => {
-          if (list.id == 0) {
+          if (list.id == 1) {
             return;
           }
           list.data.forEach(data => {
@@ -181,7 +180,6 @@ export default {
             }
           });
         });
-
       });
     },
     jumpCart() {

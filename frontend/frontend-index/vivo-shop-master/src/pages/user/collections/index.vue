@@ -19,7 +19,7 @@
                             </p>
                         </div>
                         <div class="list-box-right">
-                            <p @click="jumpPay(list.id)">立即购买</p>
+                            <p @click="jumpPay(list)">立即购买</p>
                         </div>
                     </div>
                 </div>
@@ -41,11 +41,12 @@ export default {
         ...mapMutations ({
             delCollection: 'cart/DEL_COLLECTION'
         }),
-        jumpPay(id) {
+        jumpPay(list) {
             this.$router.push({
                 path: "/pay",
                 query: {
-                    id: id
+                    name:list.name,
+                    value:list.value
                 }
             })
         },
