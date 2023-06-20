@@ -6,7 +6,7 @@ import java.util.List;
 public class Accessories {
     private int id;
     private String name;
-    private List<Commodity> data;
+    private List<Commodity> data=new ArrayList<Commodity>();
 
 
     public Accessories() {

@@ -17,11 +17,15 @@ public class AccessoriesServiceImpl implements AccessoriesService {
     @Resource
     @Qualifier
     private AccessoriesDao accessoriesDao;
-    @Autowired
-    private CommodityService commodityService;
 
     @Override
     public List<Accessories> queryAllAccessoriesAndCommodity() {
-        return accessoriesDao.queryAllAccessoriesAndCommodity();
+        List<Accessories> accessoriesList=accessoriesDao.queryAllAccessoriesAndCommodity();
+        for (int i = 1; i <accessoriesList.size() ; i++) {
+            for (int j = 0; j <accessoriesList.get(i).getData().size() ; j++) {
+                accessoriesList.get(0).getData().add(accessoriesList.get(i).getData().get(j));
+            }
+        }
+        return accessoriesList;
     }
 }

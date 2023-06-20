@@ -44,7 +44,7 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    public List<HomeData> queryAllHomeDataAndCommodity() {
-        return null;
+    public List<Commodity> queryAllCommodityAndSwiperAndImages() {
+        return commodityDao.queryAllCommodityAndSwiperAndImages();
     }
 }

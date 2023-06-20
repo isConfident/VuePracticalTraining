@@ -9,15 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/homedata")
+@RequestMapping("/api/homeData")
 public class HomeDataController {
     @Autowired
     private HomeDataService homeDataService;
 
     @RequestMapping("/query")
-    public List<HomeData> query(){
-        return homeDataService.queryAllHomeDataAndCommodity();
-    }
+    public List<HomeData> query(){ return homeDataService.queryAllHomeDataAndCommodity(); }
 
 }
 

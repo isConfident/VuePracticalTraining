@@ -36,4 +36,15 @@ public class PhoneServiceImpl implements PhoneService {
         }
         return phoneList;
     }
+
+    @Override
+    public List<Phone> queryAllPhoneAndCommodity() {
+        List<Phone> phoneList=phoneDao.queryAllPhoneAndCommodity();
+        for (int i = 1; i <phoneList.size() ; i++) {
+            for (int j = 0; j <phoneList.get(i).getData().size() ; j=j+1) {
+                phoneList.get(0).getData().add(phoneList.get(i).getData().get(j));
+            }
+        }
+        return phoneList;
+    }
 }

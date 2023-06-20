@@ -12,8 +12,9 @@ public interface AccessoriesDao {
     @Results({
             @Result(column = "id", property = "id"),
             @Result(column = "name", property = "name"),
-            @Result(column = "id", property = "commodity",javaType = List.class,
-                    many=@Many(select = "com.foreground.dao.CommodityDao.getAllCommodity"))
+            @Result(column = "id", property = "data",javaType = List.class,
+                    many=@Many(select = "com.foreground.dao.CommodityDao.queryAllCommodityByNameIdAndAccessories"))
     })
     List<Accessories> queryAllAccessoriesAndCommodity();
+
 }

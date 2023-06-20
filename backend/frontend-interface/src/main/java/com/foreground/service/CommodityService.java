@@ -8,5 +8,5 @@ import java.util.List;
 public interface CommodityService {
     List<Commodity> getAllCommodity();
 
-    List<HomeData> queryAllHomeDataAndCommodity();
+    List<Commodity> queryAllCommodityAndSwiperAndImages();
 }

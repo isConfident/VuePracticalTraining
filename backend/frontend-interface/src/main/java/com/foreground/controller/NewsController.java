@@ -19,13 +19,14 @@ import java.util.List;
 public class NewsController {
 
     @Autowired
-    @Qualifier("newsService")
+//    @Qualifier("newsService")
     private NewsService newsService;
 
-    @GetMapping( "/getAllNews")
-    private List<News> getAllNews() {
+    @RequestMapping( "/query")
+    private List<News> query() {
         return newsService.getAllNews();
     }
+
 //    @RequestMapping("/get")
 //    public void getJson(@RequestBody String json) throws IOException {
 //        ObjectMapper objectMapper = new ObjectMapper();

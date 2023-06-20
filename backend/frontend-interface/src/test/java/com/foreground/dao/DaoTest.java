@@ -29,6 +29,8 @@ public class DaoTest {
     private PhoneService phoneService;
     @Autowired
     private SwiperService swiperService;
+    @Autowired
+    private UserService userService;
 
     public DaoTest() {
     }
@@ -44,7 +46,13 @@ public class DaoTest {
 //        System.out.println(imagesService.getAllImages());
 //        System.out.println(phoneService.getAllPhone());
 //        System.out.println(swiperService.getAllSwiper());
-        System.out.println(homeDataService.queryAllHomeDataAndCommodity());
+//        System.out.println(homeDataService.queryAllHomeDataAndCommodity());
+//        System.out.println(phoneService.queryAllPhoneAndCommodity());
+//        System.out.println(accessoriesService.queryAllAccessoriesAndCommodity());
+//        System.out.println(commodityService.queryAllCommodityAndSwiperAndImages());
+//        System.out.println( userService.userLogin("xiaohu","222222"));
+        System.out.println(userService.userRegister("cccccc","777777"));
+
 
     }
 

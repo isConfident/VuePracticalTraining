@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface PhoneService {
     List<Phone> getAllPhone();
+    List<Phone> queryAllPhoneAndCommodity();
 }
