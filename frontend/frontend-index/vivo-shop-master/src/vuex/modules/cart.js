@@ -134,6 +134,12 @@ const mutations = {
       return false;
     }
 
+    router.push({
+      path: "/pay",
+      query: {
+        carts: JSON.stringify(settlement)
+      }
+    });
     var names = settlement.forEach(list => {
       return list.name;
     });
