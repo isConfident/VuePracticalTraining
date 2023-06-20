@@ -16,10 +16,10 @@ import { Toast, MessageBox } from "mint-ui";
 const state = {
   carts: localStorage.getItem("carts")
     ? JSON.parse(localStorage.getItem("carts"))
-    : [], //购物车列表
+    : [], // 购物车列表
   collections: localStorage.getItem("collections")
     ? JSON.parse(localStorage.getItem("collections"))
-    : [], //收藏列表
+    : [], // 收藏列表
   selected: []
 };
 
@@ -35,7 +35,7 @@ const mutations = {
         message: "是否前去登陆",
         showCancelButton: true
       }).then(res => {
-        if (res == "confirm") {
+        if (res === "confirm") {
           router.push("/login");
         }
       });
@@ -47,9 +47,9 @@ const mutations = {
         message: "是否继续添加" + data.name + "?",
         showCancelButton: true
       }).then(res => {
-        if (res == "confirm") {
+        if (res === "confirm") {
           state.carts.forEach(list => {
-            if (list.id == data.id) {
+            if (list.id === data.id) {
               list.value++;
             }
           });
@@ -71,25 +71,17 @@ const mutations = {
     }
   },
 
-  /*新增*/
-  [SELECT_CARTS_LIST_ALL](state) {2
-    /*如果为空就提示当前购物车是空的*/
-    if (state.carts.length == 0) {
+  // 选择购物车列表（全部）
+  [SELECT_CARTS_LIST_ALL](state) {
+    if (state.carts.length === 0) {
       Toast({
         message: "当前购物车是空的",
         duration: 1500
       });
       return false;
     }
-    /*如果购物车不为空就遍历购物车列表*/
     state.carts.forEach(list => {
-      /*如果购物车列表的select是true就改为false*/
-      if (list.select) {
-        list.select = false;
-      } else {
-        /*如果购物车列表的select是false就改为true*/
-        list.select = true;
-      }
+      list.select = !list.select;
     });
   },
 
@@ -124,25 +116,15 @@ const mutations = {
       return false;
     }
     var settlement = state.carts.filter(list => {
-      return list.select == true;
+      return list.select === true;
     });
-    if (settlement.length == 0) {
+    if (settlement.length === 0) {
       Toast({
         message: "请选择要结算的商品",
         duration: 1500
       });
       return false;
     }
-
-    router.push({
-      path: "/pay",
-      query: {
-        carts: JSON.stringify(settlement)
-      }
-    });
-    var names = settlement.forEach(list => {
-      return list.name;
-    });
     router.push({
       path: "/pay",
       query: {
@@ -150,20 +132,22 @@ const mutations = {
       }
     });
   },
-  // 商品数量操作
+
+  // 商品数量操作（增加）
   [ADDCART_VALUE](state, index) {
     state.carts[index].value++;
     localStorage.setItem("carts", JSON.stringify(state.carts));
   },
-  // 商品数量操作
+
+  // 商品数量操作（减少）
   [REDUCECART_VAVLUE](state, index) {
-    if (state.carts[index].value == 1) {
+    if (state.carts[index].value === 1) {
       MessageBox({
         title: "提示",
         message: "是否删除" + state.carts[index].name + "?",
         showCancelButton: true
       }).then(res => {
-        if (res == "confirm") {
+        if (res === "confirm") {
           state.carts.splice(index, 1);
           localStorage.setItem("carts", JSON.stringify(state.carts));
           Toast({
@@ -185,13 +169,11 @@ const mutations = {
     });
   },
 
-  //商品收藏
-  /*新增*/
+  // 商品收藏
   [ADD_COLLECTION](state, data) {
     var collectionsId = state.collections.find(list => {
-      return data.id == list.id;
+      return data.id === list.id;
     });
-    /*收藏过后再次点击取消收藏*/
     if (collectionsId) {
       state.collections.splice(collectionsId, 1);
       localStorage.setItem("collections", JSON.stringify(state.collections));
@@ -201,12 +183,11 @@ const mutations = {
       });
       return false;
     }
-    /*未被收藏点击后收藏成功*/
     Toast({
       message: "收藏成功！",
       duration: 1500
     });
-    data["select"] = false;
+    data.select = false;
     state.collections.push(data);
     localStorage.setItem("collections", JSON.stringify(state.collections));
     document.getElementById("collection");
@@ -216,7 +197,7 @@ const mutations = {
         message: "是否前去登陆",
         showCancelButton: true
       }).then(res => {
-        if (res == "confirm") {
+        if (res === "confirm") {
           router.push("/login");
         }
       });
@@ -230,7 +211,7 @@ const mutations = {
       message: "是否取消" + state.collections[index].name + "的收藏?",
       showCancelButton: true
     }).then(res => {
-      if (res == "confirm") {
+      if (res === "confirm") {
         state.collections.splice(index, 1);
         localStorage.setItem("collections", JSON.stringify(state.collections));
         Toast({
@@ -243,7 +224,7 @@ const mutations = {
 };
 
 export default {
-  namespaced: true, //开启命名
+  namespaced: true, // 开启命名
   state,
   mutations
 };
