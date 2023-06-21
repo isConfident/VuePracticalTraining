@@ -6,4 +6,6 @@ public interface UserService {
     String userLogin(String userName,String userPassword);
 
     String userRegister(String userName,String userPassword);
+
+    User querySimpleUserAndAddressesAndShoppingCartsById(Integer id);
 }

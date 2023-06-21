@@ -32,4 +32,9 @@ public class UserServiceImpl implements UserService {
         }
         return "注册失败！已有用户名。";
     }
+
+    @Override
+    public User querySimpleUserAndAddressesAndShoppingCartsById(Integer id) {
+        return userDao.querySimpleUserAndAddressesAndShoppingCartsById(id);
+    }
 }

@@ -3,25 +3,30 @@
     <v-header title="商品详情" :headerLeftStatus="headerLeftStatus" />
     <div class="goodDetailList">
       <ul style="background: white;">
-        <li v-for="(list, index) in goodDetails" :key="index">
+        <li>
           <div class="goodDetaiSwipe">
             <mt-swipe :auto="4000">
-              <mt-swipe-item v-for="(v, index) in list.swiper" :key="index">
+              <mt-swipe-item
+                v-for="(v, index) in goodDetails.swiper"
+                :key="index"
+              >
                 <img :src="v.swipe" alt="图片" />
               </mt-swipe-item>
             </mt-swipe>
           </div>
           <div class="goodDetailMain">
-            <div class="gooDetailNumber">商品编号：{{ list.number }}</div>
-            <div class="goodDetailName">{{ list.name }}</div>
+            <div class="gooDetailNumber">
+              商品编号：{{ goodDetails.content }}
+            </div>
+            <div class="goodDetailName">{{ goodDetails.name }}</div>
             <div style="text-align: justify;font-size: 0.348rem;">
               <span style="margin-left:-.2rem;color:#FF4B3D;"
-                >【{{ list.bright }}】</span
+                >【{{ goodDetails.bright }}】</span
               >
-              {{ list.title }}
+              {{ goodDetails.title }}
             </div>
-            <div class="goodDetailColor">{{ list.color }}</div>
-            <div class="goodDetailPaid">￥{{ list.price }}</div>
+            <div class="goodDetailColor">{{ goodDetails.color }}</div>
+            <div class="goodDetailPaid">￥{{ goodDetails.price }}</div>
           </div>
           <div class="goodDetailValue">
             <div class="_Value">购买数量：</div>
@@ -29,14 +34,18 @@
               <a
                 href="javascript:;"
                 class="goodDetailReduce"
-                @click="reduceOrderValue(list)"
+                @click="reduceOrderValue(goodDetails)"
                 >-</a
               >
-              <input type="text" v-model="list.value" readonly="readonly" />
+              <input
+                type="text"
+                v-model="goodDetails.value"
+                readonly="readonly"
+              />
               <a
                 href="javascript:;"
                 class="goodDetailAdd"
-                @click="addOrderValue(list)"
+                @click="addOrderValue(goodDetails)"
                 >+</a
               >
             </div>
@@ -100,13 +109,13 @@
             <mt-tab-container v-model="selected" swipeable>
               <mt-tab-container-item id="tab-container1">
                 <div class="goodDetailImg">
-                  <p v-for="(ov, index) in list.Images" :key="index">
+                  <p v-for="(ov, index) in goodDetails.images" :key="index">
                     <img v-bind:src="ov.one" alt="详情图片" @touchmove.stop />
                   </p>
                 </div>
               </mt-tab-container-item>
               <mt-tab-container-item id="tab-container2">
-                <div class="peizhi" v-html="list.homePeizhi"></div>
+                <div class="peizhi" v-html="goodDetails.homePeizhi"></div>
               </mt-tab-container-item>
             </mt-tab-container>
           </div>
@@ -127,7 +136,7 @@
             <van-goods-action-button
               type="warning"
               text="加入购物车"
-              @click="addCart(list)"
+              @click="addCart(goodDetails)"
             />
             <van-goods-action-button
               type="danger"
@@ -151,12 +160,13 @@ export default {
   data() {
     return {
       IsCollection: false,
-      goodDetails: [],
+      goodDetails: JSON.parse(localStorage.getItem("simpleGoodDetail")),
       show: false,
       headerLeftStatus: true,
       selected: "tab-container1"
     };
   },
+  props: ["list"],
   methods: {
     ...mapMutations({
       addCart: "cart/ADD_CARTS",
@@ -167,20 +177,6 @@ export default {
     },
     reduceOrderValue(list, index) {
       list["value"] == 1 ? Toast("不能在减了") : list["value"]--;
-    },
-    shopDetailsData() {
-      getData().then(res => {
-        res.data.homeData.forEach(list => {
-          if (list.id == 1) {
-            return;
-          }
-          list.data.forEach(data => {
-            if (data.name == this.$route.query.name) {
-              this.goodDetails.push(data);
-            }
-          });
-        });
-      });
     },
     jumpCart() {
       this.$router.push("/cart");
@@ -207,9 +203,6 @@ export default {
         }
       });
     }
-  },
-  mounted() {
-    this.shopDetailsData();
   },
   components: {
     "v-header": header

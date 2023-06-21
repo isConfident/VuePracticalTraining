@@ -1,9 +1,9 @@
 package com.foreground.controller;
 
+import com.foreground.entity.User;
 import com.foreground.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,4 +18,10 @@ public class UserController {
 
     @RequestMapping("/register")
     public String registerUser(String userName,String userPassword){ return userService.userRegister(userName,userPassword);}
+
+    @PostMapping("/querySimpleUserInfo")
+    @ResponseBody
+    public User querySimpleUserAndAddressesAndShoppingCartsById( Integer id){
+        return userService.querySimpleUserAndAddressesAndShoppingCartsById(id);
+    };
 }

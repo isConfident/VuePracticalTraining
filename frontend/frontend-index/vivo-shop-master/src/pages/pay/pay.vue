@@ -25,17 +25,21 @@
     <div class="pay-shop" v-for="(list, index) in pay" :key="index">
       <div class="pay-shop-list">
         <p class="pay-shop-1">商品清单</p>
-        <div v-for="(cart, index) in carts" :key="index" style="height: 3.5rem;">
-            <p class="pay-shop-2">
-              <img :src="cart.img_url" />
-            </p>
-            <p class="pay-shop-2-box">
-              <span class="name"
-                >{{ cart.name }}
-                <p>× {{ cart.value }}</p></span
-              >
-              <span class="price">¥{{ cart.price }}</span>
-            </p>
+        <div
+          v-for="(cart, index) in carts"
+          :key="index"
+          style="height: 3.5rem;"
+        >
+          <p class="pay-shop-2">
+            <img :src="cart.img_url" />
+          </p>
+          <p class="pay-shop-2-box">
+            <span class="name"
+              >{{ cart.name }}
+              <p>× {{ cart.value }}</p></span
+            >
+            <span class="price">¥{{ cart.price }}</span>
+          </p>
         </div>
       </div>
       <div class="pay-shop-invoice">
@@ -125,7 +129,7 @@ export default {
       paymentType: ["在线支付", "花呗分期", "货到付款"],
       paymentTypeIndex: 0,
       headerLeftStatus: true,
-      carts: []
+      carts: JSON.parse(localStorage.getItem("orderCarts"))
     };
   },
   methods: {
@@ -182,8 +186,13 @@ export default {
   beforeRouteEnter(to, from, next) {
     next(vm => {
       if (from.path == "/cart") {
-        vm.carts = JSON.parse(to.query.carts);
+        localStorage.setItem("orderCarts", to.query.carts);
       }
+    });
+  },
+  beforeRouteLeave(to, from, next) {
+    next(vm => {
+      localStorage.removeItem("orderCarts");
     });
   },
   mounted() {
@@ -243,7 +252,7 @@ export default {
   border: 1px solid #444;
   color: red;
 }
-.block{
+.block {
   float: left;
 }
 .pay-address {

@@ -2,14 +2,14 @@ import requests from "./testBackendInterface";
 
 export const getNewsData = () => {
   return requests({
-    url: "news/getAllNews",
+    url: "news/query",
     method: "get"
   });
 };
 
 export const getHomeData = () => {
   return requests({
-    url: "",
+    url: "homeData/query",
     method: "get"
   });
 };

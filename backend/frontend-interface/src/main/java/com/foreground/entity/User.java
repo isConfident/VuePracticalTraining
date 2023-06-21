@@ -1,9 +1,13 @@
 package com.foreground.entity;
 
+import java.util.List;
+
 public class User {
     private int id;
     private String userName;
     private String userPassword;
+    private List<AddressUsers> addressUsersList;
+    private List<ShoppingCarts> shoppingCartsList;
 
     public User() {
     }
@@ -12,6 +16,14 @@ public class User {
         this.id = id;
         this.userName = userName;
         this.userPassword = userPassword;
+    }
+
+    public User(int id, String userName, String userPassword, List<AddressUsers> addressUsersList, List<ShoppingCarts> shoppingCartsList) {
+        this.id = id;
+        this.userName = userName;
+        this.userPassword = userPassword;
+        this.addressUsersList = addressUsersList;
+        this.shoppingCartsList = shoppingCartsList;
     }
 
     /**
@@ -64,5 +76,37 @@ public class User {
 
     public String toString() {
         return "User{id = " + id + ", userName = " + userName + ", userPassword = " + userPassword + "}";
+    }
+
+    /**
+     * 获取
+     * @return addressUsersList
+     */
+    public List<AddressUsers> getAddressUsersList() {
+        return addressUsersList;
+    }
+
+    /**
+     * 设置
+     * @param addressUsersList
+     */
+    public void setAddressUsersList(List<AddressUsers> addressUsersList) {
+        this.addressUsersList = addressUsersList;
+    }
+
+    /**
+     * 获取
+     * @return shoppingCartsList
+     */
+    public List<ShoppingCarts> getShoppingCartsList() {
+        return shoppingCartsList;
+    }
+
+    /**
+     * 设置
+     * @param shoppingCartsList
+     */
+    public void setShoppingCartsList(List<ShoppingCarts> shoppingCartsList) {
+        this.shoppingCartsList = shoppingCartsList;
     }
 }

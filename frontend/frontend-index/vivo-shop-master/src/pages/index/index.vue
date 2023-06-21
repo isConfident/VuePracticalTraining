@@ -41,7 +41,7 @@
   </div>
 </template>
 <script>
-import { getData } from "@/api/data";
+import { getHomeData, getNewsData } from "@/api/testData";
 import footer from "@/components/footer/index";
 export default {
   name: "index",
@@ -71,11 +71,12 @@ export default {
     };
   },
   methods: {
-    jumpDetail(v) {
+    jumpDetail(list) {
+      localStorage.setItem("simpleGoodDetail", JSON.stringify(list));
       this.$router.push({
-        path: "detail",
-        query: {
-          name: v.name
+        name: "detail",
+        params: {
+          list: JSON.stringify(list)
         }
       });
     },
@@ -93,9 +94,12 @@ export default {
       return JSON.parse(value).toFixed(2);
     },
     homeShopListData() {
-      getData().then(res => {
-        this.shopListData = res.data.homeData;
-        this.swiperData = res.data.news;
+      getNewsData().then(({ data }) => {
+        this.swiperData = data;
+      });
+      getHomeData().then(({ data }) => {
+        // this.shopListData = res.data;
+        this.shopListData = data;
       });
     }
   },
