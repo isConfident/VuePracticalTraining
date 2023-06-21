@@ -4,25 +4,25 @@
     <div class="partsMain">
       <div class="upper">
         <span
-          v-for="(list, index) in list"
+          v-for="(data, index) in data"
           :class="selectShopIndex == index ? 'active' : ''"
-          @click="selectIndex(index)"
+          @click="selectIndex(data)"
           :key="index"
           class="list"
-          >{{ list.name }}</span
-        >
+          >{{ data.name }}
+        </span>
       </div>
       <div class="lower">
         <div
           class="lower_list"
-          v-for="(list, index) in data"
-          :key="index"
+          v-for="(list, name) in list.data"
+          :key="name"
           @click="toDetail(list)"
         >
           <img :src="list.img_url" alt="图片" />
           <h2>{{ list.name }}</h2>
           <p>{{ list.content }}</p>
-          <div>￥{{ toFixed(list.price) }}</div>
+          <div>￥{{ list.price }}</div>
         </div>
       </div>
     </div>
@@ -32,6 +32,7 @@
 <script>
 import header from "@/components/header/index";
 import { getData } from "@/api/data";
+import requests from "../../api/testBackendInterface";
 export default {
   data() {
     return {
@@ -42,37 +43,40 @@ export default {
       headerLeftStatus: true
     };
   },
-
+  mounted() {
+    requests({
+      url: 'accessories/query',
+      method: 'get'
+    }).then(({data})=>{
+      this.data = data;
+      this.list = this.data[0];
+    })
+  },
   methods: {
-    selectIndex(index) {
-      this.selectShopIndex = index;
-      getData().then(res => {
-        this.data = res.data.accessories[index].data;
-      });
+    selectIndex(data) {
+      this.list = data;
+      this.selectShopIndex = data.id - 1;
     },
 
-    accessories() {
-      getData().then(res => {
-        this.list = res.data.accessories;
-        this.data = res.data.accessories[0].data;
-      });
-    },
-    toDetail(list) {
+    // accessories() {
+    //   getData().then(res => {
+    //     this.list = res.data.accessories;
+    //     this.data = res.data.accessories[0].data;
+    //   });
+    // },
+    toDetail(data) {
+      localStorage.setItem("simpleGoodDetail", JSON.stringify(data));
       this.$router.push({
         name: "detail",
-        query: {
-          name: list.name
+        params: {
+          list: JSON.stringify(data)
         }
       });
     },
-    toFixed(value) {
-      // 因为data.json里面的prcie是字符串类型 所以这边需要做个处理
-      return JSON.parse(value).toFixed(2);
-    }
-  },
-
-  mounted() {
-    this.accessories();
+    // toFixed(value) {
+    //   // 因为data.json里面的prcie是字符串类型 所以这边需要做个处理
+    //   return JSON.parse(value).toFixed(2);
+    // }
   },
 
   components: {

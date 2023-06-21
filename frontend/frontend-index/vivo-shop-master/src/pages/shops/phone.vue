@@ -4,25 +4,25 @@
     <div class="partsMain">
       <div class="upper">
         <span
-          v-for="(list, index) in list"
+          v-for="(data, index) in data"
           :class="selectShopIndex == index ? 'active' : ''"
-          @click="selectIndex(index)"
+          @click="selectIndex(data)"
           :key="index"
           class="list"
-          >{{ list.name }}</span
-        >
+          >{{ data.name }}
+        </span>
       </div>
       <div class="lower">
         <div
           class="lower_list"
-          v-for="(list, index) in data"
-          :key="index"
-          @click="toDetail(list)"
+          v-for="(data, nameId) in list.data"
+          :key="nameId"
+          @click="toDetail(data)"
         >
-          <img :src="list.img_url" alt="图片" />
-          <h2>{{ list.name }}</h2>
-          <p>{{ list.content }}</p>
-          <div>￥{{ toFixed(list.price) }}</div>
+          <img :src="data.img_url" alt="图片" />
+          <h2>{{ data.name }}</h2>
+          <p>{{ data.content }}</p>
+          <div>￥{{ data.price }}</div>
         </div>
       </div>
     </div>
@@ -32,6 +32,8 @@
 <script>
 import header from "@/components/header/index";
 import { getData } from "@/api/data";
+import requests from "../../api/testBackendInterface";
+import {createLogger} from "vuex";
 export default {
   data() {
     return {
@@ -40,39 +42,40 @@ export default {
       list: [],
       selectShopIndex: 0,
       headerLeftStatus: true,
-      shopDetailList: []
+      shopDetailList: [],
     };
   },
+  /**/
   props: ["id", "list_id"],
+  mounted() {
+    requests({
+      url: 'phone/query',
+      method: 'get'
+    }).then(({data})=>{
+      this.data = data;
+      this.list = this.data[0];
+    })
+  },
   methods: {
-    selectIndex(index) {
-      this.selectShopIndex = index;
-      getData().then(res => {
-        this.data = res.data.phone[index].data;
-      });
+    selectIndex(data){
+      this.list = data;
+      this.selectShopIndex = data.id - 1;
     },
-    accessories() {
-      getData().then(res => {
-        this.list = res.data.phone;
-        this.data = res.data.phone[0].data;
-      });
-    },
-    toFixed(value) {
-      // 因为data.json里面的prcie是字符串类型 所以这边需要做个处理
-      return JSON.parse(value).toFixed(2);
-    },
-    toDetail(list) {
+    // toFixed(value) {
+    //   // 因为data.json里面的prcie是字符串类型 所以这边需要做个处理
+    //   return JSON.parse(value).toFixed(2);
+    // },
+    toDetail(data) {
+      localStorage.setItem("simpleGoodDetail", JSON.stringify(data));
       this.$router.push({
         name: "detail",
-        query: {
-          name: list.name
+        params: {
+          list: JSON.stringify(data)
         }
       });
     }
   },
-  mounted() {
-    this.accessories();
-  },
+
   components: {
     "v-header": header
   }
