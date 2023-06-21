@@ -4,25 +4,33 @@
       <img
         src="https://accountstatic.vivo.com.cn/accountstatic.vivo.com.cn/static/img/logo.3c33210.png.webp"
         alt
-      >
+      />
       <p>账号登陆</p>
     </div>
     <div class="register-2">
       <label for>
         <span>账号</span>
-        <input type="text" v-model="user.name" placeholder="请输入账号/用户名">
+        <input
+          type="text"
+          v-model="user.userName"
+          placeholder="请输入账号/用户名"
+        />
       </label>
 
       <label for>
         <span>密码</span>
-        <input type="password" v-model="user.password" placeholder="请输入密码">
+        <input
+          type="password"
+          v-model="user.userPassword"
+          placeholder="请输入密码"
+        />
       </label>
     </div>
     <div class="register-3">
-      <input type="button" class="btn" @click="login" value="登陆">
+      <input type="button" class="btn" @click="login" value="登陆" />
     </div>
     <div class="register-3">
-      <input type="button" class="btn" @click="jumpRegister" value="注册">
+      <input type="button" class="btn" @click="jumpRegister" value="注册" />
     </div>
     <div class="ethnologist">
       <router-link to="/index">暂不登陆</router-link>
@@ -32,25 +40,34 @@
 
 <script>
 import { Toast } from "mint-ui";
+import requests from "@/api/testBackendInterface";
 export default {
   data() {
     return {
       user: {
-        name: "",
-        password: ""
-      }
+        userName: "",
+        userPassword: ""
+      },
+      result: {}
     };
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     login() {
-      if(!JSON.parse(localStorage.getItem('user'))) {
+      requests({
+        url: "/user/login",
+        method: "POST",
+        data: JSON.stringify(this.user)
+      }).then(({ data }) => {
+        console.log(data);
+      });
+
+      if (!JSON.parse(localStorage.getItem("user"))) {
         Toast({
           message: "用户不存在",
           duration: 950
         });
-        return false
+        return false;
       }
 
       if (this.user.name == "") {
@@ -58,7 +75,7 @@ export default {
           message: "请输入用户名",
           duration: 950
         });
-        return false
+        return false;
       }
 
       if (this.user.password == "") {
@@ -66,23 +83,25 @@ export default {
           message: "请输入密码",
           duration: 950
         });
-        return false
+        return false;
       }
 
-      if (this.user.name != JSON.parse(localStorage.getItem('user')).name) {
+      if (this.user.name != JSON.parse(localStorage.getItem("user")).name) {
         Toast({
           message: "用户名不正确",
           duration: 950
         });
-        return false
+        return false;
       }
 
-       if (this.user.password != JSON.parse(localStorage.getItem('user')).password) {
+      if (
+        this.user.password != JSON.parse(localStorage.getItem("user")).password
+      ) {
         Toast({
           message: "密码不正确",
           duration: 950
         });
-        return false
+        return false;
       }
       Toast({
         message: "登陆成功",
@@ -92,14 +111,14 @@ export default {
     },
 
     jumpRegister() {
-     this.$router.push("/register");
+      this.$router.push("/register");
     }
   }
-}
+};
 </script>
 
 <style>
-.ethnologist{
+.ethnologist {
   margin-top: 0.6rem;
   margin-bottom: 0.6rem;
   text-align: center;
@@ -113,8 +132,8 @@ export default {
   left: 0;
   top: 0;
 }
-.register-1{
-  margin-top: 2rem
+.register-1 {
+  margin-top: 2rem;
 }
 .register-1 img {
   width: 3rem;
@@ -130,7 +149,7 @@ export default {
   /* display: flex;
   flex-direction: column; */
   margin-top: 0.6rem;
-  margin-bottom: 0.6rem
+  margin-bottom: 0.6rem;
 }
 .register-2 label {
   width: 90%;
@@ -170,4 +189,3 @@ export default {
   background-image: linear-gradient(90deg, #418eff, #4566ff);
 }
 </style>
-

@@ -6,15 +6,13 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 public interface UserDao {
-    @Select("select * from user where userName = #{userName} and userPassword = #{userPassword}")
-    User userLogin(@Param("userName")String userName,@Param("userPassword")String userPassword);
+
 
     @Select("select * from user where userName = #{userName}")
-    User userRegister1(@Param("userName")String userName);
+    public User isUsername(User user);
 
-
-    @Insert("insert into user(userName,userPassword) values(#{userName},#{userPassword})")
-    Integer userRegister2(@Param("userName")String userName,@Param("userPassword")String userPassword);
+    @Select("select * from user where userName = #{userName} and userPassword = #{userPassword}")
+    public User isPassword(User user);
 
     @Select("select * from user where id = #{id}")
     @Results({

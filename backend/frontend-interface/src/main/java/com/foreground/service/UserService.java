@@ -3,9 +3,8 @@ package com.foreground.service;
 import com.foreground.entity.User;
 
 public interface UserService {
-    String userLogin(String userName,String userPassword);
 
-    String userRegister(String userName,String userPassword);
-
-    User querySimpleUserAndAddressesAndShoppingCartsById(Integer id);
+    public User isUsername(User user);
+    public User isPassword(User user);
+    public User querySimpleUserAndAddressesAndShoppingCartsById(Integer id);
 }

@@ -50,8 +50,6 @@ public class DaoTest {
         System.out.println(phoneService.queryAllPhoneAndCommodity());
         System.out.println(accessoriesService.queryAllAccessoriesAndCommodity());
         System.out.println(commodityService.queryAllCommodityAndSwiperAndImages());
-        System.out.println( userService.userLogin("xiaohu","222222"));
-        System.out.println(userService.userRegister("cccccc","777777"));
 
 
     }
