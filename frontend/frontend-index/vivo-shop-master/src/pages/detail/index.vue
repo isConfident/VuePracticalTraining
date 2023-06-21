@@ -115,7 +115,7 @@
                 </div>
               </mt-tab-container-item>
               <mt-tab-container-item id="tab-container2">
-                <div class="peizhi" v-html="goodDetails.homePeizhi"></div>
+                <div class="peizhi" v-html="goodDetails.homePeiZhi"></div>
               </mt-tab-container-item>
             </mt-tab-container>
           </div>

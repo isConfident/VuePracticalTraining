@@ -14,7 +14,8 @@ public class AccessoriesController {
     @Autowired
     private AccessoriesService accessoriesService;
 
-    @RequestMapping("/query")
+
+   @RequestMapping("/query")
     public List<Accessories> query(){
         return accessoriesService.queryAllAccessoriesAndCommodity();
     }
