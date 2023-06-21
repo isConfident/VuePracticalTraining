@@ -16,13 +16,13 @@ public class Commodity {
     private String value;
     private List<Swiper> swiper=new ArrayList<Swiper>();
     private List<Images> images=new ArrayList<Images>();
-
+    private String homePeiZhi;
 
 
     public Commodity() {
     }
 
-    public Commodity(int id, int titleId, int nameId, String type, String img_url, String name, String content, String bright, String title, String price, String value, List<Swiper> swiper, List<Images> images) {
+    public Commodity(int id, int titleId, int nameId, String type, String img_url, String name, String content, String bright, String title, String price, String value, List<Swiper> swiper, List<Images> images, String homePeiZhi) {
         this.id = id;
         this.titleId = titleId;
         this.nameId = nameId;
@@ -36,6 +36,7 @@ public class Commodity {
         this.value = value;
         this.swiper = swiper;
         this.images = images;
+        this.homePeiZhi = homePeiZhi;
     }
 
     /**
@@ -246,7 +247,23 @@ public class Commodity {
         this.images = images;
     }
 
+    /**
+     * 获取
+     * @return homePeiZhi
+     */
+    public String getHomePeiZhi() {
+        return homePeiZhi;
+    }
+
+    /**
+     * 设置
+     * @param homePeiZhi
+     */
+    public void setHomePeiZhi(String homePeiZhi) {
+        this.homePeiZhi = homePeiZhi;
+    }
+
     public String toString() {
-        return "Commodity{id = " + id + ", titleId = " + titleId + ", nameId = " + nameId + ", type = " + type + ", img_url = " + img_url + ", name = " + name + ", content = " + content + ", bright = " + bright + ", title = " + title + ", price = " + price + ", value = " + value + ", swiper = " + swiper + ", images = " + images + "}";
+        return "Commodity{id = " + id + ", titleId = " + titleId + ", nameId = " + nameId + ", type = " + type + ", img_url = " + img_url + ", name = " + name + ", content = " + content + ", bright = " + bright + ", title = " + title + ", price = " + price + ", value = " + value + ", swiper = " + swiper + ", images = " + images + ", homePeiZhi = " + homePeiZhi + "}";
     }
 }

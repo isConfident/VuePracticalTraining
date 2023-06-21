@@ -24,7 +24,8 @@ public interface CommodityDao {
             @Result(column = "id",property = "swiper",javaType = List.class,
             many = @Many(select = "com.foreground.dao.SwiperDao.queryAllSwipersById")),
             @Result(column = "id",property = "images",javaType = List.class,
-            many = @Many(select = "com.foreground.dao.ImagesDao.queryAllImagesById"))
+            many = @Many(select = "com.foreground.dao.ImagesDao.queryAllImagesById")),
+            @Result(column = "homePeiZhi",property = "homePeiZhi")
     })
     List<Commodity> queryAllCommodityByTitleId(@Param("titleId") Integer titleId);
 
@@ -44,7 +45,8 @@ public interface CommodityDao {
             @Result(column = "id",property = "swiper",javaType = List.class,
                     many = @Many(select = "com.foreground.dao.SwiperDao.queryAllSwipersById")),
             @Result(column = "id",property = "images",javaType = List.class,
-                    many = @Many(select = "com.foreground.dao.ImagesDao.queryAllImagesById"))
+                    many = @Many(select = "com.foreground.dao.ImagesDao.queryAllImagesById")),
+            @Result(column = "homePeiZhi",property = "homePeiZhi")
     })
     List<Commodity> queryAllCommodityByNameIdAndPhone(@Param("nameId") Integer nameId);
 
@@ -64,7 +66,8 @@ public interface CommodityDao {
             @Result(column = "id",property = "swiper",javaType = List.class,
                     many = @Many(select = "com.foreground.dao.SwiperDao.queryAllSwipersById")),
             @Result(column = "id",property = "images",javaType = List.class,
-                    many = @Many(select = "com.foreground.dao.ImagesDao.queryAllImagesById"))
+                    many = @Many(select = "com.foreground.dao.ImagesDao.queryAllImagesById")),
+            @Result(column = "homePeiZhi",property = "homePeiZhi")
     })
     List<Commodity> queryAllCommodityByNameIdAndAccessories(@Param("nameId") Integer nameId);
 
@@ -84,7 +87,8 @@ public interface CommodityDao {
             @Result(column = "id",property = "swiper",javaType = List.class,
                     many = @Many(select = "com.foreground.dao.SwiperDao.queryAllSwipersById")),
             @Result(column = "id",property = "images",javaType = List.class,
-                    many = @Many(select = "com.foreground.dao.ImagesDao.queryAllImagesById"))
+                    many = @Many(select = "com.foreground.dao.ImagesDao.queryAllImagesById")),
+            @Result(column = "homePeiZhi",property = "homePeiZhi")
     })
     List<Commodity> queryAllCommodityAndSwiperAndImages();
 }
