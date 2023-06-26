@@ -37,7 +37,6 @@ import {createLogger} from "vuex";
 export default {
   data() {
     return {
-      selected: "tab-container1",
       data: [],
       list: [],
       selectShopIndex: 0,
@@ -45,7 +44,6 @@ export default {
       shopDetailList: [],
     };
   },
-  /**/
   props: ["id", "list_id"],
   mounted() {
     requests({
@@ -62,7 +60,6 @@ export default {
       this.selectShopIndex = data.id - 1;
     },
     toFixed(value) {
-      // 因为data.json里面的prcie是字符串类型 所以这边需要做个处理
       return JSON.parse(value).toFixed(2);
     },
     toDetail(data) {

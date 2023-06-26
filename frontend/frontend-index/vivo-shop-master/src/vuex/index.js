@@ -87,10 +87,10 @@ const mutations = {
 };
 
 export default new Vuex.Store({
-  state,
-  mutations,
-  modules: {
-    cart,
-    order
-  }
+    state,
+    mutations,
+    modules: {
+      cart,
+      order
+    }
 });

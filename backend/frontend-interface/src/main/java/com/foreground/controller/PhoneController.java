@@ -17,6 +17,5 @@ public class PhoneController {
     private PhoneService phoneService;
 
     @GetMapping ("/query")
-    @ResponseBody
     public List<Phone> query(){ return phoneService.queryAllPhoneAndCommodity(); }
 }
