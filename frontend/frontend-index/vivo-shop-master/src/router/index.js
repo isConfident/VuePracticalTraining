@@ -20,6 +20,7 @@ import login from "@/pages/user/login";
 import register from "@/pages/user/register";
 import main from "@/pages/user/main";
 import alterUser from "@/pages/user/alterUser";
+import halfPrice from "@/pages/shops/halfPrice";
 Vue.use(Router);
 
 export default new Router({
@@ -124,6 +125,11 @@ export default new Router({
       path: "/parts",
       name: "parts",
       component: parts
+    },
+    {
+      path: "/halfPrice",
+      name: "halfPrice",
+      component: halfPrice
     },
     {
       path: "/phone",

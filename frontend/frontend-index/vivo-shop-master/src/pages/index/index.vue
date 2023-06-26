@@ -11,6 +11,13 @@
         </mt-swipe-item>
       </mt-swipe>
     </div>
+    <div class="icon" >
+      <el-statistic v-if="Activity" :value="counter" time-indices title="商品降价" @finish="stopCounter()">
+        <template slot="suffix"> 抢购即将开始 </template>
+      </el-statistic>
+      <el-button style="width:100%;height:100%;" type="warning" v-show="Activity === false" @click="toActivityPage()">半价活动点击前往！</el-button>
+    </div>
+
     <div class="icon">
       <ul class="icon-ul">
         <li class="icon-li" v-for="(list, index) in routers" :key="index">
@@ -44,10 +51,13 @@
 import { getHomeData, getNewsData } from "@/api/testData";
 import requests from "@/api/testBackendInterface";
 import footer from "@/components/footer/index";
+import {mapActions} from "vuex";
 export default {
   name: "index",
   data() {
     return {
+      Activity: true,
+      counter:this.$store.state.counter,
       routers: [
         {
           img: "/static/img/xuangou.jpg",
@@ -72,6 +82,17 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["set_counter"]),
+    /*计时器*/
+    stopCounter(){
+      this.Activity = false;
+      this.set_counter(0)
+    },
+    toActivityPage(){
+      this.$router.push({
+        name: "halfPrice"
+      });
+    },
     jumpDetail(list) {
       localStorage.setItem("simpleGoodDetail", JSON.stringify(list));
       this.$router.push({
