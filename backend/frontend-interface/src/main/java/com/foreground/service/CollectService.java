@@ -11,4 +11,6 @@ public interface CollectService {
 
     public Collect isCollect(Collect collect);
     public List<Collect> queryAllCollectByUserId(Collect collect);
+
+    public Integer delSingleCollectByUserIdAndShoppingId(Collect collect);
 }

@@ -1,6 +1,7 @@
 package com.foreground.dao;
 
 import com.foreground.entity.Collect;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -17,4 +18,7 @@ public interface CollectDao {
 
     @Select("select * from collect where user_id = #{user_id}")
     public List<Collect> queryAllCollectByUserId(Collect collect);
+
+    @Delete("delete from collect where user_id = #{user_id} and shopping_id = #{shopping_id}")
+    public Integer delSingleCollectByUserIdAndShoppingId(Collect collect);
 }

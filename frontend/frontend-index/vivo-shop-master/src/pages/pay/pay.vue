@@ -145,7 +145,6 @@ export default {
 
   methods: {
     saveOrder(goodDetail) {
-      console.log(goodDetail);
       let dataCount = [];
       if (!this.address) {
         this.$alert("检测到您还没有默认收获地址，是否前去设置？", "警告！", {
