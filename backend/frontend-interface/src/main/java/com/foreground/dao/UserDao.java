@@ -2,8 +2,11 @@ package com.foreground.dao;
 
 import com.foreground.entity.User;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
+@Repository
 @Mapper
 public interface UserDao {
 

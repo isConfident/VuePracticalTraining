@@ -22,20 +22,20 @@ public class PhoneServiceImpl implements PhoneService {
     @Autowired
     private CommodityService commodityService;
 
-    @Override
-    public List<Phone> getAllPhone() {
-
-        List< Phone> phoneList=this.phoneDao.getAllPhone();
-        List<Commodity> commodityList=this.commodityService.getAllCommodity();
-        for (int i = 0; i < phoneList.size(); i++) {
-            for (int j = 0; j <commodityList.size() ; j++) {
-                if (phoneList.get(i).getId()==commodityList.get(j).getNameId()){
-                    phoneList.get(i).getData().add(commodityList.get(j));
-                }
-            }
-        }
-        return phoneList;
-    }
+//    @Override
+//    public List<Phone> getAllPhone() {
+//
+//        List< Phone> phoneList=this.phoneDao.getAllPhone();
+//        List<Commodity> commodityList=this.commodityService.getAllCommodity();
+//        for (int i = 0; i < phoneList.size(); i++) {
+//            for (int j = 0; j <commodityList.size() ; j++) {
+//                if (phoneList.get(i).getId()==commodityList.get(j).getNameId()){
+//                    phoneList.get(i).getData().add(commodityList.get(j));
+//                }
+//            }
+//        }
+//        return phoneList;
+//    }
 
     @Override
     public List<Phone> queryAllPhoneAndCommodity() {

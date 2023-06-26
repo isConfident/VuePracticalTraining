@@ -1,10 +1,14 @@
 package com.foreground.dao;
 
 import com.foreground.entity.AddressUsers;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
+@Repository
 public interface AddressUsersDao {
 
     @Select("select * from address_users where id = #{id} and user_id = #{user_id}")
