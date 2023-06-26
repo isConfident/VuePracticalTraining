@@ -16,13 +16,12 @@ public class Commodity {
     private String value;
     private List<Swiper> swiper=new ArrayList<Swiper>();
     private List<Images> images=new ArrayList<Images>();
-    private String homePeiZhi;
-
+    private List<HomePeiZhi> homePeiZhi=new ArrayList<HomePeiZhi>();
 
     public Commodity() {
     }
 
-    public Commodity(int id, int titleId, int nameId, String type, String img_url, String name, String content, String bright, String title, String price, String value, List<Swiper> swiper, List<Images> images, String homePeiZhi) {
+    public Commodity(int id, int titleId, int nameId, String type, String img_url, String name, String content, String bright, String title, String price, String value, List<Swiper> swiper, List<Images> images, List<HomePeiZhi> homePeiZhi) {
         this.id = id;
         this.titleId = titleId;
         this.nameId = nameId;
@@ -251,7 +250,7 @@ public class Commodity {
      * 获取
      * @return homePeiZhi
      */
-    public String getHomePeiZhi() {
+    public List<HomePeiZhi> getHomePeiZhi() {
         return homePeiZhi;
     }
 
@@ -259,7 +258,7 @@ public class Commodity {
      * 设置
      * @param homePeiZhi
      */
-    public void setHomePeiZhi(String homePeiZhi) {
+    public void setHomePeiZhi(List<HomePeiZhi> homePeiZhi) {
         this.homePeiZhi = homePeiZhi;
     }
 
