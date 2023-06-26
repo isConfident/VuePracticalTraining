@@ -3,22 +3,30 @@
     <v-header title="全场半价" :headerLeftStatus="headerLeftStatus" />
     <div class="Allgoods">
       <mt-navbar v-model="selected">
-        <mt-tab-item id="tab-container1"><span class="peijian">打折手机</span></mt-tab-item>
-        <mt-tab-item id="tab-container2"><span class="peijian" @click="requestParts">打折配件</span></mt-tab-item>
+        <mt-tab-item id="tab-container1"
+          ><span class="peijian">打折手机</span></mt-tab-item
+        >
+        <mt-tab-item id="tab-container2"
+          ><span class="peijian" @click="requestParts"
+            >打折配件</span
+          ></mt-tab-item
+        >
       </mt-navbar>
       <mt-tab-container v-model="selected" swipeable>
         <mt-tab-container-item id="tab-container1">
-
           <div
             class="lower_list"
             v-for="(data, nameId) in list.data"
             :key="nameId"
             @click="toDetail(data)"
           >
-            <img :src="data.img_url" alt="图片" />
+            <img :src="data.img_url" alt="图片" @touchmove.stop />
             <h2>{{ data.name }}</h2>
             <p>{{ data.content }}</p>
-            <div><span class="delline">￥{{ toFixed(data.price) }}</span>￥{{ data.price / 2 }}</div>
+            <div>
+              <span class="delline">￥{{ toFixed(data.price) }}</span
+              >￥{{ data.price / 2 }}
+            </div>
           </div>
         </mt-tab-container-item>
         <mt-tab-container-item id="tab-container2">
@@ -28,11 +36,14 @@
             :key="name"
             @click="toDetail(partslist)"
           >
-            <img :src="partslist.img_url" alt="图片" />
+            <img :src="partslist.img_url" alt="图片" @touchmove.stop />
             <h2>{{ partslist.name }}</h2>
             <p>{{ partslist.content }}</p>
 
-            <div><span class="delline">￥{{ toFixed(partslist.price) }}</span>￥{{ toFixed(partslist.price / 2) }}</div>
+            <div>
+              <span class="delline">￥{{ toFixed(partslist.price) }}</span
+              >￥{{ toFixed(partslist.price / 2) }}
+            </div>
           </div>
         </mt-tab-container-item>
       </mt-tab-container>
@@ -44,43 +55,43 @@
 import header from "@/components/header";
 import { getData } from "@/api/data";
 import requests from "../../api/testBackendInterface";
-import {createLogger} from "vuex";
+import { createLogger } from "vuex";
 export default {
   data() {
     return {
-      headerLeftStatus:true,
+      headerLeftStatus: true,
       selected: "tab-container1",
       data: [],
       list: [],
-      partsdata:[],
-      partslist:[],
+      partsdata: [],
+      partslist: []
     };
   },
   /**/
   props: ["id", "list_id"],
   mounted() {
     requests({
-      url: 'phone/query',
-      method: 'get'
-    }).then(({data})=>{
+      url: "phone/query",
+      method: "get"
+    }).then(({ data }) => {
       this.data = data;
       this.list = this.data[0];
-    })
+    });
   },
   methods: {
-    selectIndex(data){
+    selectIndex(data) {
       this.list = data;
       this.selectShopIndex = data.id - 1;
     },
-    requestParts(){
+    requestParts() {
       requests({
-        url: 'accessories/query',
-        method: 'get'
-      }).then(({data})=>{
+        url: "accessories/query",
+        method: "get"
+      }).then(({ data }) => {
         this.partsdata = data;
-        this.partslist = this.partsdata[0]
-        console.log(this.partslist)
-      })
+        this.partslist = this.partsdata[0];
+        console.log(this.partslist);
+      });
     },
     toFixed(value) {
       // 因为data.json里面的prcie是字符串类型 所以这边需要做个处理
@@ -90,8 +101,8 @@ export default {
       localStorage.setItem("simpleGoodDetail", JSON.stringify(data));
       this.$router.push({
         name: "detail",
-        query:{
-          path:"activity"
+        query: {
+          path: "activity"
         }
       });
     }
@@ -104,7 +115,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.peijian{
+.peijian {
   width: 100% !important;
   height: 100% !important;
   display: block;
@@ -118,11 +129,11 @@ export default {
   color: #25b5fe;
   border-bottom: 2px solid #25b5fe;
 }
-.delline{
+.delline {
   font-size: 10px;
   text-decoration: line-through;
 }
-.Allgoods{
+.Allgoods {
   position: relative;
   top: 1.2rem;
   border-bottom: 1px solid #f4f4f4;

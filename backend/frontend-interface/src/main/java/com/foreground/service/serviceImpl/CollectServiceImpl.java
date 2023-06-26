@@ -14,7 +14,7 @@ public class CollectServiceImpl implements CollectService {
     private CollectDao collectDao;
     @Override
     public Integer addSingleCollect(Collect collect) {
-        if(isCollect(isCollect(collect)) != null){
+        if(isCollect(collect) != null){
             return 0;
         }
         return collectDao.addSingleCollect(collect);

@@ -80,10 +80,11 @@ export default {
             type: "success",
             duration: 1000
           });
-          this.$router.push({
-            path: "/main"
-          });
+
           localStorage.setItem("user", JSON.stringify(data.data));
+          this.$router.push({
+            name: "main"
+          });
         } else {
           this.$message({
             showClose: true,
@@ -207,7 +208,7 @@ export default {
   display: flex;
 }
 .btn {
-  font-size:20px;
+  font-size: 20px;
   border-radius: 50px;
   background-color: #46a1fa;
   background-image: linear-gradient(90deg, #418eff, #4566ff);
