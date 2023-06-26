@@ -4,7 +4,7 @@
     <div class="container">
       <div class="container-bj">
         <div class="bj-left">
-          <img src="./resources/1.jpg" />
+          <img src="./resources/1.jpg" @click="AlterUserInfo()" />
         </div>
         <div class="bj-right">
           <span>{{ user.userName }}</span>
@@ -59,7 +59,6 @@
         <input type="button" value="退出登录" @click="loginout" />
       </div>
     </div>
-
     <v-footer></v-footer>
   </div>
 </template>
@@ -93,6 +92,9 @@ export default {
     };
   },
   methods: {
+    AlterUserInfo() {
+      this.$router.push({ path: "/alterUser" });
+    },
     toCollect() {
       this.$router.push({
         name: "collection"

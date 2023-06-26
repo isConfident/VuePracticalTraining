@@ -26,11 +26,25 @@
         />
       </label>
     </div>
-    <div class="register-3">
-      <input type="button" class="btn" @click="login" value="登陆" />
-    </div>
-    <div class="register-3">
-      <input type="button" class="btn" @click="jumpRegister" value="注册" />
+    <div class="row">
+      <div class="col-6 p-2">
+        <button
+          @click="login"
+          class="btn btn-primary w-100"
+          style="height:inherit"
+        >
+          登录
+        </button>
+      </div>
+      <div class="col-6 p-2">
+        <button
+          @click="jumpRegister"
+          class="btn btn-primary w-100"
+          style="height:inherit"
+        >
+          注册
+        </button>
+      </div>
     </div>
     <div class="ethnologist">
       <router-link to="/index">暂不登陆</router-link>
@@ -67,7 +81,7 @@ export default {
             duration: 1000
           });
           this.$router.push({
-            name: "index"
+            path: "/main"
           });
           localStorage.setItem("user", JSON.stringify(data.data));
         } else {
@@ -193,16 +207,8 @@ export default {
   display: flex;
 }
 .btn {
-  width: 9rem;
-  height: 1.1rem;
-  margin: 0 auto;
-  /* margin-top: 0.72rem; */
-  margin-bottom: 0.3rem;
-  text-align: center;
-  line-height: 1.1rem;
-  font-size: 0.45rem;
-  color: #fff;
-  border-radius: 0.6rem;
+  font-size:20px;
+  border-radius: 50px;
   background-color: #46a1fa;
   background-image: linear-gradient(90deg, #418eff, #4566ff);
 }

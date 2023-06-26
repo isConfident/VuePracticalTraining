@@ -9,9 +9,10 @@ import "vant/lib/index.css";
 Vue.use(Vant);
 Vue.prototype.$axios = axios;
 
+import "element-ui/lib/theme-chalk/index.css";
+
 import ElementUI from "element-ui";
 Vue.use(ElementUI);
-import "element-ui/lib/theme-chalk/index.css";
 Vue.use(VueLazyLoad, {
   loading: require("../static/img/qqq.png")
 });

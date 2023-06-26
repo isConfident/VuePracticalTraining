@@ -31,4 +31,8 @@ public interface UserDao {
 
     @Insert("insert into user values(null,#{userName},#{userPassword})")
     public Integer addSingleUser(User user);
+
+
+    @Update("update user set userName = #{userName} where id = #{id}")
+    public Integer alterSingleUserName(User user);
 }

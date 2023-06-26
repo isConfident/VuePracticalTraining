@@ -26,8 +26,10 @@
         />
       </label>
     </div>
-    <div class="register-3">
-      <input type="button" class="btn" @click="regusterUser" value="注册" />
+    <div class="col-12 p-2">
+      <button class="btn btn-primary w-100" @click="regusterUser">
+        注册
+      </button>
     </div>
     <div class="BackLogin">
       <router-link to="/login">已有账号，返回登录</router-link>
@@ -162,15 +164,8 @@ export default {
 }
 
 .btn {
-  width: 9rem;
-  height: 1.1rem;
-  margin: 0 auto;
-  margin-bottom: 0.3rem;
-  text-align: center;
-  line-height: 1.1rem;
-  font-size: 0.45rem;
-  color: #fff;
-  border-radius: 0.6rem;
+  font-size: 20px;
+  border-radius: 50px;
   background-color: #46a1fa;
   background-image: linear-gradient(90deg, #418eff, #4566ff);
 }

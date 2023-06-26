@@ -7,6 +7,7 @@ public class User {
     private String userName;
     private String userPassword;
 
+
     public User() {
     }
 

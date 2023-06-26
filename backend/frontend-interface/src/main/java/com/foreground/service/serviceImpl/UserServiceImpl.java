@@ -36,4 +36,9 @@ public class UserServiceImpl implements UserService {
         }
         return userDao.addSingleUser(user);
     }
+
+    @Override
+    public Integer alterSingleUserName(User user) {
+        return userDao.alterSingleUserName(user);
+    }
 }

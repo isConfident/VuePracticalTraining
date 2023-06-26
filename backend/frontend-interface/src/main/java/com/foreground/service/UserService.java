@@ -9,4 +9,5 @@ public interface UserService {
     public User querySimpleUserAndAddressesAndShoppingCartsById(Integer id);
 
     public Integer addSingleUser(User user);
+    public Integer alterSingleUserName(User user);
 }

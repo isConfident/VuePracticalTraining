@@ -19,6 +19,7 @@ import select_address from "@/pages/pay/address";
 import login from "@/pages/user/login";
 import register from "@/pages/user/register";
 import main from "@/pages/user/main";
+import alterUser from "@/pages/user/alterUser";
 Vue.use(Router);
 
 export default new Router({
@@ -142,6 +143,11 @@ export default new Router({
       path: "/select_address",
       name: "select_address",
       component: select_address
+    },
+    {
+      path: "/alterUser",
+      name: "alterUser",
+      component: alterUser
     }
   ]
 });

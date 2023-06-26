@@ -51,6 +51,15 @@ public class UserController {
         return result;
     };
 
+    @PostMapping("/alterUser")
+    public Integer alterSingleUserName(@RequestBody String _user) throws IOException {
+        User user = objectMapper.readValue(_user, User.class);
+        if(userService.isUsername(user) != null){
+            return 0;
+        }
+        return userService.alterSingleUserName(user);
+    };
+
 
     public String urlDecode(String urlString) throws UnsupportedEncodingException {
         return URLDecoder.decode(urlString,"UTF-8");
