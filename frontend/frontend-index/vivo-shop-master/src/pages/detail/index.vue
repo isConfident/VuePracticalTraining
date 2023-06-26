@@ -115,7 +115,11 @@
                 </div>
               </mt-tab-container-item>
               <mt-tab-container-item id="tab-container2">
-                <div class="peizhi" v-html="goodDetails.homePeiZhi"></div>
+<!--                <div class="peizhi" v-html="goodDetails.homePeiZhi"></div>-->
+                <el-table :data="goodDetails.homePeiZhi" style="width: 100%">
+                  <el-table-column prop="name" label="参数名称" width="180"></el-table-column>
+                  <el-table-column prop="value" label="参数值"></el-table-column>
+                </el-table>
               </mt-tab-container-item>
             </mt-tab-container>
           </div>
@@ -163,7 +167,8 @@ export default {
       goodDetails: JSON.parse(localStorage.getItem("simpleGoodDetail")),
       show: false,
       headerLeftStatus: true,
-      selected: "tab-container1"
+      selected: "tab-container1",
+      configuration:[]
     };
   },
   props: ["list"],

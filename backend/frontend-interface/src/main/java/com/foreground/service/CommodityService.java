@@ -6,7 +6,7 @@ import com.foreground.entity.HomeData;
 import java.util.List;
 
 public interface CommodityService {
-    List<Commodity> getAllCommodity();
+//    List<Commodity> getAllCommodity();
 
     List<Commodity> queryAllCommodityAndSwiperAndImages();
 }

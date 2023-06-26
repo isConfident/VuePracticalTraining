@@ -21,19 +21,19 @@ public class HomeDataServiceImpl implements HomeDataService {
     @Autowired
     private CommodityService commodityService;
 
-    @Override
-    public List<HomeData> getAllHomeData() {
-        List<HomeData> homeDataList=this.homeDataDao.getAllHomeData();
-        List<Commodity> commodityList=this.commodityService.getAllCommodity();
-        for (int i = 0; i < homeDataList.size(); i++) {
-            for (int j = 0; j <commodityList.size() ; j++) {
-                if (homeDataList.get(i).getId()==commodityList.get(j).getTitleId()){
-                    homeDataList.get(i).getData().add(commodityList.get(j));
-                }
-            }
-        }
-        return homeDataList;
-    }
+//    @Override
+//    public List<HomeData> getAllHomeData() {
+//        List<HomeData> homeDataList=this.homeDataDao.getAllHomeData();
+//        List<Commodity> commodityList=this.commodityService.getAllCommodity();
+//        for (int i = 0; i < homeDataList.size(); i++) {
+//            for (int j = 0; j <commodityList.size() ; j++) {
+//                if (homeDataList.get(i).getId()==commodityList.get(j).getTitleId()){
+//                    homeDataList.get(i).getData().add(commodityList.get(j));
+//                }
+//            }
+//        }
+//        return homeDataList;
+//    }
 
     @Override
     public List<HomeData> queryAllHomeDataAndCommodity() {

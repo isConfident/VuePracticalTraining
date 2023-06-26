@@ -16,32 +16,27 @@ import java.util.List;
 @Service("commodityService")
 public class CommodityServiceImpl implements CommodityService {
     @Resource
-    @Qualifier
     private CommodityDao commodityDao;
-    @Autowired
-    private SwiperService swiperService;
-    @Autowired
-    private ImagesService imagesService;
 
-    @Override
-    public List<Commodity> getAllCommodity() {
-        List<Commodity> commodityList=commodityDao.getAllCommodity();
-        List<Swiper> swiperList=swiperService.getAllSwiper();
-        List<Images> imagesList=imagesService.getAllImages();
-        for (int i = 0; i <commodityList.size() ; i++) {
-            for (int j = 0; j <swiperList.size() ; j++) {
-                if (commodityList.get(i).getId()==swiperList.get(j).getCommodityId()){
-                    commodityList.get(i).getSwiper().add(swiperList.get(j));
-                }
-            }
-            for (int j = 0; j <imagesList.size() ; j++) {
-                if (commodityList.get(i).getId()==imagesList.get(j).getCommodityId()){
-                    commodityList.get(i).getImages().add(imagesList.get(j));
-                }
-            }
-        }
-        return commodityList;
-    }
+//    @Override
+//    public List<Commodity> getAllCommodity() {
+//        List<Commodity> commodityList=commodityDao.getAllCommodity();
+//        List<Swiper> swiperList=swiperService.getAllSwiper();
+//        List<Images> imagesList=imagesService.getAllImages();
+//        for (int i = 0; i <commodityList.size() ; i++) {
+//            for (int j = 0; j <swiperList.size() ; j++) {
+//                if (commodityList.get(i).getId()==swiperList.get(j).getCommodityId()){
+//                    commodityList.get(i).getSwiper().add(swiperList.get(j));
+//                }
+//            }
+//            for (int j = 0; j <imagesList.size() ; j++) {
+//                if (commodityList.get(i).getId()==imagesList.get(j).getCommodityId()){
+//                    commodityList.get(i).getImages().add(imagesList.get(j));
+//                }
+//            }
+//        }
+//        return commodityList;
+//    }
 
     @Override
     public List<Commodity> queryAllCommodityAndSwiperAndImages() {

@@ -22,7 +22,7 @@
           <img :src="data.img_url" alt="图片" />
           <h2>{{ data.name }}</h2>
           <p>{{ data.content }}</p>
-          <div>￥{{ data.price }}</div>
+          <div>￥{{ toFixed(data.price) }}</div>
         </div>
       </div>
     </div>
@@ -61,10 +61,10 @@ export default {
       this.list = data;
       this.selectShopIndex = data.id - 1;
     },
-    // toFixed(value) {
-    //   // 因为data.json里面的prcie是字符串类型 所以这边需要做个处理
-    //   return JSON.parse(value).toFixed(2);
-    // },
+    toFixed(value) {
+      // 因为data.json里面的prcie是字符串类型 所以这边需要做个处理
+      return JSON.parse(value).toFixed(2);
+    },
     toDetail(data) {
       localStorage.setItem("simpleGoodDetail", JSON.stringify(data));
       this.$router.push({
@@ -165,7 +165,7 @@ export default {
   float: left;
   margin-top: 0.1rem;
   list-style: none;
-
+  cursor: pointer;
   img {
     height: 3.6rem;
     width: 4rem;
@@ -173,7 +173,6 @@ export default {
     margin: auto;
     padding: 0.5rem;
   }
-
   h2 {
     width: 90%;
     white-space: nowrap;
