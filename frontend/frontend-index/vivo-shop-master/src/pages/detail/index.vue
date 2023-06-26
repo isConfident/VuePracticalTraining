@@ -115,10 +115,22 @@
                 </div>
               </mt-tab-container-item>
               <mt-tab-container-item id="tab-container2">
-<!--                <div class="peizhi" v-html="goodDetails.homePeiZhi"></div>-->
-                <el-table :data="homePeiZhi" style="width: 100%" align="center">
-                  <el-table-column prop="PeizhiName" label="参数" width="180" align="center"></el-table-column>
-                  <el-table-column prop="PeizhiValue" label="参数值" align="center" ></el-table-column>
+                <el-table
+                  :data="goodDetails.homePeiZhi"
+                  style="width: 100%"
+                  align="center"
+                >
+                  <el-table-column
+                    prop="peiZhiName"
+                    label="参数"
+                    width="180"
+                    align="center"
+                  ></el-table-column>
+                  <el-table-column
+                    prop="peiZhiInformation"
+                    label="参数值"
+                    align="center"
+                  ></el-table-column>
                 </el-table>
               </mt-tab-container-item>
             </mt-tab-container>
@@ -172,13 +184,7 @@ export default {
       show: false,
       headerLeftStatus: true,
       selected: "tab-container1",
-      cartLength: 0,
-      homePeiZhi: [
-        {
-          PeizhiName: 'CPU',
-          PeizhiValue: '骁龙888'
-        }
-      ]
+      cartLength: 0
     };
   },
   mounted() {
@@ -298,7 +304,7 @@ export default {
           goodDetails: JSON.stringify(goodDetails)
         }
       });
-    },
+    }
   },
   components: {
     "v-header": header
@@ -307,7 +313,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.content-center{
+.content-center {
   text-align: center;
 }
 .goodDetail {
