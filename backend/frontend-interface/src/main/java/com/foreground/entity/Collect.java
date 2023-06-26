@@ -1,6 +1,6 @@
 package com.foreground.entity;
 
-public class ShoppingCarts {
+public class Collect {
     private Integer id;
     private String img_url;
     private String name;
@@ -10,13 +10,12 @@ public class ShoppingCarts {
     private Double price;
     private Integer value;
     private Integer user_id;
-
     private Integer shopping_id;
 
-    public ShoppingCarts() {
+    public Collect() {
     }
 
-    public ShoppingCarts(Integer id, String img_url, String name, String content, String bright, String title, Double price, Integer value, Integer user_id, Integer shopping_id) {
+    public Collect(Integer id, String img_url, String name, String content, String bright, String title, Double price, Integer value, Integer user_id, Integer shopping_id) {
         this.id = id;
         this.img_url = img_url;
         this.name = name;
@@ -190,6 +189,6 @@ public class ShoppingCarts {
     }
 
     public String toString() {
-        return "ShoppingCarts{id = " + id + ", img_url = " + img_url + ", name = " + name + ", content = " + content + ", bright = " + bright + ", title = " + title + ", price = " + price + ", value = " + value + ", user_id = " + user_id + ", shopping_id = " + shopping_id + "}";
+        return "Collect{id = " + id + ", img_url = " + img_url + ", name = " + name + ", content = " + content + ", bright = " + bright + ", title = " + title + ", price = " + price + ", value = " + value + ", user_id = " + user_id + ", shopping_id = " + shopping_id + "}";
     }
 }

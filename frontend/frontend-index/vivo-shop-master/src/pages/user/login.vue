@@ -59,55 +59,73 @@ export default {
         method: "POST",
         data: JSON.stringify(this.user)
       }).then(({ data }) => {
-        console.log(data);
+        if (data.data) {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: "success",
+            duration: 1000
+          });
+          this.$router.push({
+            name: "index"
+          });
+          localStorage.setItem("user", JSON.stringify(data.data));
+        } else {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: "error",
+            duration: 1000
+          });
+        }
       });
 
-      if (!JSON.parse(localStorage.getItem("user"))) {
-        Toast({
-          message: "用户不存在",
-          duration: 950
-        });
-        return false;
-      }
+      // if (!JSON.parse(localStorage.getItem("user"))) {
+      //   Toast({
+      //     message: "用户不存在",
+      //     duration: 950
+      //   });
+      //   return false;
+      // }
 
-      if (this.user.name == "") {
-        Toast({
-          message: "请输入用户名",
-          duration: 950
-        });
-        return false;
-      }
+      // if (this.user.name == "") {
+      //   Toast({
+      //     message: "请输入用户名",
+      //     duration: 950
+      //   });
+      //   return false;
+      // }
 
-      if (this.user.password == "") {
-        Toast({
-          message: "请输入密码",
-          duration: 950
-        });
-        return false;
-      }
+      // if (this.user.password == "") {
+      //   Toast({
+      //     message: "请输入密码",
+      //     duration: 950
+      //   });
+      //   return false;
+      // }
 
-      if (this.user.name != JSON.parse(localStorage.getItem("user")).name) {
-        Toast({
-          message: "用户名不正确",
-          duration: 950
-        });
-        return false;
-      }
+      // if (this.user.name != JSON.parse(localStorage.getItem("user")).name) {
+      //   Toast({
+      //     message: "用户名不正确",
+      //     duration: 950
+      //   });
+      //   return false;
+      // }
 
-      if (
-        this.user.password != JSON.parse(localStorage.getItem("user")).password
-      ) {
-        Toast({
-          message: "密码不正确",
-          duration: 950
-        });
-        return false;
-      }
-      Toast({
-        message: "登陆成功",
-        duration: 950
-      });
-      this.$router.push("/main");
+      // if (
+      //   this.user.password != JSON.parse(localStorage.getItem("user")).password
+      // ) {
+      //   Toast({
+      //     message: "密码不正确",
+      //     duration: 950
+      //   });
+      //   return false;
+      // }
+      // Toast({
+      //   message: "登陆成功",
+      //   duration: 950
+      // });
+      // this.$router.push("/main");
     },
 
     jumpRegister() {

@@ -42,6 +42,7 @@
 </template>
 <script>
 import { getHomeData, getNewsData } from "@/api/testData";
+import requests from "@/api/testBackendInterface";
 import footer from "@/components/footer/index";
 export default {
   name: "index",

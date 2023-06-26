@@ -39,4 +39,9 @@ public class HomeDataServiceImpl implements HomeDataService {
     public List<HomeData> queryAllHomeDataAndCommodity() {
         return homeDataDao.queryAllHomeDataAndCommodity();
     }
+
+    @Override
+    public List<HomeData> querySingleHomeDataAndCommodity(Integer id) {
+        return homeDataDao.querySingleHomeDataAndCommodity(id);
+    }
 }

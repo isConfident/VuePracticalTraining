@@ -5,7 +5,7 @@
       <ul>
         <li v-for="(list, index) in carts" class="cartList" :key="index">
           <!-- 购物车单选 -->
-          <div class="select" @click="singleCartsList(index)">
+          <div class="select" @click="singleCartsList(list)">
             <i class="iconfont icon-xuanzekuangmoren" v-if="!list.select"></i>
             <i
               v-else
@@ -15,7 +15,7 @@
           </div>
           <!-- 购物车商品信息 -->
           <div class="cartImage">
-            <img :src="list.img_url" />
+            <img :src="list.img_url" @click="toDetail(list)" />
           </div>
           <div class="cartInformation">
             <div class="cartName">
@@ -23,7 +23,7 @@
               <a
                 href="javascript:;"
                 class="iconfont icon-huishouzhan7"
-                @click="delCartList(index)"
+                @click="delCartList(list)"
               ></a>
             </div>
             <p class="cartPrice">￥{{ list.price }}</p>
@@ -31,11 +31,11 @@
 
           <!-- 购物车商品数量 -->
           <div class="cartNumber">
-            <a href="javascript:;" @click="reduceCartValue(index)" class="add"
+            <a href="javascript:;" @click="reduceCartValue(list)" class="add"
               >-</a
             >
             <input type="text" v-model="list.value" readonly="readonly" />
-            <a href="javascript:;" @click="addCartValue(index)" class="reduce"
+            <a href="javascript:;" @click="addCartValue(list)" class="reduce"
               >+</a
             >
           </div>
@@ -49,8 +49,15 @@
     </div>
     <div class="cartFooter" v-if="carts.length">
       <div class="checkAll" @click="SelectCartListAll">
-        <i class="iconfont icon-xuanzekuangmoren"></i>
+        <!-- <i class="iconfont icon-xuanzekuangmoren"></i> -->
         <!-- <i class="iconfont icon-xuanzekuangxuanzhong" style="color:#25b5fe"></i> -->
+        <!-- <span>全选</span> -->
+        <i class="iconfont icon-xuanzekuangmoren" v-if="!isAllChoose"></i>
+        <i
+          v-else
+          class="iconfont icon-xuanzekuangxuanzhong"
+          style="color:#25b5fe"
+        ></i>
         <span>全选</span>
       </div>
 
@@ -70,35 +77,200 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 import header from "@/components/header/index";
+import requests from "@/api/testBackendInterface";
+import Vue from "vue";
 export default {
   name: "cart",
   data() {
     return {
-      headerLeftStatus: true
+      carts: [],
+      settleCarts: [],
+      headerLeftStatus: true,
+      user: JSON.parse(localStorage.getItem("user"))
     };
   },
   methods: {
-    ...mapMutations({
-      addCartValue: "cart/ADDCART_VALUE",
-      delCartList: "cart/DEL_CARTS",
-      reduceCartValue: "cart/REDUCECART_VAVLUE",
-      singleCartsList: "cart/SELECT_CARTS_LIST",
-      SelectCartListAll: "cart/SELECT_CARTS_LIST_ALL",
-      Settlement: "cart/SETTLEMENT"
-    })
-  },
-  computed: {
-    ...mapState({
-      carts: state => state.cart.carts
-    }),
-    TotalPrice() {
-      var sum = 0;
-      this.$store.state.cart.carts.forEach(list => {
+    // ...mapMutations({
+    // addCartValue: "cart/ADDCART_VALUE",
+    // delCartList: "cart/DEL_CARTS",
+    // reduceCartValue: "cart/REDUCECART_VAVLUE"
+    // singleCartsList: "cart/SELECT_CARTS_LIST",
+    // SelectCartListAll: "cart/SELECT_CARTS_LIST_ALL"
+    // Settlement: "cart/SETTLEMENT"
+    // }),
+    toDetail(list) {
+      requests({
+        url: "/commodity/singleQuery?id=" + list.shopping_id,
+        method: "GET"
+      }).then(({ data }) => {
+        localStorage.setItem("simpleGoodDetail", JSON.stringify(data));
+        this.$router.push({
+          name: "detail"
+        });
+      });
+    },
+    reduceCartValue(list) {
+      requests({
+        url: "/shoppingCarts/addShoppingCarts",
+        method: "POST",
+        data: {
+          img_url: list.img_url,
+          name: list.name,
+          content: list.content,
+          bright: list.bright,
+          title: list.title,
+          price: list.price,
+          value: -1,
+          user_id: this.user.id,
+          shopping_id: list.shopping_id
+        }
+      }).then(({ data }) => {
+        if (data.data > 0) {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: "success",
+            duration: 1000
+          });
+        } else {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: "error",
+            duration: 1000
+          });
+        }
+        setTimeout(() => {
+          window.location.reload();
+        }, 1100);
+      });
+    },
+    addCartValue(list) {
+      requests({
+        url: "/shoppingCarts/addShoppingCarts",
+        method: "POST",
+        data: {
+          img_url: list.img_url,
+          name: list.name,
+          content: list.content,
+          bright: list.bright,
+          title: list.title,
+          price: list.price,
+          value: 1,
+          user_id: this.user.id,
+          shopping_id: list.shopping_id
+        }
+      }).then(({ data }) => {
+        if (data.data > 0) {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: "success",
+            duration: 1000
+          });
+        } else {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: "error",
+            duration: 1000
+          });
+        }
+        setTimeout(() => {
+          window.location.reload();
+        }, 1100);
+      });
+    },
+    SelectCartListAll() {
+      this.carts.forEach(list => {
+        list.select = !list.select;
+      });
+    },
+    singleCartsList(list) {
+      list.select = !list.select;
+    },
+    Settlement() {
+      this.carts.forEach(list => {
         if (list.select) {
-          sum += list.value * list.price;
+          this.settleCarts.push(list);
         }
       });
+      if (this.settleCarts.length == 0) {
+        this.$message({
+          showClose: true,
+          message: "你还未选中任何商品",
+          type: "error",
+          duration: 1000
+        });
+      } else {
+        localStorage.setItem("goodDetails", JSON.stringify(this.settleCarts));
+        this.$router.push({
+          name: "pay",
+          query: {
+            flag: "cart"
+          }
+        });
+      }
+    },
+    delCartList(list) {
+      requests({
+        url: "/shoppingCarts/delShoppingCarts",
+        method: "POST",
+        data: {
+          user_id: list.user_id,
+          shopping_id: list.shopping_id
+        }
+      }).then(({ data }) => {
+        if (data.data > 0) {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: "success",
+            duration: 1000
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1100);
+        } else {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: "error",
+            duration: 1000
+          });
+        }
+      });
+    }
+  },
+  mounted() {
+    requests({
+      url: "/shoppingCarts/queryShoppingCarts",
+      method: "POST",
+      data: {
+        id: JSON.stringify(this.user.id)
+      }
+    }).then(({ data }) => {
+      data.forEach(list => {
+        Vue.set(list, "select", false);
+      });
+      this.carts = data;
+    });
+  },
+  computed: {
+    // ...mapState({
+    //   carts: state => state.cart.carts
+    // }),
+    TotalPrice() {
+      var sum = 0;
+      this.carts.forEach(list => {
+        sum += list.price * list.value;
+      });
       return sum;
+    },
+    isAllChoose() {
+      return this.carts.every(list => {
+        return list.select;
+      });
     }
   },
   components: {

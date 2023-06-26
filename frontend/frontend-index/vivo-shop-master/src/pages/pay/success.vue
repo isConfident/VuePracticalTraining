@@ -6,9 +6,9 @@
       <h2>购买成功</h2>
       <p>
         已收到您的货款,请留意
-        <router-link to="/order">订单信息</router-link>
+        <a href="javascript:void(0)" @click="toOrder()">订单信息</a>
         以及
-        <router-link to="/order">物流信息</router-link>
+        <a href="javascript:void(0)" @click="toOrder()">物流信息</a>
         另外祝您生活愉快 感谢您的支持与厚爱
       </p>
     </div>
@@ -36,6 +36,11 @@ export default {
     },
     agianShop() {
       this.$router.back();
+    },
+    toOrder() {
+      this.$router.push({
+        name: "order"
+      });
     }
   }
 };

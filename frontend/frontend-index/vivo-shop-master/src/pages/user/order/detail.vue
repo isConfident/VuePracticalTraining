@@ -10,11 +10,11 @@
       </div>
       <div class="details-address">
         <p class="address-box">
-          <span class="name">收货人：{{ orderDetail.consignee }}</span>
-          <span class="phone">{{ orderDetail.phone }}</span>
+          <span class="name">收货人：{{ address.name }}</span>
+          <span class="phone">{{ address.tel }}</span>
         </p>
         <p class="address-details">
-          收货地址：{{ orderDetail.address }}
+          收货地址：{{ address.province + address.city + address.county }}
         </p>
       </div>
       <div class="details-list">
@@ -33,17 +33,19 @@
           <div class="details-list-2-1">
             <p>
               <span class="span-1">订单编号：</span>
-              <span class="span-2">{{ orderDetail.orderNumber }}</span>
+              <span class="span-2">{{ orderDetail.id }}</span>
             </p>
             <p>
               <span class="span-1">订单备注：</span>
-              <span class="span-2">{{ orderDetail.content }}</span>
+              <span class="span-2">{{ orderDetail.order_comment }}</span>
             </p>
           </div>
           <div class="details-list-2-2">
             <p>
               <span class="span-1">商品总金额：</span>
-              <span class="span-2">¥ {{ toFixed(orderDetail.price * orderDetail.homeValue) }}</span>
+              <span class="span-2"
+                >¥ {{ toFixed(orderDetail.price * orderDetail.value) }}</span
+              >
             </p>
             <p>
               <span class="span-1">运费：</span>
@@ -78,7 +80,9 @@
           </div>
         </div>
         <div class="order-footer">
-          总计：<span>¥ {{ toFixed(orderDetail.price * orderDetail.value) }}</span>
+          总计：<span
+            >¥ {{ toFixed(orderDetail.price * orderDetail.value) }}</span
+          >
         </div>
       </div>
     </div>
@@ -87,11 +91,15 @@
 
 <script>
 import header from "@/components/header/index";
+import requests from "@/api/testBackendInterface";
 export default {
   name: "detail",
   data() {
     return {
-      headerLeftStatus: true
+      headerLeftStatus: true,
+      orderDetail: JSON.parse(localStorage.getItem("singleOrderDetail")),
+      address: {},
+      user: JSON.parse(localStorage.getItem("user"))
     };
   },
   methods: {
@@ -99,13 +107,17 @@ export default {
       return value.toFixed(2);
     }
   },
-  computed: {
-    orderDetail() {
-      var orderDetail = this.$store.state.order.orders.find(list => {
-        return this.$route.query.orderNumber == list.orderNumber;
-      });
-      return orderDetail;
-    }
+  mounted() {
+    requests({
+      url: "/address/querySingleAddress",
+      method: "POST",
+      data: {
+        user_id: this.user.id,
+        id: this.orderDetail.address_id
+      }
+    }).then(({ data }) => {
+      this.address = data.data;
+    });
   },
   components: {
     "v-header": header

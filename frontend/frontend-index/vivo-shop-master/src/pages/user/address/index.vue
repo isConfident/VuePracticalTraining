@@ -7,73 +7,149 @@
         <p class="right" @click="jumpAddress">+添加地址</p>
       </div>
       <div class="pay-address" v-for="(list, index) in address" :key="index">
-          <p class="address-box">
-            <span class="name">收货人：{{ list.name }}</span>
+        <p class="address-box">
+          <span class="name">收货人：{{ list.name }}</span>
 
-            <span class="phone">{{ list.tel }}</span>
+          <span class="phone">{{ list.tel }}</span>
+        </p>
+        <p class="address-details">
+          收货地址：{{ list.province }}{{ list.city }}{{ list.county
+          }}{{ list.addressDetail }}
+        </p>
+        <div class="address-operation">
+          <p class="address-operation-box">
+            <el-button
+              id="elButton"
+              v-if="list.isDefault == false"
+              @click="setDefault(list)"
+              type="danger"
+              plain
+            >
+              设为默认
+            </el-button>
+            <b v-else type="primary" plain id="defaultAddress">默认地址</b>
+            <i class="iconfont icon-bianji" @click.stop="editAddress(list)"></i>
+            <i
+              class="iconfont icon-lajitong"
+              @click.stop="delAddress(list)"
+            ></i>
           </p>
-          <p class="address-details">
-            收货地址：{{ list.province }}{{ list.city }}{{ list.county
-            }}{{ list.addressDetail }}
-          </p>
-          <div class="address-operation">
-            <p class="address-operation-box">
-
-              <el-button
-                id="elButton"
-                v-if="!list.default"
-                @click="setDetault(index)"
-                type="danger"
-                plain
-              >
-                设为默认
-              </el-button>
-              <b v-else type="primary" plain id="defaultAddress">默认地址</b>
-              <i
-                class="iconfont icon-bianji"
-                @click.stop="editAddress(index)"
-              ></i>
-              <i
-                class="iconfont icon-lajitong"
-                @click.stop="delAddress(index)"
-              ></i>
-            </p>
-          </div>
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, createLogger } from "vuex";
 import header from "@/components/header/index";
+import requests from "@/api/testBackendInterface";
 export default {
   data() {
     return {
-      headerLeftStatus: true
+      address: [],
+      headerLeftStatus: true,
+      user: JSON.parse(localStorage.getItem("user"))
     };
   },
   methods: {
-    ...mapMutations({
-      delAddress: "DEL_ADDRESS",
-      setDetault: "SET_DEFAULT"
-    }),
+    // ...mapMutations({
+    //   delAddress: "DEL_ADDRESS",
+    //   setDetault: "SET_DEFAULT"
+    // }),
+    delAddress(list) {
+      requests({
+        url: "/address/delAddress",
+        method: "POST",
+        data: {
+          user_id: list.user_id,
+          id: list.id
+        }
+      }).then(({ data }) => {
+        if (data.data > 0) {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: "success",
+            duration: 1000
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1100);
+        } else {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: "error",
+            duration: 1000
+          });
+        }
+      });
+    },
+    setDefault(list) {
+      requests({
+        url: "/address/alterAddress",
+        method: "POST",
+        data: {
+          id: list.id,
+          addressDetail: list.addressDetail,
+          areaCode: list.areaCode,
+          city: list.city,
+          country: list.country,
+          county: list.county,
+          isDefault: !list.isDefault,
+          name: list.name,
+          postalCode: list.postalCode,
+          province: list.province,
+          tel: list.tel,
+          user_id: this.user.id
+        }
+      }).then(({ data }) => {
+        if (data.data > 0) {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: "success",
+            duration: 1000
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1100);
+        } else {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: "error",
+            duration: 1000
+          });
+        }
+      });
+    },
     jumpAddress() {
       this.$router.push({
         path: "add_address"
       });
     },
-    editAddress(index) {
+    editAddress(list) {
       this.$router.push({
         name: "edit_address",
-        params: { index }
+        params: { list }
       });
     }
   },
+  mounted() {
+    requests({
+      url: "/address/queryAddress",
+      method: "POST",
+      data: { id: JSON.stringify(this.user.id) }
+    }).then(({ data }) => {
+      this.address = data;
+    });
+  },
   computed: {
-    ...mapState({
-      address: state => state.address
-    })
+    // ...mapState({
+    //   address: state => state.address
+    // })
   },
   components: {
     "v-header": header

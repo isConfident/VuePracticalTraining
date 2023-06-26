@@ -91,4 +91,27 @@ public interface CommodityDao {
             @Result(column = "homePeiZhi",property = "homePeiZhi")
     })
     List<Commodity> queryAllCommodityAndSwiperAndImages();
+
+
+
+    @Select("select * from commodity where id = #{id}")
+    @Results({
+            @Result(column = "id",property = "id"),
+            @Result(column = "titleId",property = "titleId"),
+            @Result(column = "nameId",property = "nameId"),
+            @Result(column = "type",property = "type"),
+            @Result(column = "img_url",property = "img_url"),
+            @Result(column = "name",property = "name"),
+            @Result(column = "content",property = "content"),
+            @Result(column = "bright",property = "bright"),
+            @Result(column = "title",property = "title"),
+            @Result(column = "price",property = "price"),
+            @Result(column = "value",property = "value"),
+            @Result(column = "id",property = "swiper",javaType = List.class,
+                    many = @Many(select = "com.foreground.dao.SwiperDao.queryAllSwipersById")),
+            @Result(column = "id",property = "images",javaType = List.class,
+                    many = @Many(select = "com.foreground.dao.ImagesDao.queryAllImagesById")),
+            @Result(column = "homePeiZhi",property = "homePeiZhi")
+    })
+    Commodity querySingleCommodityAndSwiperAndImages(Integer id);
 }

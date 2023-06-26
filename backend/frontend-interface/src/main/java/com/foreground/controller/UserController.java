@@ -28,7 +28,6 @@ public class UserController {
         User isUsername = userService.isUsername(user);
         if(isUsername != null){
             User isPassword = userService.isPassword(user);
-            System.out.println(isPassword);
             if(isPassword != null){
                 result.setMsgAndData("登录成功",isPassword);
             }else{
@@ -39,12 +38,6 @@ public class UserController {
         }
         return result;
     }
-
-    @PostMapping("/querySimpleUserInfo")
-    @ResponseBody
-    public User querySimpleUserAndAddressesAndShoppingCartsById( Integer id){
-        return userService.querySimpleUserAndAddressesAndShoppingCartsById(id);
-    };
 
 
     public String urlDecode(String urlString) throws UnsupportedEncodingException {

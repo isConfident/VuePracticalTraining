@@ -6,6 +6,7 @@
       show-search-result
       :area-columns-placeholder="['请选择', '请选择', '请选择']"
       @save="saveAddress"
+      :address-info="dataInfo"
     />
   </div>
 </template>
@@ -13,10 +14,13 @@
 import { mapState, mapMutations } from "vuex";
 import { addressDataList } from "@/assets/address";
 import header from "@/components/header/index";
+import requests from "@/api/testBackendInterface";
 export default {
   name: "edit_address",
   data() {
     return {
+      user: JSON.parse(localStorage.getItem("user")),
+      dataInfo: {},
       addressDataList,
       searchResult: [],
       addressData: {},
@@ -27,24 +31,61 @@ export default {
     ...mapMutations({
       saveAddressMutation: "EDIT_ADDRESS"
     }),
-    saveAddress(data) {
-      this.saveAddressMutation({
-        index: this.$route.params.index,
-        data,
+    saveAddress(list) {
+      // this.saveAddressMutation({
+      //   index: this.$route.params.index,
+      //   data,
+      // });
+      // this.$router.push("/address");
+      console.log(list);
+      requests({
+        url: "/address/alterAddress",
+        method: "POST",
+        data: {
+          id: list.id,
+          addressDetail: list.addressDetail,
+          areaCode: list.areaCode,
+          city: list.city,
+          country: list.country,
+          county: list.county,
+          isDefault: list.isDefault,
+          name: list.name,
+          postalCode: list.postalCode,
+          province: list.province,
+          tel: list.tel,
+          user_id: this.user.id
+        }
+      }).then(({ data }) => {
+        if (data.data > 0) {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: "success",
+            duration: 1000
+          });
+          this.$router.back();
+        } else {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: "error",
+            duration: 1000
+          });
+        }
       });
-      this.$router.push("/address");
     }
-
   },
   mounted() {
-    let index = this.$route.params.index;
-    this.addressData = { ...this.address[index] };
+    // let index = this.$route.params.index;
+    // this.addressData = { ...this.address[index] };
+
+    this.dataInfo = this.$route.params.list;
   },
   computed: {
     ...mapState({
-      'address': state => state.address
+      address: state => state.address
     })
-    },
+  },
 
   components: {
     "v-header": header
@@ -104,12 +145,10 @@ export default {
       background-color: #00acff;
     }
   }
-  /deep/
-  .van-field__error-message {
+  /deep/ .van-field__error-message {
     color: #00acff;
   }
-  /deep/
-  .van-address-edit {
+  /deep/ .van-address-edit {
     width: 100%;
     padding: 0;
     padding-top: 1.7rem;
@@ -137,4 +176,3 @@ export default {
   }
 }
 </style>
-

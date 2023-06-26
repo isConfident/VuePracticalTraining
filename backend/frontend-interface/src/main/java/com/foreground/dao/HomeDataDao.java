@@ -18,4 +18,15 @@ public interface HomeDataDao {
 
     })
     List<HomeData> queryAllHomeDataAndCommodity();
+
+
+    @Select("select * from homedata where id = #{id}")
+    @Results({
+            @Result(column = "id",property = "id"),
+            @Result(column = "title",property = "title"),
+            @Result(column = "id",property = "data",javaType = List.class,
+                    many = @Many(select = "com.foreground.dao.CommodityDao.queryAllCommodityByTitleId")),
+
+    })
+    List<HomeData> querySingleHomeDataAndCommodity(Integer id);
 }
