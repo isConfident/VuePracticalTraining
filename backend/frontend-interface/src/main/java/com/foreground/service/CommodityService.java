@@ -9,4 +9,5 @@ public interface CommodityService {
 //    List<Commodity> getAllCommodity();
 
     List<Commodity> queryAllCommodityAndSwiperAndImages();
+    Commodity querySingleCommodityAndSwiperAndImages(Integer id);
 }

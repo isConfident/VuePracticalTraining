@@ -2,9 +2,14 @@
   <div class="pay">
     <v-header title="商品详情" :headerLeftStatus="headerLeftStatus" />
     <div class="pay-address">
-      <div v-if="!address.name" class="saveAddress" @click="saveAddress()">
+      <div v-if="!address" class="saveAddress" @click="saveAddress()">
         <p>添加收货地址</p>
         <i class="iconfont icon-youjiantou"></i>
+        <div class="address-else">
+          <el-button type="primary" plain @click="chooseElseAddress()"
+            >选择其他收货地址</el-button
+          >
+        </div>
       </div>
       <div v-else>
         <p class="address-box">
@@ -96,7 +101,7 @@
           <p>商品总金额：¥{{ orderTotal }}</p>
           <p>运费：0.00</p>
           <p>优惠：¥0.00</p>
-          <p>赠送积分：{{ toFixed(list.price * 0.05) }}</p>
+          <p>赠送积分：{{ list.price }}</p>
         </div>
       </div>
       <!-- <van-submit-bar
@@ -108,7 +113,7 @@
         <p class="price">
           订单总金额：<span>¥{{ orderTotal }}</span>
         </p>
-        <a class="order" @click="saveOrder(list, index)">提交订单</a>
+        <a class="order" @click="saveOrder(list)">提交订单</a>
       </div>
     </div>
   </div>
@@ -117,11 +122,14 @@
 import { getData } from "@/api/data.js";
 import { Toast } from "mint-ui";
 import { mapState } from "vuex";
+import requests from "@/api/testBackendInterface";
 import header from "@/components/header/index";
 export default {
   name: "pay",
+
   data() {
     return {
+      user: JSON.parse(localStorage.getItem("user")),
       pay: [],
       address_phone: "15255460858",
       content: "",
@@ -129,45 +137,119 @@ export default {
       paymentType: ["在线支付", "花呗分期", "货到付款"],
       paymentTypeIndex: 0,
       headerLeftStatus: true,
-      carts: JSON.parse(localStorage.getItem("orderCarts"))
+      carts: [],
+      goodDetail: JSON.parse(localStorage.getItem("goodDetails")),
+      address: {}
     };
   },
+
   methods: {
-    saveOrder(list) {
-      if (!this.address.name) {
-        Toast("请选择收货地址");
+    saveOrder(goodDetail) {
+      console.log(goodDetail);
+      let dataCount = [];
+      if (!this.address) {
+        this.$alert("检测到您还没有默认收获地址，是否前去设置？", "警告！", {
+          confirmButtonText: "确定",
+          callback: action => {
+            this.$router.push("address");
+          }
+        });
         return false;
       }
       if (!this.invoice) {
         Toast("请输入发票抬头");
         return false;
       }
+
       var myDate = new Date();
       var Year = myDate.getFullYear();
       var Month = myDate.getMonth() + 1;
       var Day = myDate.getDate();
-      list["paymentType"] = this.paymentType[this.paymentTypeIndex];
-      list["invoice"] = this.invoice;
-      list["content"] = this.content;
-      list["consignee"] = this.address.name;
-      list["phone"] = this.address.tel;
-      list["address"] =
-        this.address.province + this.address.city + this.address.county;
-      list["homeValue"] = this.$route.params.value; //改变原来固定的数量 1
-      list["orderNumber"] =
-        Year +
-        "" +
-        Month +
-        "" +
-        Day +
-        "" +
-        Math.random()
-          .toFixed(15)
-          .substr(2); //订单号
-      this.$store.commit("order/ADD_ORDER", list);
-      setTimeout(() => {
-        this.$router.push("/success");
-      }, 1000);
+      goodDetail.forEach(list => {
+        list["paymentType"] = this.paymentType[this.paymentTypeIndex];
+        requests({
+          url: "/order/addSimpleOrder",
+          method: "POST",
+          data: {
+            paymentType: list.paymentType,
+            img_url: list.img_url,
+            name: list.name,
+            content: list.content,
+            bright: list.bright,
+            title: list.title,
+            price: list.price,
+            value: list.value,
+            user_id: this.user.id,
+            shopping_id: list.id,
+            invoice: this.invoice,
+            address_id: this.address.id,
+            order_date: Year + "-" + Month + "-" + Day,
+            order_comment: this.content
+          }
+        }).then(({ data }) => {
+          if (data.data > 0) {
+            dataCount.push(true);
+          } else {
+            dataCount.push(false);
+          }
+        });
+      });
+
+      if (
+        dataCount.every(data => {
+          return data;
+        })
+      ) {
+        this.$message({
+          showClose: true,
+          message: "提交成功",
+          type: "success",
+          duration: 1000
+        });
+
+        setTimeout(() => {
+          if (this.$route.query.flag === "cart") {
+            goodDetail.forEach(list => {
+              requests({
+                url: "/shoppingCarts/delShoppingCarts",
+                method: "POST",
+                data: {
+                  user_id: list.user_id,
+                  shopping_id: list.shopping_id
+                }
+              });
+            });
+          }
+          this.$router.push({
+            name: "success"
+          });
+        }, 1100);
+      } else {
+        this.$message({
+          showClose: true,
+          message: "提交失败",
+          type: "error",
+          duration: 1000
+        });
+      }
+
+      // list["invoice"] = this.invoice;
+      // list["content"] = this.content;
+      // list["consignee"] = this.address.name;
+      // list["phone"] = this.address.tel;
+      // list["address"] =
+      //   this.address.province + this.address.city + this.address.county;
+      // list["homeValue"] = this.$route.params.value; //改变原来固定的数量 1
+      // list["orderNumber"] =
+      //   Year +
+      //   "" +
+      //   Month +
+      //   "" +
+      //   Day +
+      //   "" +
+      //   Math.random()
+      //     .toFixed(15)
+      //     .substr(2); //订单号
     },
     selectPaymentType(index) {
       this.paymentTypeIndex = index;
@@ -186,53 +268,67 @@ export default {
   beforeRouteEnter(to, from, next) {
     next(vm => {
       if (from.path == "/cart") {
-        localStorage.setItem("orderCarts", to.query.carts);
       }
     });
   },
-  beforeRouteLeave(to, from, next) {
-    next(vm => {
-      localStorage.removeItem("orderCarts");
-    });
-  },
+  props: ["goodDetails"],
   mounted() {
-    // this.orderDetail();
-
-    getData().then(res => {
-      // console.log(this.$route.query);
-      // res.data.homeData[this.$route.query.shop_id - 1].data.forEach(list => {
-      //   if (list.id == this.$route.query.id) {
-      //     this.pay.push(list);
-      //   }
-      // });
-      res.data.homeData.forEach(list => {
-        if (list.id === 1) {
-          return;
-        }
-        list.data.forEach(data => {
-          if (data.name === this.$route.query.name) {
-            this.pay.push(data);
-          }
-        });
+    this.pay.push(this.goodDetail);
+    if (Array.isArray(this.goodDetail)) {
+      // console.log("是Array");
+      this.goodDetail.forEach(list => {
+        this.carts.push(list);
       });
-    });
-    if (Array.isArray(this.pay) && this.pay.length == 0) {
-      this.pay.push(this.carts);
-      if (this.pay.length > 1) {
-        this.pay.splice(0, 1);
-      }
+    } else {
+      // console.log("不是Array");
+      this.carts.push(this.goodDetail);
     }
+    requests({
+      url: "/address/queryDefault",
+      method: "POST",
+      data: {
+        user_id: this.user.id,
+        isDefault: true
+      }
+    }).then(({ data }) => {
+      this.address = data.data;
+    });
+    // this.orderDetail();
+    // getData().then(res => {
+    // console.log(this.$route.query);
+    // res.data.homeData[this.$route.query.shop_id - 1].data.forEach(list => {
+    //   if (list.id == this.$route.query.id) {
+    //     this.pay.push(list);
+    //   }
+    // });
+    //   res.data.homeData.forEach(list => {
+    //     if (list.id === 1) {
+    //       return;
+    //     }
+    //     list.data.forEach(data => {
+    //       if (data.name === this.$route.query.name) {
+    //         this.pay.push(data);
+    //       }
+    //     });
+    //   });
+    // });
+    // if (Array.isArray(this.pay) && this.pay.length == 0) {
+    //   this.pay.push(this.carts);
+    //   if (this.pay.length > 1) {
+    //     this.pay.splice(0, 1);
+    //   }
+    // }
   },
   computed: {
-    address() {
-      var address = [];
-      this.$store.state.address.forEach(list => {
-        if (list.default) {
-          address = list;
-        }
-      });
-      return address;
-    },
+    // address() {
+    //   var address = [];
+    //   this.$store.state.address.forEach(list => {
+    //     if (list.default) {
+    //       address = list;
+    //     }
+    //   });
+    //   return address;
+    // },
     orderTotal() {
       let total = 0;
       this.carts.forEach(item => {

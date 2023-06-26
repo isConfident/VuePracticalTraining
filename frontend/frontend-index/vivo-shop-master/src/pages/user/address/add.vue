@@ -48,13 +48,15 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import requests from "@/api/testBackendInterface";
+import { createLogger, mapMutations } from "vuex";
 import { addressDataList } from "@/assets/address";
 import header from "@/components/header/index";
 export default {
   name: "add_address",
   data() {
     return {
+      user: JSON.parse(localStorage.getItem("user")),
       addressDataList,
       searchResult: [],
       addressData: {
@@ -67,10 +69,47 @@ export default {
     };
   },
   methods: {
-    ...mapMutations({
-      saveAddress: "ADD_ADDRESS"
-    })
+    // ...mapMutations({
+    //   saveAddress: "ADD_ADDRESS"
+    // })
+    saveAddress(list) {
+      requests({
+        url: "/address/addAddress",
+        method: "POST",
+        data: {
+          addressDetail: list.addressDetail,
+          areaCode: list.areaCode,
+          city: list.city,
+          country: list.country,
+          county: list.county,
+          isDefault: list.isDefault,
+          name: list.name,
+          postalCode: list.postalCode,
+          province: list.province,
+          tel: list.tel,
+          user_id: this.user.id
+        }
+      }).then(({ data }) => {
+        if (data.data === 1) {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: "success",
+            duration: 1000
+          });
+          this.$router.back();
+        } else {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: "error",
+            duration: 1000
+          });
+        }
+      });
+    }
   },
+
   components: {
     "v-header": header
   }
@@ -130,12 +169,10 @@ export default {
       background-color: #00acff;
     }
   }
-  /deep/ 
-  .van-field__error-message {
+  /deep/ .van-field__error-message {
     color: #00acff;
   }
-  /deep/ 
-  .van-address-edit {
+  /deep/ .van-address-edit {
     width: 100%;
     padding: 0;
     padding-top: 1.7rem;
@@ -149,7 +186,7 @@ export default {
       height: auto;
       border-top: 1px solid #e0e0e0;
       background: #ffffff;
-      padding: 0px;     
+      padding: 0px;
       .van-button--danger {
         background: #00acff;
         border: aliceblue;

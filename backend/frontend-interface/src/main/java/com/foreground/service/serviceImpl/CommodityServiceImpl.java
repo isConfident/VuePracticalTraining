@@ -42,4 +42,9 @@ public class CommodityServiceImpl implements CommodityService {
     public List<Commodity> queryAllCommodityAndSwiperAndImages() {
         return commodityDao.queryAllCommodityAndSwiperAndImages();
     }
+
+    @Override
+    public Commodity querySingleCommodityAndSwiperAndImages(Integer id) {
+        return commodityDao.querySingleCommodityAndSwiperAndImages(id);
+    }
 }

@@ -135,7 +135,8 @@ export default new Router({
       component: pay,
       meta: {
         requireAuth: true
-      }
+      },
+      props: true
     },
     {
       path: "/select_address",

@@ -116,9 +116,9 @@
               </mt-tab-container-item>
               <mt-tab-container-item id="tab-container2">
 <!--                <div class="peizhi" v-html="goodDetails.homePeiZhi"></div>-->
-                <el-table :data="goodDetails.homePeiZhi" style="width: 100%">
-                  <el-table-column prop="name" label="参数名称" width="180"></el-table-column>
-                  <el-table-column prop="value" label="参数值"></el-table-column>
+                <el-table :data="homePeiZhi" style="width: 100%" align="center">
+                  <el-table-column prop="PeizhiName" label="参数" width="180" align="center"></el-table-column>
+                  <el-table-column prop="PeizhiValue" label="参数值" align="center" ></el-table-column>
                 </el-table>
               </mt-tab-container-item>
             </mt-tab-container>
@@ -128,14 +128,14 @@
             <van-goods-action-icon
               icon="cart-o"
               text="购物车"
-              :badge="$store.state.cart.carts.length"
+              :badge="cartLength"
               @click="jumpCart"
             />
             <van-goods-action-icon
               icon="star-o"
               text="收藏"
               color="red"
-              @click="addCollection(list)"
+              @click="addSingleCollect(goodDetails)"
             />
             <van-goods-action-button
               type="warning"
@@ -145,7 +145,7 @@
             <van-goods-action-button
               type="danger"
               text="立即购买"
-              @click="jumpPay(list)"
+              @click="jumpPay(goodDetails)"
             />
           </van-goods-action>
         </li>
@@ -158,25 +158,116 @@
 import { mapMutations } from "vuex";
 import { Toast, MessageBox } from "mint-ui";
 import { getData } from "@/api/data";
+import requests from "@/api/testBackendInterface";
 import header from "@/components/header/index";
+import axios from "axios";
 export default {
   name: "detail",
   data() {
     return {
+      user: JSON.parse(localStorage.getItem("user")),
       IsCollection: false,
       goodDetails: JSON.parse(localStorage.getItem("simpleGoodDetail")),
+      goods: [],
       show: false,
       headerLeftStatus: true,
       selected: "tab-container1",
-      configuration:[]
+      cartLength: 0,
+      homePeiZhi: [
+        {
+          PeizhiName: 'CPU',
+          PeizhiValue: '骁龙888'
+        }
+      ]
     };
   },
+  mounted() {
+    requests({
+      url: "/shoppingCarts/queryCount",
+      method: "POST",
+      data: {
+        user_id: this.user.id
+      }
+    }).then(({ data }) => {
+      this.cartLength = data.data;
+    });
+  },
   props: ["list"],
+
   methods: {
-    ...mapMutations({
-      addCart: "cart/ADD_CARTS",
-      addCollection: "cart/ADD_COLLECTION"
-    }),
+    // ...mapMutations({
+    // addCart: "cart/ADD_CARTS",
+    // addCollection: "cart/ADD_COLLECTION"
+    // }),
+    addCart(goodDetails) {
+      requests({
+        url: "/shoppingCarts/addShoppingCarts",
+        method: "POST",
+        data: {
+          img_url: goodDetails.img_url,
+          name: goodDetails.name,
+          content: goodDetails.content,
+          bright: goodDetails.bright,
+          title: goodDetails.title,
+          price: goodDetails.price,
+          value: goodDetails.value,
+          user_id: this.user.id,
+          shopping_id: goodDetails.id
+        }
+      }).then(({ data }) => {
+        if (data.data > 0) {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: "success",
+            duration: 1000
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1100);
+        } else {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: "error",
+            duration: 1000
+          });
+        }
+      });
+    },
+    addSingleCollect(list) {
+      requests({
+        url: "/collect/addSingleCollect",
+        method: "POST",
+        data: {
+          img_url: list.img_url,
+          name: list.name,
+          content: list.content,
+          bright: list.bright,
+          title: list.title,
+          price: list.price,
+          value: list.value,
+          user_id: this.user.id,
+          shopping_id: list.id
+        }
+      }).then(({ data }) => {
+        if (data.data > 0) {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: "success",
+            duration: 1000
+          });
+        } else {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: "error",
+            duration: 1000
+          });
+        }
+      });
+    },
     addOrderValue(list) {
       list["value"]++;
     },
@@ -186,7 +277,7 @@ export default {
     jumpCart() {
       this.$router.push("/cart");
     },
-    jumpPay(list) {
+    jumpPay(goodDetails) {
       if (!localStorage.getItem("user")) {
         MessageBox({
           title: "检测到你还未授权登陆",
@@ -199,15 +290,15 @@ export default {
         });
         return false;
       }
+      this.goods.push(goodDetails);
+      localStorage.setItem("goodDetails", JSON.stringify(this.goods));
       this.$router.push({
-        path: "/pay",
-        query: {
-          id: list.id,
-          name: this.$route.query.name,
-          value: list.value
+        name: "pay",
+        params: {
+          goodDetails: JSON.stringify(goodDetails)
         }
       });
-    }
+    },
   },
   components: {
     "v-header": header
@@ -216,6 +307,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.content-center{
+  text-align: center;
+}
 .goodDetail {
   .peizhi {
     width: 90%;
@@ -276,6 +370,9 @@ export default {
     padding-left: 0.3rem;
     font-size: 0.71rem;
     color: black;
+  }
+  .el-table::before {
+    z-index: -999;
   }
   .goodDetaiSwipe {
     height: 8rem;
