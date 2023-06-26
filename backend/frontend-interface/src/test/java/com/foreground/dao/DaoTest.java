@@ -2,6 +2,7 @@ package com.foreground.dao;
 
 import com.foreground.config.SpringConfig;
 import com.foreground.entity.Accessories;
+import com.foreground.entity.HomePeiZhi;
 import com.foreground.entity.News;
 import com.foreground.service.*;
 import org.junit.Test;
@@ -31,7 +32,8 @@ public class DaoTest {
     private SwiperService swiperService;
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private HomePeiZhiDao homePeiZhiDao;
     public DaoTest() {
     }
 
@@ -46,11 +48,12 @@ public class DaoTest {
 //        System.out.println(imagesService.getAllImages());
 //        System.out.println(phoneService.getAllPhone());
 //        System.out.println(swiperService.getAllSwiper());
+
         System.out.println(homeDataService.queryAllHomeDataAndCommodity());
         System.out.println(phoneService.queryAllPhoneAndCommodity());
         System.out.println(accessoriesService.queryAllAccessoriesAndCommodity());
         System.out.println(commodityService.queryAllCommodityAndSwiperAndImages());
-
+//        System.out.println(homePeiZhiDao.getAllHomePeiZhi());
 
     }
 
