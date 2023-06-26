@@ -26,7 +26,8 @@
               {{ goodDetails.title }}
             </div>
             <div class="goodDetailColor">{{ goodDetails.color }}</div>
-            <div class="goodDetailPaid">￥{{ goodDetails.price }}</div>
+            <div class="goodDetailPaid" v-if="flag">￥{{ goodDetails.price }}</div>
+            <div class="goodDetailPaid" v-else><span class="delline">￥{{ goodDetails.price }}</span>￥{{ goodDetails.price / 2 }}</div>
           </div>
           <div class="goodDetailValue">
             <div class="_Value">购买数量：</div>
@@ -177,6 +178,7 @@ export default {
   name: "detail",
   data() {
     return {
+      flag:true,
       user: JSON.parse(localStorage.getItem("user")),
       IsCollection: false,
       goodDetails: JSON.parse(localStorage.getItem("simpleGoodDetail")),
@@ -188,6 +190,7 @@ export default {
     };
   },
   mounted() {
+
     requests({
       url: "/shoppingCarts/queryCount",
       method: "POST",
@@ -197,8 +200,11 @@ export default {
     }).then(({ data }) => {
       this.cartLength = data.data;
     });
+
+    if(this.$route.query.path === "activity"){
+      this.flag = false;
+    }
   },
-  props: ["list"],
 
   methods: {
     // ...mapMutations({
@@ -315,6 +321,10 @@ export default {
 <style lang="less" scoped>
 .content-center {
   text-align: center;
+}
+.delline{
+  font-size: 10px;
+  text-decoration: line-through;
 }
 .goodDetail {
   .peizhi {

@@ -18,7 +18,7 @@
             <img :src="data.img_url" alt="图片" />
             <h2>{{ data.name }}</h2>
             <p>{{ data.content }}</p>
-            <div><span class="delline">￥{{ toFixed(data.price) }}</span>￥{{ toFixed(data.price) / 2 }}</div>
+            <div><span class="delline">￥{{ toFixed(data.price) }}</span>￥{{ data.price / 2 }}</div>
           </div>
         </mt-tab-container-item>
         <mt-tab-container-item id="tab-container2">
@@ -90,8 +90,8 @@ export default {
       localStorage.setItem("simpleGoodDetail", JSON.stringify(data));
       this.$router.push({
         name: "detail",
-        params: {
-          list: JSON.stringify(data)
+        query:{
+          path:"activity"
         }
       });
     }

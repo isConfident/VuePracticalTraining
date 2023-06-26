@@ -15,7 +15,7 @@
       <el-statistic v-if="Activity" :value="counter" time-indices title="商品降价" @finish="stopCounter()">
         <template slot="suffix"> 抢购即将开始 </template>
       </el-statistic>
-      <el-button style="width:100%;height:100%" type="warning" v-show="Activity === false" @click="toActivityPage()">马上去！</el-button>
+      <el-button style="width:100%;height:100%;" type="warning" v-show="Activity === false" @click="toActivityPage()">半价活动点击前往！</el-button>
     </div>
 
     <div class="icon">
