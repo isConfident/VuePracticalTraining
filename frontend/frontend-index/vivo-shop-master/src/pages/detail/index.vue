@@ -115,7 +115,11 @@
                 </div>
               </mt-tab-container-item>
               <mt-tab-container-item id="tab-container2">
-                <div class="peizhi" v-html="goodDetails.homePeiZhi"></div>
+<!--                <div class="peizhi" v-html="goodDetails.homePeiZhi"></div>-->
+                <el-table :data="homePeiZhi" style="width: 100%" align="center">
+                  <el-table-column prop="PeizhiName" label="参数" width="180" align="center"></el-table-column>
+                  <el-table-column prop="PeizhiValue" label="参数值" align="center" ></el-table-column>
+                </el-table>
               </mt-tab-container-item>
             </mt-tab-container>
           </div>
@@ -156,6 +160,7 @@ import { Toast, MessageBox } from "mint-ui";
 import { getData } from "@/api/data";
 import requests from "@/api/testBackendInterface";
 import header from "@/components/header/index";
+import axios from "axios";
 export default {
   name: "detail",
   data() {
@@ -167,7 +172,13 @@ export default {
       show: false,
       headerLeftStatus: true,
       selected: "tab-container1",
-      cartLength: 0
+      cartLength: 0,
+      homePeiZhi: [
+        {
+          PeizhiName: 'CPU',
+          PeizhiValue: '骁龙888'
+        }
+      ]
     };
   },
   mounted() {
@@ -287,7 +298,7 @@ export default {
           goodDetails: JSON.stringify(goodDetails)
         }
       });
-    }
+    },
   },
   components: {
     "v-header": header
@@ -296,6 +307,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.content-center{
+  text-align: center;
+}
 .goodDetail {
   .peizhi {
     width: 90%;
@@ -356,6 +370,9 @@ export default {
     padding-left: 0.3rem;
     font-size: 0.71rem;
     color: black;
+  }
+  .el-table::before {
+    z-index: -999;
   }
   .goodDetaiSwipe {
     height: 8rem;

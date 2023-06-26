@@ -64,7 +64,7 @@
       <div class="Total">
         合计：
         <span style="font-size: 0.54rem;color:#E3211E"
-          >￥ {{ TotalPrice }}</span
+          >￥ {{ toFixed(TotalPrice) }}</span
         >
       </div>
 
@@ -86,7 +86,7 @@ export default {
       carts: [],
       settleCarts: [],
       headerLeftStatus: true,
-      user: JSON.parse(localStorage.getItem("user"))
+      user: JSON.parse(localStorage.getItem("user")),
     };
   },
   methods: {
@@ -110,40 +110,50 @@ export default {
       });
     },
     reduceCartValue(list) {
-      requests({
-        url: "/shoppingCarts/addShoppingCarts",
-        method: "POST",
-        data: {
-          img_url: list.img_url,
-          name: list.name,
-          content: list.content,
-          bright: list.bright,
-          title: list.title,
-          price: list.price,
-          value: -1,
-          user_id: this.user.id,
-          shopping_id: list.shopping_id
-        }
-      }).then(({ data }) => {
-        if (data.data > 0) {
-          this.$message({
-            showClose: true,
-            message: data.msg,
-            type: "success",
-            duration: 1000
-          });
-        } else {
-          this.$message({
-            showClose: true,
-            message: data.msg,
-            type: "error",
-            duration: 1000
-          });
-        }
-        setTimeout(() => {
-          window.location.reload();
-        }, 1100);
-      });
+      if(list.value <= 1){
+        this.$message({
+          showClose: true,
+          message: "不能再减了",
+          type: "error",
+          duration: 1000
+        });
+      }else{
+        requests({
+          url: "/shoppingCarts/addShoppingCarts",
+          method: "POST",
+          data: {
+            img_url: list.img_url,
+            name: list.name,
+            content: list.content,
+            bright: list.bright,
+            title: list.title,
+            price: list.price,
+            value: -1,
+            user_id: this.user.id,
+            shopping_id: list.shopping_id
+          }
+        }).then(({ data }) => {
+          if (data.data > 0) {
+            this.$message({
+              showClose: true,
+              message: data.msg,
+              type: "success",
+              duration: 1000
+            });
+          } else {
+            this.$message({
+              showClose: true,
+              message: data.msg,
+              type: "error",
+              duration: 1000
+            });
+          }
+          setTimeout(() => {
+            window.location.reload();
+          }, 1100);
+        });
+      }
+
     },
     addCartValue(list) {
       requests({
@@ -240,6 +250,9 @@ export default {
           });
         }
       });
+    },
+    toFixed(value){
+      return value.toFixed(2)
     }
   },
   mounted() {
@@ -442,7 +455,7 @@ export default {
   float: left;
   width: 35%;
   text-align: center;
-  line-height: 1.18rem;
+  line-height: 1.08rem;
   font-size: 0.35rem;
 }
 .Settlement {

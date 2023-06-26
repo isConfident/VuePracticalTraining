@@ -22,7 +22,7 @@
           <img :src="list.img_url" alt="图片" />
           <h2>{{ list.name }}</h2>
           <p>{{ list.content }}</p>
-          <div>￥{{ list.price }}</div>
+          <div>￥{{ toFixed(list.price) }}</div>
         </div>
       </div>
     </div>
@@ -73,10 +73,10 @@ export default {
         }
       });
     },
-    // toFixed(value) {
-    //   // 因为data.json里面的prcie是字符串类型 所以这边需要做个处理
-    //   return JSON.parse(value).toFixed(2);
-    // }
+    toFixed(value) {
+      // 因为data.json里面的prcie是字符串类型 所以这边需要做个处理
+      return JSON.parse(value).toFixed(2);
+    }
   },
 
   components: {

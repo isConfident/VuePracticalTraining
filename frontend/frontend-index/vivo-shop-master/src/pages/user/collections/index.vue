@@ -1,16 +1,16 @@
 <template>
   <div class="collection">
     <v-header title="我的收藏" :headerLeftStatus="headerLeftStatus" />
-    <div class="item">
+    <div class="item" v-if="collections.length > 0">
       <div class="list" v-for="(list, index) in collections" :key="index">
         <div class="list-title">
           <p class="inventory">库存充足</p>
-          <p class="noCollection" @click="delCollection(index)">取消收藏</p>
+          <p class="noCollection" @click="delCollection(list)">取消收藏</p>
         </div>
         <div class="list-shop">
           <div class="list-shop-box">
             <div class="list-box-left">
-              <img :src="list.img_url" />
+              <img :src="list.img_url" @click="toDetail(list)" />
               <p>
                 <span class="title">{{ list.name }}</span>
                 <span class="price">¥{{ toFixed(list.price) }}</span>
@@ -22,6 +22,9 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="item" v-else>
+      <van-empty description="您还没有收藏哦~" />
     </div>
   </div>
 </template>
@@ -50,9 +53,49 @@ export default {
     });
   },
   methods: {
-    ...mapMutations({
-      delCollection: "cart/DEL_COLLECTION"
-    }),
+    // ...mapMutations({
+    //   delCollection: "cart/DEL_COLLECTION"
+    // }),
+    toDetail(list) {
+      requests({
+        url: "/commodity/singleQuery?id=" + list.shopping_id,
+        method: "GET"
+      }).then(({ data }) => {
+        localStorage.setItem("simpleGoodDetail", JSON.stringify(data));
+        this.$router.push({
+          name: "detail"
+        });
+      });
+    },
+    delCollection(list) {
+      requests({
+        url: "/collect/delSingleCollect",
+        method: "POST",
+        data: {
+          user_id: list.user_id,
+          shopping_id: list.shopping_id
+        }
+      }).then(({ data }) => {
+        if (data.data > 0) {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: "success",
+            duration: 1000
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 1100);
+        } else {
+          this.$message({
+            showClose: true,
+            message: data.msg,
+            type: "error",
+            duration: 1000
+          });
+        }
+      });
+    },
     jumpPay(list) {
       let arr = [];
       arr.push(list);

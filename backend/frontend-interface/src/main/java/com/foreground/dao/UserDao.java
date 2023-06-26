@@ -2,8 +2,11 @@ package com.foreground.dao;
 
 import com.foreground.entity.User;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
+@Repository
 @Mapper
 public interface UserDao {
 
@@ -25,4 +28,7 @@ public interface UserDao {
             many=@Many(select = "com.foreground.dao.ShoppingCartsDao.queryAllShoppingCartsByUserId"))
     })
     public User querySimpleUserAndAddressesAndShoppingCartsById(@Param("id") Integer id);
+
+    @Insert("insert into user values(null,#{userName},#{userPassword})")
+    public Integer addSingleUser(User user);
 }
