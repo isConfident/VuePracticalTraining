@@ -44,7 +44,7 @@
         </div>
       </div>
       <div class="content" v-else>
-        <h3>您还没有订单哦~</h3>
+        <van-empty description="您还没有订单哦~" />
       </div>
     </div>
   </div>
@@ -120,12 +120,12 @@ export default {
         user_id: this.user.id
       }
     }).then(({ data }) => {
-      this.$message({
-        showClose: true,
-        message: data.msg,
-        type: "success",
-        duration: 1000
-      });
+      // this.$message({
+      //   showClose: true,
+      //   message: data.msg,
+      //   type: "success",
+      //   duration: 1000
+      // });
       this.orders = data.data;
     });
   },

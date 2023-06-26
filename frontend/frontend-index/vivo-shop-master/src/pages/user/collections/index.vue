@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="item" v-else>
-      <h3>您还没有收藏商品哦~</h3>
+      <van-empty description="您还没有收藏哦~" />
     </div>
   </div>
 </template>
