@@ -29,4 +29,9 @@ public class CollectServiceImpl implements CollectService {
     public List<Collect> queryAllCollectByUserId(Collect collect) {
         return collectDao.queryAllCollectByUserId(collect);
     }
+
+    @Override
+    public Integer delSingleCollectByUserIdAndShoppingId(Collect collect) {
+        return collectDao.delSingleCollectByUserIdAndShoppingId(collect);
+    }
 }

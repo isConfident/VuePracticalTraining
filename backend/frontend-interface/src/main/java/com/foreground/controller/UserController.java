@@ -39,6 +39,18 @@ public class UserController {
         return result;
     }
 
+    @PostMapping("/register")
+    public Result addSingleUser(@RequestBody String _user) throws IOException {
+        User user = objectMapper.readValue(_user, User.class);
+        Integer flag = userService.addSingleUser(user);
+        if(flag > 0){
+            result.setMsgAndData("注册成功",flag);
+        }else{
+            result.setMsgAndData("用户名已存在",flag);
+        }
+        return result;
+    };
+
 
     public String urlDecode(String urlString) throws UnsupportedEncodingException {
         return URLDecoder.decode(urlString,"UTF-8");

@@ -1,8 +1,9 @@
 <template>
   <div>
     <v-header title="我的订单" :headerLeftStatus="headerLeftStatus" />
+
     <div class="orderMain" id="transitionName">
-      <div class="content">
+      <div class="content" v-if="orders.length > 0">
         <div
           class="content-list"
           v-for="(list, index) in orders"
@@ -10,9 +11,7 @@
           :key="index"
         >
           <div class="_order">
-            <p class="left">
-              订单号：{{ list.orderNumber }}&nbsp;&nbsp;&nbsp;已完成
-            </p>
+            <p class="left">订单号：{{ list.id }}&nbsp;&nbsp;&nbsp;已完成</p>
             <p class="right">
               <img
                 style="width:0.7rem;height:0.7rem"
@@ -44,6 +43,9 @@
           </div>
         </div>
       </div>
+      <div class="content" v-else>
+        <h3>您还没有订单哦~</h3>
+      </div>
     </div>
   </div>
 </template>
@@ -72,12 +74,13 @@ export default {
       });
     },
     delOrder(list) {
+      console.log(list);
       requests({
         url: "/order/delSimpleOrderByUserId",
         method: "POST",
         data: {
           user_id: this.user.id,
-          id: list.id
+          shopping_id: list.shopping_id
         }
       }).then(({ data }) => {
         if (data.data > 0) {

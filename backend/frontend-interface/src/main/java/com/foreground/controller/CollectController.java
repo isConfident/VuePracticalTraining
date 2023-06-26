@@ -38,4 +38,17 @@ public class CollectController {
     public List<Collect> queryAllCollectByUserId(@RequestBody String _collect) throws IOException {
         return collectService.queryAllCollectByUserId(objectMapper.readValue(_collect,Collect.class));
     }
+
+
+    @PostMapping("delSingleCollect")
+    public Result delSingleCollectByUserIdAndShoppingId(@RequestBody String _collect) throws IOException {
+        Collect collect = objectMapper.readValue(_collect, Collect.class);
+        Integer flag = collectService.delSingleCollectByUserIdAndShoppingId(collect);
+        if(flag > 0){
+            result.setMsgAndData("刪除成功",flag);
+        }else{
+            result.setMsgAndData("删除失败",flag);
+        }
+        return result;
+    };
 }

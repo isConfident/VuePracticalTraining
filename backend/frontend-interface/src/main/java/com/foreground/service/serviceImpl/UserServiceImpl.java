@@ -27,4 +27,13 @@ public class UserServiceImpl implements UserService {
     public User querySimpleUserAndAddressesAndShoppingCartsById(Integer id) {
         return userDao.querySimpleUserAndAddressesAndShoppingCartsById(id);
     }
+
+    @Override
+    public Integer addSingleUser(User user) {
+        User flag = isUsername(user);
+        if(flag != null){
+            return 0;
+        }
+        return userDao.addSingleUser(user);
+    }
 }
