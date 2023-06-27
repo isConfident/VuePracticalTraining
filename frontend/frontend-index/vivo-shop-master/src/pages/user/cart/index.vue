@@ -26,7 +26,7 @@
                 @click="delCartList(list)"
               ></a>
             </div>
-            <p class="cartPrice">￥{{ toFixed(list.price) }}</p>
+            <p class="cartPrice">￥{{ list.price }}</p>
           </div>
 
           <!-- 购物车商品数量 -->
@@ -49,6 +49,9 @@
     </div>
     <div class="cartFooter" v-if="carts.length">
       <div class="checkAll" @click="SelectCartListAll">
+        <!-- <i class="iconfont icon-xuanzekuangmoren"></i> -->
+        <!-- <i class="iconfont icon-xuanzekuangxuanzhong" style="color:#25b5fe"></i> -->
+        <!-- <span>全选</span> -->
         <i class="iconfont icon-xuanzekuangmoren" v-if="!isAllChoose"></i>
         <i
           v-else
@@ -83,10 +86,18 @@ export default {
       carts: [],
       settleCarts: [],
       headerLeftStatus: true,
-      user: JSON.parse(localStorage.getItem("user")),
+      user: JSON.parse(localStorage.getItem("user"))
     };
   },
   methods: {
+    // ...mapMutations({
+    // addCartValue: "cart/ADDCART_VALUE",
+    // delCartList: "cart/DEL_CARTS",
+    // reduceCartValue: "cart/REDUCECART_VAVLUE"
+    // singleCartsList: "cart/SELECT_CARTS_LIST",
+    // SelectCartListAll: "cart/SELECT_CARTS_LIST_ALL"
+    // Settlement: "cart/SETTLEMENT"
+    // }),
     toDetail(list) {
       requests({
         url: "/commodity/singleQuery?id=" + list.shopping_id,
@@ -99,35 +110,14 @@ export default {
       });
     },
     reduceCartValue(list) {
-      if(list.value <= 1){
-        requests({
-          url: "/shoppingCarts/delShoppingCarts",
-          method: "POST",
-          data: {
-            user_id: list.user_id,
-            shopping_id: list.shopping_id
-          }
-        }).then(({ data }) => {
-          if (data.data > 0) {
-            this.$message({
-              showClose: true,
-              message: data.msg,
-              type: "success",
-              duration: 1000
-            });
-          } else {
-            this.$message({
-              showClose: true,
-              message: data.msg,
-              type: "error",
-              duration: 1000
-            });
-          }
-          setTimeout(() => {
-            window.location.reload();
-          }, 1100);
+      if (list.value <= 1) {
+        this.$message({
+          showClose: true,
+          message: "不能再减了",
+          type: "error",
+          duration: 1000
         });
-      }else{
+      } else {
         requests({
           url: "/shoppingCarts/addShoppingCarts",
           method: "POST",
@@ -163,7 +153,6 @@ export default {
           }, 1100);
         });
       }
-
     },
     addCartValue(list) {
       requests({
@@ -261,8 +250,8 @@ export default {
         }
       });
     },
-    toFixed(value){
-      return value.toFixed(2)
+    toFixed(value) {
+      return value.toFixed(2);
     }
   },
   mounted() {
@@ -280,6 +269,9 @@ export default {
     });
   },
   computed: {
+    // ...mapState({
+    //   carts: state => state.cart.carts
+    // }),
     TotalPrice() {
       var sum = 0;
       this.carts.forEach(list => {
