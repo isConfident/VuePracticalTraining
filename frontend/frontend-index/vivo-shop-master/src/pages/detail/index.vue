@@ -191,7 +191,8 @@ export default {
       show: false,
       headerLeftStatus: true,
       selected: "tab-container1",
-      cartLength: 0
+      cartLength: 0,
+      isHalfPrice: false
     };
   },
   mounted() {
@@ -205,17 +206,39 @@ export default {
       this.cartLength = data.data;
     });
 
-    if (this.$route.query.path === "activity") {
-      this.flag = false;
-    }
+    // if (this.$route.query.path === "activity") {
+    //   this.flag = false;
+    // }
   },
-
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (from.name === "halfPrice") {
+        vm.isHalfPrice = true;
+        vm.flag = false;
+      }
+    });
+  },
+  beforeRouteLeave(to, from, next) {
+    next(vm => {
+      vm.isHalfPrice = false;
+      vm.flag = true;
+    });
+  },
   methods: {
     // ...mapMutations({
     // addCart: "cart/ADD_CARTS",
     // addCollection: "cart/ADD_COLLECTION"
     // }),
     addCart(goodDetails) {
+      if (this.isHalfPrice) {
+        this.$message({
+          showClose: true,
+          message: "抢购商品无法加入购物车！",
+          type: "info",
+          duration: 1000
+        });
+        return;
+      }
       requests({
         url: "/shoppingCarts/addShoppingCarts",
         method: "POST",
@@ -306,9 +329,11 @@ export default {
         });
         return false;
       }
-      if ((this.$route.query.path = "activity")) {
+
+      if (this.isHalfPrice) {
         goodDetails.price /= 2;
       }
+
       this.goods.push(goodDetails);
 
       localStorage.setItem("goodDetails", JSON.stringify(this.goods));
