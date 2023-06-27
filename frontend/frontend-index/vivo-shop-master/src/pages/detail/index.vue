@@ -211,10 +211,6 @@ export default {
   },
 
   methods: {
-    // ...mapMutations({
-    // addCart: "cart/ADD_CARTS",
-    // addCollection: "cart/ADD_COLLECTION"
-    // }),
     addCart(goodDetails) {
       requests({
         url: "/shoppingCarts/addShoppingCarts",
@@ -318,7 +314,7 @@ export default {
           goodDetails: JSON.stringify(goodDetails)
         }
       });
-    }
+    },
   },
   components: {
     "v-header": header

@@ -4,7 +4,7 @@ Vue.use(Vuex);
 
 
 const state = {
-  counter:Date.now() + 1000 * 3,
+  counter:Date.now() + 1000 * 2 ,
 }
 
 const mutations = {
