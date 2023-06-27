@@ -5,6 +5,8 @@ import com.foreground.entity.AddressUsers;
 import com.foreground.entity.Result;
 import com.foreground.entity.User;
 import com.foreground.service.AddressUsersService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/address")
+@Api(tags = "收货地址接口")
 public class AddressUsersController {
     @Autowired
     private AddressUsersService addressUsersService;
@@ -21,6 +24,7 @@ public class AddressUsersController {
     private final Result result = new Result();
 
     @PostMapping("/querySingleAddress")
+    @ApiOperation(value = "查询用户收货地址")
     public Result querySingleAddressUsersById(@RequestBody String _addressUser) throws IOException {
         AddressUsers addressUsers = objectMapper.readValue(_addressUser, AddressUsers.class);
         addressUsers = addressUsersService.querySingleAddressUsersById(addressUsers);
@@ -33,12 +37,14 @@ public class AddressUsersController {
     }
 
     @PostMapping("/queryAddress")
+    @ApiOperation(value = "查询用户所有收货地址")
     public List<AddressUsers> queryAllAddressUsersByUserId(@RequestBody String _user) throws IOException {
         User user = objectMapper.readValue(_user, User.class);
         return addressUsersService.queryAllAddressUsersByUserId(user.getId());
     }
 
     @PostMapping("/addAddress")
+    @ApiOperation(value = "添加用户收货地址")
     public Result addressUsers(@RequestBody String _address) throws IOException {
         AddressUsers addressUsers = objectMapper.readValue(_address, AddressUsers.class);
         int flag = addressUsersService.addSimpleAddressUsers(addressUsers);
@@ -51,6 +57,7 @@ public class AddressUsersController {
     }
 
     @PostMapping("/delAddress")
+    @ApiOperation(value = "删除用户收货地址")
     public Result delSimpleAddressUsers(@RequestBody String _address) throws IOException {
         AddressUsers addressUsers = objectMapper.readValue(_address, AddressUsers.class);
         int flag = addressUsersService.delSimpleAddressUsers(addressUsers.getUser_id(), addressUsers.getId());
@@ -63,6 +70,7 @@ public class AddressUsersController {
     }
 
     @PostMapping("/alterAddress")
+    @ApiOperation(value = "修改用户收货地址")
     public Result alterSimpleAddressUsers(@RequestBody String _address) throws IOException {
         AddressUsers addressUsers = objectMapper.readValue(_address, AddressUsers.class);
         int flag = addressUsersService.alterSimpleAddressUsers(addressUsers);
@@ -75,6 +83,7 @@ public class AddressUsersController {
     }
 
     @PostMapping("/queryDefault")
+    @ApiOperation(value = "查询是否为用户默认收货地址")
     public Result queryDefaultAddress(@RequestBody String _address) throws IOException {
         AddressUsers _addressUsers = objectMapper.readValue(_address, AddressUsers.class);
         AddressUsers addressUsers = addressUsersService.queryDefaultAddress(_addressUsers);

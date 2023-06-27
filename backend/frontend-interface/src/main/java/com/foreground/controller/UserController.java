@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.foreground.entity.Result;
 import com.foreground.entity.User;
 import com.foreground.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,7 @@ import java.net.URLDecoder;
 
 @RestController
 @RequestMapping("/api/user")
+@Api(tags = "用户信息接口")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -23,6 +26,7 @@ public class UserController {
 
     private final Result result = new Result();
     @PostMapping("/login")
+    @ApiOperation(value = "用户登录业务")
     public Result login(@RequestBody String _user) throws IOException {
         User user = objectMapper.readValue(urlDecode(_user), User.class);
         User isUsername = userService.isUsername(user);
@@ -40,6 +44,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
+    @ApiOperation(value = "用户注册业务")
     public Result addSingleUser(@RequestBody String _user) throws IOException {
         User user = objectMapper.readValue(_user, User.class);
         Integer flag = userService.addSingleUser(user);
@@ -52,6 +57,7 @@ public class UserController {
     };
 
     @PostMapping("/alterUser")
+    @ApiOperation(value = "修改用户信息")
     public Integer alterSingleUserName(@RequestBody String _user) throws IOException {
         User user = objectMapper.readValue(_user, User.class);
         if(userService.isUsername(user) != null){

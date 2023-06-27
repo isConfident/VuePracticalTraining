@@ -3,6 +3,8 @@ package com.foreground.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.foreground.entity.News;
 import com.foreground.service.NewsService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/news")
+@Api(tags = "新闻接口")
 public class NewsController {
 
     @Autowired
@@ -23,6 +26,7 @@ public class NewsController {
     private NewsService newsService;
 
     @RequestMapping( "/query")
+    @ApiOperation(value = "查询所有新闻")
     private List<News> query() {
         return newsService.getAllNews();
     }
