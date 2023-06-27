@@ -14,6 +14,9 @@ public interface UserDao {
     @Select("select * from user where userName = #{userName}")
     public User isUsername(User user);
 
+    @Select("select * from user where userName = #{userName}")
+    public List<User> isUsernames(User user);
+
     @Select("select * from user where userName = #{userName} and userPassword = #{userPassword}")
     public User isPassword(User user);
 
@@ -29,10 +32,16 @@ public interface UserDao {
     })
     public User querySimpleUserAndAddressesAndShoppingCartsById(@Param("id") Integer id);
 
-    @Insert("insert into user values(null,#{userName},#{userPassword})")
+    @Insert("insert into user values(null,#{userName},#{userPassword},null,null)")
     public Integer addSingleUser(User user);
 
 
-    @Update("update user set userName = #{userName} where id = #{id}")
+    @Update("update user set userName = #{userName},age = #{age},birthday=#{birthday} where id = #{id}")
     public Integer alterSingleUserName(User user);
+
+    @Update("update user set age = #{age},birthday=#{birthday} where id = #{id}")
+    public Integer alterSingleUserInfo(User user);
+
+    @Update("update user set userPassword = #{userPassword} where userName = #{userName}")
+    public Integer alterUserPassword(User user);
 }

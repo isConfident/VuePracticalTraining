@@ -10,6 +10,12 @@
           <span>{{ user.userName }}</span>
         </div>
       </div>
+      <van-coupon-cell
+        title="我的优惠券"
+        :coupons="coupons"
+        :chosen-coupon="chosenCoupon"
+        @click="showList = true"
+      />
 
       <div class="container-order" @click="toOrder()">
         <div class="container-order-1">
@@ -54,42 +60,52 @@
             <i class="iconfont icon-youjiantou"></i>
           </div>
         </router-link>
-        <router-link :to="{ name: 'cart' }" class="con">
-          <div class="con-left ">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              class="bi bi-credit-card-fill"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v1H0V4zm0 3v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7H0zm3 2h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1z"
-              />
-            </svg>
-            &nbsp;&nbsp;
-            <span>我的优惠券</span>
-          </div>
-          <div class="con-rigth">
-            <i class="iconfont icon-youjiantou"></i>
-          </div>
-        </router-link>
       </div>
       <div class="container-out">
         <input type="button" value="退出登录" @click="loginout" />
       </div>
     </div>
     <v-footer></v-footer>
+    <van-popup
+      v-model="showList"
+      round
+      position="bottom"
+      style="height: 90%; padding-top: 4px;"
+    >
+      <van-coupon-list
+        :coupons="coupons"
+        :chosen-coupon="chosenCoupon"
+        :disabled-coupons="disabledCoupons"
+        @change="onChange"
+        @exchange="onExchange"
+      />
+    </van-popup>
   </div>
 </template>
 <script>
 import header from "@/components/header/index";
 import footer from "@/components/footer/index";
 import requests from "@/api/testBackendInterface";
+
+const coupon = {
+  available: 1,
+  condition: "无使用门槛\n最多优惠12元",
+  reason: "",
+  value: 150,
+  name: "优惠券名称",
+  startAt: 1489104000,
+  endAt: 1514592000,
+  valueDesc: "1.5",
+  unitDesc: "元"
+};
+
 export default {
   data() {
     return {
+      showList: false,
+      chosenCoupon: -1,
+      coupons: [coupon],
+      disabledCoupons: [coupon],
       container: [
         {
           img: "/static/img/111.png",
@@ -113,6 +129,13 @@ export default {
     };
   },
   methods: {
+    onChange(index) {
+      this.showList = false;
+      this.chosenCoupon = index;
+    },
+    onExchange(code) {
+      this.coupons.push(coupon);
+    },
     AlterUserInfo() {
       this.$router.push({ path: "/alterUser" });
     },

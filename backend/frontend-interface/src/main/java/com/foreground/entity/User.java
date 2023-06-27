@@ -7,20 +7,19 @@ public class User {
     private String userName;
     private String userPassword;
 
+    private Integer age;
+    private String birthday;
+
 
     public User() {
     }
 
-    public User(int id, String userName, String userPassword) {
+    public User(int id, String userName, String userPassword, Integer age, String birthday) {
         this.id = id;
         this.userName = userName;
         this.userPassword = userPassword;
-    }
-
-    public User(int id, String userName, String userPassword, List<AddressUsers> addressUsersList, List<ShoppingCarts> shoppingCartsList) {
-        this.id = id;
-        this.userName = userName;
-        this.userPassword = userPassword;
+        this.age = age;
+        this.birthday = birthday;
     }
 
     /**
@@ -71,7 +70,39 @@ public class User {
         this.userPassword = userPassword;
     }
 
+    /**
+     * 获取
+     * @return age
+     */
+    public Integer getAge() {
+        return age;
+    }
+
+    /**
+     * 设置
+     * @param age
+     */
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    /**
+     * 获取
+     * @return birthday
+     */
+    public String getBirthday() {
+        return birthday;
+    }
+
+    /**
+     * 设置
+     * @param birthday
+     */
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
     public String toString() {
-        return "User{id = " + id + ", userName = " + userName + ", userPassword = " + userPassword + "}";
+        return "User{id = " + id + ", userName = " + userName + ", userPassword = " + userPassword + ", age = " + age + ", birthday = " + birthday + "}";
     }
 }

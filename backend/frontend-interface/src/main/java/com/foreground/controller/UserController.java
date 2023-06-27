@@ -54,11 +54,35 @@ public class UserController {
     @PostMapping("/alterUser")
     public Integer alterSingleUserName(@RequestBody String _user) throws IOException {
         User user = objectMapper.readValue(_user, User.class);
-        if(userService.isUsername(user) != null){
-            return 0;
+        User username = userService.isUsername(user);
+        if(username == null){
+            return userService.alterSingleUserName(user);
         }
-        return userService.alterSingleUserName(user);
-    };
+        return userService.alterSingleUserInfo(user);
+    }
+    @PostMapping("/isUsername")
+    public Result isUsername(@RequestBody String _user) throws IOException {
+        User user = objectMapper.readValue(_user, User.class);
+        User flag = userService.isUsername(user);
+        if(flag == null){
+            result.setMsgAndData("用户名不存在",flag);
+        }else{
+            result.setMsgAndData("",flag);
+        }
+        return result;
+    }
+
+    @PostMapping("/alterPassword")
+    public Result alterPassword(@RequestBody String _user) throws IOException {
+        User user = objectMapper.readValue(_user, User.class);
+        Integer flag = userService.alterUserPassword(user);
+        if(flag > 0){
+            result.setMsgAndData("修改成功",flag);
+        }else{
+            result.setMsgAndData("修改失败",flag);
+        }
+        return result;
+    }
 
 
     public String urlDecode(String urlString) throws UnsupportedEncodingException {
