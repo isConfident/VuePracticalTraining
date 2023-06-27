@@ -55,7 +55,6 @@
 import header from "@/components/header";
 import { getData } from "@/api/data";
 import requests from "../../api/testBackendInterface";
-import { createLogger } from "vuex";
 export default {
   data() {
     return {
@@ -90,11 +89,9 @@ export default {
       }).then(({ data }) => {
         this.partsdata = data;
         this.partslist = this.partsdata[0];
-        console.log(this.partslist);
       });
     },
     toFixed(value) {
-      // 因为data.json里面的prcie是字符串类型 所以这边需要做个处理
       return JSON.parse(value).toFixed(2);
     },
     toDetail(data) {
@@ -122,10 +119,6 @@ export default {
   font-size: 0.4rem;
   color: #333333;
   border-bottom: 2px solid #ffffff;
-}
-.active {
-  color: #25b5fe;
-  border-bottom: 2px solid #25b5fe;
 }
 .delline {
   font-size: 10px;
@@ -211,12 +204,12 @@ export default {
 }
 
 .lower_list {
-  height: 6.3rem;
+  height: 3.6rem;
   background: white;
   float: left;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  width: 50%;
+  width: 100%;
   border-right: 1px solid #f4f4f4;
   border-bottom: 1px solid #f4f4f4;
   float: left;
@@ -229,13 +222,13 @@ export default {
     display: block;
     margin: auto;
     padding: 0.5rem;
+    float: left;
   }
   h2 {
-    width: 90%;
+    margin-top: .6rem;
     white-space: nowrap;
     text-overflow: ellipsis;
     font-size: 0.4rem;
-    margin: auto;
     text-align: center;
     overflow: hidden;
   }

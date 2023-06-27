@@ -6,23 +6,50 @@
         <img src="./resources/1.jpg" class="card-img-top" alt="" />
         <div class="card-body">
           <span class="card-title">基本信息</span>
-          <div class="row">
-            <div class="col">
-              <div class="form-group">
-                <label for="username"
-                  ><span style="font-size:10px">用户名:</span></label
-                >
-                <input
-                  type="text"
-                  name="username"
-                  id="username"
-                  class="form-controll border"
-                  v-model="user.userName"
-                />
-              </div>
+          <div class="row mt-1">
+            <div class="col-12">
+              <span class="font">用户名:</span>
+              <input
+                type="text"
+                v-model="user.userName"
+                class="form-controll border text-black-50"
+                placeholder="请输入用户名"
+              />
             </div>
           </div>
-          <el-button type="primary" @click="alterUserInfo()">保存</el-button>
+          <div class="row mt-1">
+            <div class="col-12">
+              <span class="font">出生日期:</span><br />
+              <el-date-picker
+                v-model="user.birthday"
+                align="right"
+                type="date"
+                placeholder="选择日期"
+                :picker-options="pickerOptions"
+                value-format="yyyy-MM-dd"
+              >
+              </el-date-picker>
+            </div>
+          </div>
+          <div class="row mt-1">
+            <div class="col-12">
+              <span class="font">真实年龄:</span>
+              <input
+                type="number"
+                v-model="user.age"
+                class="form-controll border text-black-50"
+                placeholder="请输入年龄"
+              />
+            </div>
+          </div>
+
+          <div class="row justify-content-right mt-1">
+            <div class="col-12">
+              <el-button type="primary" @click="alterUserInfo()"
+                >保存</el-button
+              >
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -37,8 +64,42 @@ export default {
   data() {
     return {
       user: JSON.parse(localStorage.getItem("user")),
-      headerLeftStatus: true
+      headerLeftStatus: true,
+      pickerOptions: {
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        },
+        shortcuts: [
+          {
+            text: "今天",
+            onClick(picker) {
+              picker.$emit("pick", new Date());
+            }
+          },
+          {
+            text: "昨天",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit("pick", date);
+            }
+          },
+          {
+            text: "一周前",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", date);
+            }
+          }
+        ]
+      }
     };
+  },
+  watch: {
+    "user.birthday": function(newValue, oldValue) {
+      this.user.age = new Date().getFullYear() - parseInt(newValue.slice(0, 4));
+    }
   },
   methods: {
     alterUserInfo() {
@@ -72,4 +133,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.font {
+  font-size: 16px;
+  color: gray;
+}
+</style>

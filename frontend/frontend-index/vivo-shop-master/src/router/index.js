@@ -21,10 +21,15 @@ import register from "@/pages/user/register";
 import main from "@/pages/user/main";
 import alterUser from "@/pages/user/alterUser";
 import halfPrice from "@/pages/shops/halfPrice";
+import forgetPassword from "@/pages/user/forgetPassword";
 Vue.use(Router);
 
 export default new Router({
   routes: [
+    {
+      path: "/forgetPassword",
+      component: () => import("@/pages/user/forgetPassword")
+    },
     {
       path: "/",
       name: "index",

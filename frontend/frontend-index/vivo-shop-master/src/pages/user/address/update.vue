@@ -11,7 +11,6 @@
   </div>
 </template>
 <script>
-import { mapState, mapMutations } from "vuex";
 import { addressDataList } from "@/assets/address";
 import header from "@/components/header/index";
 import requests from "@/api/testBackendInterface";
@@ -28,15 +27,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations({
-      saveAddressMutation: "EDIT_ADDRESS"
-    }),
     saveAddress(list) {
-      // this.saveAddressMutation({
-      //   index: this.$route.params.index,
-      //   data,
-      // });
-      // this.$router.push("/address");
       console.log(list);
       requests({
         url: "/address/alterAddress",
@@ -76,15 +67,7 @@ export default {
     }
   },
   mounted() {
-    // let index = this.$route.params.index;
-    // this.addressData = { ...this.address[index] };
-
     this.dataInfo = this.$route.params.list;
-  },
-  computed: {
-    ...mapState({
-      address: state => state.address
-    })
   },
 
   components: {

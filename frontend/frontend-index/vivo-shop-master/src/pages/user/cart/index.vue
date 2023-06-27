@@ -63,7 +63,7 @@
 
       <div class="Total">
         合计：
-        <span style="font-size: 0.54rem;color:#E3211E"
+        <span style="font-size: 0.34rem;color:#E3211E"
           >￥ {{ toFixed(TotalPrice) }}</span
         >
       </div>
@@ -86,7 +86,7 @@ export default {
       carts: [],
       settleCarts: [],
       headerLeftStatus: true,
-      user: JSON.parse(localStorage.getItem("user")),
+      user: JSON.parse(localStorage.getItem("user"))
     };
   },
   methods: {
@@ -110,14 +110,14 @@ export default {
       });
     },
     reduceCartValue(list) {
-      if(list.value <= 1){
+      if (list.value <= 1) {
         this.$message({
           showClose: true,
           message: "不能再减了",
           type: "error",
           duration: 1000
         });
-      }else{
+      } else {
         requests({
           url: "/shoppingCarts/addShoppingCarts",
           method: "POST",
@@ -153,7 +153,6 @@ export default {
           }, 1100);
         });
       }
-
     },
     addCartValue(list) {
       requests({
@@ -251,8 +250,8 @@ export default {
         }
       });
     },
-    toFixed(value){
-      return value.toFixed(2)
+    toFixed(value) {
+      return value.toFixed(2);
     }
   },
   mounted() {
