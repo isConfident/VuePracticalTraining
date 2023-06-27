@@ -96,11 +96,9 @@ export default {
     },
     toDetail(data) {
       localStorage.setItem("simpleGoodDetail", JSON.stringify(data));
+
       this.$router.push({
-        name: "detail",
-        query: {
-          path: "activity"
-        }
+        name: "detail"
       });
     }
   },

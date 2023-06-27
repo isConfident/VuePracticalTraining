@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/accessories")
+
 public class AccessoriesController {
     @Autowired
     private AccessoriesService accessoriesService;
