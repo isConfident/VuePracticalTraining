@@ -54,6 +54,15 @@
             <i class="iconfont icon-youjiantou"></i>
           </div>
         </router-link>
+        <router-link :to="{ name: 'cart' }" class="con">
+          <div class="con-left">
+            <i class="iconfont icon-gouwuche"></i>
+            <span>我的优惠券</span>
+          </div>
+          <div class="con-rigth">
+            <i class="iconfont icon-youjiantou"></i>
+          </div>
+        </router-link>
       </div>
       <div class="container-out">
         <input type="button" value="退出登录" @click="loginout" />

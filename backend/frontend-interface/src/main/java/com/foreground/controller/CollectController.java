@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.foreground.entity.Collect;
 import com.foreground.entity.Result;
 import com.foreground.service.CollectService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/collect")
+@Api(tags = "用户收藏接口")
 public class CollectController {
     @Autowired
     private CollectService collectService;
@@ -22,6 +25,7 @@ public class CollectController {
     private final Result result = new Result();
 
     @PostMapping("/addSingleCollect")
+    @ApiOperation(value = "添加收藏")
     public Result addSingleCollect(@RequestBody String _collect) throws IOException {
         Collect collect = objectMapper.readValue(_collect, Collect.class);
         Integer count = collectService.addSingleCollect(collect);
