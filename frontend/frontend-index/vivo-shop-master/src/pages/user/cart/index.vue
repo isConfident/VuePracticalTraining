@@ -269,9 +269,6 @@ export default {
     });
   },
   computed: {
-    // ...mapState({
-    //   carts: state => state.cart.carts
-    // }),
     TotalPrice() {
       var sum = 0;
       this.carts.forEach(list => {

@@ -202,7 +202,9 @@ export default {
 .partsMain {
   margin-top: 1.32rem;
 }
-
+.lower_list:first-child {
+  margin-top: 0.1rem;
+}
 .lower_list {
   height: 3.6rem;
   background: white;
@@ -213,7 +215,6 @@ export default {
   border-right: 1px solid #f4f4f4;
   border-bottom: 1px solid #f4f4f4;
   float: left;
-  margin-top: 0.1rem;
   list-style: none;
   cursor: pointer;
   img {

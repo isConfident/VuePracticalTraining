@@ -36,7 +36,6 @@ import requests from "../../api/testBackendInterface";
 export default {
   data() {
     return {
-      selected: "tab-container1",
       data: [],
       list: [],
       selectShopIndex: 0,
@@ -50,6 +49,7 @@ export default {
     }).then(({data})=>{
       this.data = data;
       this.list = this.data[0];
+      console.log(this.data)
     })
   },
   methods: {
@@ -57,13 +57,6 @@ export default {
       this.list = data;
       this.selectShopIndex = data.id - 1;
     },
-
-    // accessories() {
-    //   getData().then(res => {
-    //     this.list = res.data.accessories;
-    //     this.data = res.data.accessories[0].data;
-    //   });
-    // },
     toDetail(data) {
       localStorage.setItem("simpleGoodDetail", JSON.stringify(data));
       this.$router.push({
@@ -74,7 +67,6 @@ export default {
       });
     },
     toFixed(value) {
-      // 因为data.json里面的prcie是字符串类型 所以这边需要做个处理
       return JSON.parse(value).toFixed(2);
     }
   },
