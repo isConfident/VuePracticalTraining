@@ -95,7 +95,6 @@ export default {
   },
   methods: {
     ...mapActions(["set_counter"]),
-    /*计时器*/
     stopCounter() {
       this.Activity = false;
       this.set_counter(0);
@@ -128,17 +127,22 @@ export default {
       return JSON.parse(value).toFixed(2);
     },
     homeShopListData() {
-      getNewsData().then(({ data }) => {
+      requests({
+        url: "news/query",
+        method: "get"
+      }).then(({ data }) => {
         this.swiperData = data;
       });
-      getHomeData().then(({ data }) => {
-        // this.shopListData = res.data;
+      requests({
+        url: "homeData/query",
+        method: "get"
+      }).then(({ data }) => {
         this.shopListData = data;
       });
     }
   },
   mounted() {
-    this.homeShopListData();
+    this.homeShopListData()
   },
   components: {
     "v-footer": footer
