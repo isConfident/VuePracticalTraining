@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.foreground.entity.Order;
 import com.foreground.entity.Result;
 import com.foreground.service.OrderService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.ClassGenerator;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/order")
+@Api(tags = "用户订单接口")
 public class OrderController {
     @Autowired
     public OrderService orderService;
@@ -23,6 +26,7 @@ public class OrderController {
     private final Result result = new Result();
 
     @PostMapping("/addSimpleOrder")
+    @ApiOperation(value = "添加用户订单")
     public Result addSimpleOrder(@RequestBody String _order) throws IOException {
         Order order = objectMapper.readValue(_order, Order.class);
         Integer count = orderService.addSimpleOrder(order);
@@ -36,6 +40,7 @@ public class OrderController {
     };
 
     @PostMapping("/queryAllOrderByUserId")
+    @ApiOperation(value = "查询用户订单")
     public Result queryAllOrderByUserId(@RequestBody String _order) throws IOException {
         Order order = objectMapper.readValue(_order, Order.class);
         List<Order> orders = orderService.queryAllOrderByUserId(order);
@@ -48,6 +53,7 @@ public class OrderController {
     };
 
     @PostMapping("/delSimpleOrderByUserId")
+    @ApiOperation(value = "删除用户订单")
     public Result delSimpleOrderByUserId(@RequestBody String _order) throws IOException {
         Order order = objectMapper.readValue(_order, Order.class);
         Integer flag = orderService.delSimpleOrderByUserId(order);

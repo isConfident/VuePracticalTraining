@@ -25,7 +25,7 @@ public class CollectController {
     private final Result result = new Result();
 
     @PostMapping("/addSingleCollect")
-    @ApiOperation(value = "添加收藏")
+    @ApiOperation(value = "添加用户收藏")
     public Result addSingleCollect(@RequestBody String _collect) throws IOException {
         Collect collect = objectMapper.readValue(_collect, Collect.class);
         Integer count = collectService.addSingleCollect(collect);
@@ -39,12 +39,14 @@ public class CollectController {
 
 
     @PostMapping("/queryAllCollect")
+    @ApiOperation(value = "查询用户收藏")
     public List<Collect> queryAllCollectByUserId(@RequestBody String _collect) throws IOException {
         return collectService.queryAllCollectByUserId(objectMapper.readValue(_collect,Collect.class));
     }
 
 
     @PostMapping("delSingleCollect")
+    @ApiOperation(value = "删除用户收藏")
     public Result delSingleCollectByUserIdAndShoppingId(@RequestBody String _collect) throws IOException {
         Collect collect = objectMapper.readValue(_collect, Collect.class);
         Integer flag = collectService.delSingleCollectByUserIdAndShoppingId(collect);

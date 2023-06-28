@@ -47,6 +47,9 @@
       </div>
     </div>
     <div class="ethnologist">
+      <a href="javascript:void(0)" @click="toForgetPassword()">忘记密码</a>
+    </div>
+    <div class="ethnologist">
       <router-link to="/index">暂不登陆</router-link>
     </div>
   </div>
@@ -67,6 +70,11 @@ export default {
   },
   mounted() {},
   methods: {
+    toForgetPassword() {
+      this.$router.push({
+        path: "/forgetPassword"
+      });
+    },
     login() {
       requests({
         url: "/user/login",

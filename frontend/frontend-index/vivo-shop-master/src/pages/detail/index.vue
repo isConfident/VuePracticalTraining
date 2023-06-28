@@ -196,15 +196,29 @@ export default {
     };
   },
   mounted() {
-    requests({
-      url: "/shoppingCarts/queryCount",
-      method: "POST",
-      data: {
-        user_id: this.user.id
-      }
-    }).then(({ data }) => {
-      this.cartLength = data.data;
-    });
+    if (this.user == null) {
+      this.$confirm("检测到您还未登录，是否去登录", "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$router.push({
+            name: "login"
+          });
+        })
+        .catch(() => {});
+    } else {
+      requests({
+        url: "/shoppingCarts/queryCount",
+        method: "POST",
+        data: {
+          user_id: this.user.id
+        }
+      }).then(({ data }) => {
+        this.cartLength = data.data;
+      });
+    }
 
     // if (this.$route.query.path === "activity") {
     //   this.flag = false;
