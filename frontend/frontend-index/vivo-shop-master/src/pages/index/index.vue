@@ -64,6 +64,7 @@ import { getHomeData, getNewsData } from "@/api/testData";
 import requests from "@/api/testBackendInterface";
 import footer from "@/components/footer/index";
 import { mapActions } from "vuex";
+import { Toast, MessageBox } from "mint-ui";
 export default {
   name: "index",
   data() {
@@ -90,7 +91,8 @@ export default {
       ],
       shopListData: [],
       swiperData: [],
-      noShow: false
+      noShow: false,
+      user: JSON.parse(localStorage.getItem("user"))
     };
   },
   methods: {
@@ -100,9 +102,21 @@ export default {
       this.set_counter(0);
     },
     toActivityPage() {
-      this.$router.push({
-        name: "halfPrice"
-      });
+      if (this.user == null) {
+        MessageBox({
+          title: "未登录",
+          message: "是否前去登录？",
+          showCancelButton: false
+        }).then(res => {
+          if (res == "confirm") {
+            this.$router.push("/register");
+          }
+        });
+      } else {
+        this.$router.push({
+          name: "halfPrice"
+        });
+      }
     },
     jumpDetail(list) {
       localStorage.setItem("simpleGoodDetail", JSON.stringify(list));
@@ -142,7 +156,7 @@ export default {
     }
   },
   mounted() {
-    this.homeShopListData()
+    this.homeShopListData();
   },
   components: {
     "v-footer": footer

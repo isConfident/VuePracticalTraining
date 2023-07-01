@@ -10,12 +10,12 @@
           <span>{{ user.userName }}</span>
         </div>
       </div>
-      <van-coupon-cell
+      <!-- <van-coupon-cell
         title="我的优惠券"
         :coupons="coupons"
         :chosen-coupon="chosenCoupon"
         @click="showList = true"
-      />
+      /> -->
 
       <div class="container-order" @click="toOrder()">
         <div class="container-order-1">
@@ -66,7 +66,7 @@
       </div>
     </div>
     <v-footer></v-footer>
-    <van-popup
+    <!-- <van-popup
       v-model="showList"
       round
       position="bottom"
@@ -79,7 +79,7 @@
         @change="onChange"
         @exchange="onExchange"
       />
-    </van-popup>
+    </van-popup> -->
   </div>
 </template>
 <script>
@@ -87,25 +87,25 @@ import header from "@/components/header/index";
 import footer from "@/components/footer/index";
 import requests from "@/api/testBackendInterface";
 
-const coupon = {
-  available: 1,
-  condition: "无使用门槛\n最多优惠12元",
-  reason: "",
-  value: 150,
-  name: "优惠券名称",
-  startAt: 1489104000,
-  endAt: 1514592000,
-  valueDesc: "1.5",
-  unitDesc: "元"
-};
+// const coupon = {
+//   available: 1,
+//   condition: "无使用门槛\n最多优惠12元",
+//   reason: "",
+//   value: 150,
+//   name: "优惠券名称",
+//   startAt: 1489104000,
+//   endAt: 1514592000,
+//   valueDesc: "1.5",
+//   unitDesc: "元"
+// };
 
 export default {
   data() {
     return {
-      showList: false,
-      chosenCoupon: -1,
-      coupons: [coupon],
-      disabledCoupons: [coupon],
+      // showList: false,
+      // chosenCoupon: -1,
+      // coupons: [coupon],
+      // disabledCoupons: [coupon],
       container: [
         {
           img: "/static/img/111.png",

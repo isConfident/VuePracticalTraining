@@ -67,6 +67,7 @@ public class UserController {
         return userService.alterSingleUserInfo(user);
     }
     @PostMapping("/isUsername")
+    @ApiOperation(value="判断用户名是否注册")
     public Result isUsername(@RequestBody String _user) throws IOException {
         User user = objectMapper.readValue(_user, User.class);
         User flag = userService.isUsername(user);
@@ -79,6 +80,7 @@ public class UserController {
     }
 
     @PostMapping("/alterPassword")
+    @ApiOperation(value = "修改密码")
     public Result alterPassword(@RequestBody String _user) throws IOException {
         User user = objectMapper.readValue(_user, User.class);
         Integer flag = userService.alterUserPassword(user);
